@@ -1,0 +1,33 @@
+body{background-image: url("../img/bg-1.jpg"); background-repeat: no-repeat; background-size:700px 650px; background-position: 1px 30px;background-color: hsl(0, 19%, 50%);}
+#wrapper{width:600px;height: 5px;  }
+
+#listMessages{ position:absolute; margin-left: 27%;margin-top: 150px; float: left;}
+	
+#id3{color:red;  margin: auto; }
+#id2{float:right;color:red; margin: auto;}
+#id4{float:left;color:red;margin: auto;}
+#id1{color:red; float:bottom;margin: 150px 80px; position:absolute; float:right;}
+#a{
+	position:absolute;   margin-left: 150px; margin-top: 400px;
+}
+#btnboluot{
+position:absolute; bottom:29%;left:1%;
+}
+#btnSendMessage{
+position:absolute; bottom:29%;right:75%;
+}
+#btnbatdau{
+position:absolute; bottom:60%; right:50%;
+}
+#loading{
+position:absolute; bottom:60%; right:50%;
+}
+#loading1{
+position:absolute; bottom:60%; right:50%;
+}
+#btntieptuc{
+position:absolute; bottom:60%; right:50%; display: none;
+}
+#tn{
+	position:absolute; bottom:60%; right:50%; display: none;
+}

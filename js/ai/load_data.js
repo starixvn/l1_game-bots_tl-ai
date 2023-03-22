@@ -1,0 +1,63 @@
+
+
+
+function sound1(src) {
+    this.sound1 = document.createElement("audio");
+    this.sound1.src = src;
+    this.sound1.muted = true;
+    this.sound1.setAttribute("preload", "auto");
+    this.sound1.setAttribute("controls", "none");
+    this.sound1.style.display = "none";
+    document.body.appendChild(this.sound1);
+	        this.play = function(){
+	        this.sound1.play();
+	          
+	    }    
+		    this.stop = function(){
+		        this.sound1.pause();
+		    }
+		    
+}
+
+$(document).ready(function(){
+	
+$("#btnbatdau").hide();
+$("#loading").hide();
+
+$("#loading1").click(function(){
+    $("#loading1").hide();
+    $("#loading").show();
+    $(".a12").trigger('load');
+    
+   
+        
+   setTimeout(function(){
+    $('#tai_truoc1').trigger("play");
+    var myAudio = document.getElementById('tai_truoc1');
+
+	if (myAudio.duration > 0 && !myAudio.paused) {
+
+	} else {
+		$('#tai_truoc1').trigger("play");
+
+	}
+    }, 4000);
+	setTimeout(function(){
+		$("#loading").hide();  
+		$("#btnbatdau").show();  
+		$('#tai_truoc16').trigger("play");
+		   
+	}, 8000);
+
+});
+
+
+	//$("#loading").hide();$("#btnbatdau").show();
+//if(TienLenGSN==1 && ThuaDiCung==1 && MayHaBuoi==1 && ChetMayNe==1 && DoDi==1 && HaiNe==1 && BatDauGame==1 && Chon_bai==1 && DanhBai==1 && Nhat==1 && Nhi==1 && Ba==1 && Bet==1 && ToiTrang==1) 
+//{
+
+//}
+	//setTimeout(function(){$("#loading").hide();$("#btnbatdau").show();}, 5000);
+
+
+});

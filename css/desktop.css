@@ -1,0 +1,52 @@
+body{background-image: url("../img/bg-1.jpg"); background-repeat: no-repeat; background-size: 1024px 600px; background-position: center top 40px; background-color: hsl(0, 19%, 50%);}
+#wrapper{width:600px;height: 5px;  }
+
+#listMessages{ position:absolute; margin-left: 40%;margin-top: 200px; float: left;}
+	
+#id3{color:red;  margin: auto; }
+#id2{float:right;color:red; margin: auto;}
+#id4{float:left;color:red;margin: auto;}
+#id1{color:red; float:bottom;margin: 150px 80px; position:absolute; float:right;}
+#a{
+	position:absolute;   margin-left: 550px; margin-top: 400px;
+}
+#btnboluot{
+position:absolute; bottom:5%;left:71%;
+}
+#btnSendMessage{
+position:absolute; bottom:5%;left:78%;
+}
+#btnbatdau{
+position:absolute; bottom:47%; right:45%;
+}
+#loading{
+position:absolute; bottom:47%; right:45%;
+}
+#loading1{
+position:absolute; bottom:47%; right:45%;
+}
+#rong1{
+position:absolute; margin: auto; 
+
+}
+#btntieptuc{
+position:absolute; bottom:60%; right:50%; display: none;
+}
+#tn{
+	position:absolute; bottom:60%; right:50%; display: none;
+}
+#doithu{
+	position:absolute;bottom:95%; right:50%;
+}
+#mm0{
+	color:red;font-size: 15px; position:absolute; margin-left: 50%;margin-top: 30%; float: left;
+}
+#mm1{
+	color:red;font-size: 15px; position:absolute; margin-left: 70%;margin-top: 20%; float: left;
+}
+#mm2{
+	color:red;font-size: 15px; position:absolute; margin-left: 50%;margin-top: 13%; float: left;
+}
+#mm3{
+	color:red;font-size: 15px; position:absolute; margin-left: 28%;margin-top: 20%; float: left;
+}
