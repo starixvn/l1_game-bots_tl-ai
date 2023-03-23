@@ -1,0 +1,17 @@
+{
+  "name": "tl-ai",
+  "version": "1.0.0",
+  "description": "Tiến Lên AI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "healthcheck": "node ./src/healthcheck.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
