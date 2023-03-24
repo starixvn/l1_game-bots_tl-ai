@@ -677,7 +677,7 @@ $(document).ready(function () {
         v_err.push(
           "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("M0 đánh:" + chuyen_bai(test1) + "<br>");
+        v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
         v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
         //$("#mm0").text(mm_0+"("+may0.length+")");
         $("#them_vao").append(v_err);
@@ -748,7 +748,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh:" + chuyen_bai(test1) + "<br>");
+      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
 
       //$("#mm0").text(mm_0+"("+may0.length+")");
@@ -801,7 +801,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh:" + chuyen_bai(test1) + "<br>");
+      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -848,7 +848,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh:" + chuyen_bai(test1) + "<br>");
+      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -890,7 +890,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh:" + chuyen_bai(test1) + "<br>");
+      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -935,7 +935,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M1 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );
@@ -1008,7 +1008,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M1 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );
@@ -1095,7 +1095,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M1 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1157,7 +1157,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M1 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1216,7 +1216,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M1 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1278,7 +1278,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M1 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1321,7 +1321,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M2 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );
@@ -1389,7 +1389,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M2 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );
@@ -1477,7 +1477,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M2 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1532,7 +1532,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M2 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1597,7 +1597,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M2 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1660,7 +1660,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M2 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1710,7 +1710,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M3 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );
@@ -1788,7 +1788,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M3 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );
@@ -1889,7 +1889,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M3 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -1964,7 +1964,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M3 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -2035,7 +2035,7 @@ $(document).ready(function () {
       v_err_1.push(
         "M3 đánh: " +
           chuyen_bai(_d_f) +
-          " (" +
+          " *** (" +
           chuyen_bai(originalCards) +
           ")<br>"
       );
@@ -2102,7 +2102,7 @@ $(document).ready(function () {
         v_err_1.push(
           "M3 đánh: " +
             chuyen_bai(_d_f) +
-            " (" +
+            " *** (" +
             chuyen_bai(originalCards) +
             ")<br>"
         );

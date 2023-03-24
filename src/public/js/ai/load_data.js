@@ -15,30 +15,6 @@ function sound1(src) {
 }
 
 $(document).ready(function () {
-  $("#btnbatdau").hide();
+  $("#btnbatdau").show();
   $("#loading").hide();
-
-  $("#loading1").click(function () {
-    $("#loading1").hide();
-    $("#loading").show();
-    $(".a12").trigger("load");
-
-    setTimeout(function () {
-      $("#tai_truoc1").trigger("play");
-      var myAudio = document.getElementById("tai_truoc1");
-
-      if (myAudio.duration > 0 && !myAudio.paused) {
-      } else {
-        $("#tai_truoc1").trigger("play");
-      }
-    }, 4000);
-    setTimeout(function () {
-      $("#loading").hide();
-      $("#btnbatdau").show();
-      $("#tai_truoc16").trigger("play");
-    }, 8000);
-  });
-
-  //$("#loading").hide();$("#btnbatdau").show();
-  //setTimeout(function(){$("#loading").hide();$("#btnbatdau").show();}, 5000);
 });
