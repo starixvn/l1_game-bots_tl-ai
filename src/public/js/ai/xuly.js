@@ -377,6 +377,8 @@ $(document).ready(function () {
   $("#btntieptuc").click(function () {
     hien2("");
     //document.getElementById("btntieptuc").onclick();//ach su dung khong can jquery
+    $("#them_vao1").prepend(`============================== <br />`);
+
     $("#btntieptuc").hide();
 
     document.getElementById("btnbatdau").click();
@@ -602,13 +604,13 @@ $(document).ready(function () {
             thang +
             "<br>"
         );
-        v_err_1.push("M0 đánh:" + chuyen_bai(test1) + "<br>");
+        v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
         v_err_2.push("M0 con lai:" + chuyen_bai(may0) + "<br>");
 
         //$("#mm0").text(mm_0+"("+may0.length+")");
 
         $("#them_vao").append(v_err);
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
         if (boluot.length >= 4 && huongsai != "") {
           boluot = [];
@@ -679,7 +681,7 @@ $(document).ready(function () {
         v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
         //$("#mm0").text(mm_0+"("+may0.length+")");
         $("#them_vao").append(v_err);
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
 
         if (boluot.length >= 4 && huongsai != "") {
@@ -751,7 +753,7 @@ $(document).ready(function () {
 
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
 
       if (may0 == "") {
@@ -803,7 +805,7 @@ $(document).ready(function () {
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -850,7 +852,7 @@ $(document).ready(function () {
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -892,7 +894,7 @@ $(document).ready(function () {
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -917,6 +919,7 @@ $(document).ready(function () {
     }
   });
   $("#m1").click(function () {
+    const originalCards = [...may1];
     var _d_f = AI(layer0, may1); //0  1  2  3
     //_d_f="";
 
@@ -929,9 +932,15 @@ $(document).ready(function () {
 
         v_err_1 = [];
         console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
-        v_err_1.push("M1 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M1 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         $("#mm1").text(mm_1 + "(" + may1.length + ")");
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
 
         if (boluot.length >= 4 && huongsai != "") {
           boluot = [];
@@ -996,9 +1005,15 @@ $(document).ready(function () {
         v_err.push(
           "M1:" + may1.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("M1 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M1 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         $("#mm1").text(mm_1 + "(" + may1.length + ")");
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         if (pi1 == "1") {
           boluot = [];
           boluot = giaomang1(thang);
@@ -1077,9 +1092,15 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M1 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M1 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
 
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -1133,9 +1154,15 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M1 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M1 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
         boluot = giaomang1(thang);
@@ -1186,10 +1213,16 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M1 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M1 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
-      v_err_1.push("<hr>");
-      $("#them_vao1").append(v_err_1);
+      v_err_1.unshift("<hr>");
+      $("#them_vao1").prepend(v_err_1);
       console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -1242,9 +1275,15 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M1 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M1 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       if (thang.length == 3) {
         document.getElementById("thang").click();
       } else {
@@ -1265,6 +1304,7 @@ $(document).ready(function () {
   });
   $("#m2").click(function () {
     //alert(k);
+    const originalCards = [...may2];
     var _d_f = AI(layer0, may2);
 
     if (huongsai != "") {
@@ -1278,9 +1318,15 @@ $(document).ready(function () {
         v_err_1 = [];
 
         console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
-        v_err_1.push("M2 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M2 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         $("#mm2").text(mm_2 + "(" + may2.length + ")");
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         if (boluot.length >= 4 && huongsai != "") {
           boluot = [];
           boluot = giaomang1(thang);
@@ -1340,9 +1386,15 @@ $(document).ready(function () {
         pi1 = an(boluot, 2, thang);
         v_err_1 = [];
         console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
-        v_err_1.push("M2 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M2 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         $("#mm2").text(mm_2 + "(" + may2.length + ")");
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         if (pi1 == "2") {
           boluot = [];
           boluot = giaomang1(thang);
@@ -1422,9 +1474,15 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M2 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M2 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
 
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -1471,10 +1529,16 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M2 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M2 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
-      v_err_1.push("<hr>");
-      $("#them_vao1").append(v_err_1);
+      v_err_1.unshift("<hr>");
+      $("#them_vao1").prepend(v_err_1);
       console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -1530,9 +1594,15 @@ $(document).ready(function () {
       }
       v_err_1 = [];
       console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
-      v_err_1.push("M2 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M2 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
 
       if (boluot.length >= 3 && huongsai == "") {
         boluot = [];
@@ -1587,11 +1657,17 @@ $(document).ready(function () {
       v_err.push(
         "M2:" + may2.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M2 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M2 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       v_err_2.push("M2 còn lại:" + chuyen_bai(may2) + "<br>");
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1614,6 +1690,7 @@ $(document).ready(function () {
     }
   });
   $("#m3").click(function () {
+    const originalCards = [...may3];
     var _d_f = AI(layer0, may3);
     if (huongsai != "") {
       if (_d_f == "") {
@@ -1630,11 +1707,17 @@ $(document).ready(function () {
         v_err.push(
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("M3 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M3 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
         $("#mm3").text(mm_3 + "(" + may3.length + ")");
         $("#them_vao").append(v_err);
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
 
         if (boluot.length >= 4 && huongsai != "") {
@@ -1702,11 +1785,17 @@ $(document).ready(function () {
         v_err.push(
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("M3 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M3 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
         $("#mm3").text(mm_3 + "(" + may3.length + ")");
         $("#them_vao").append(v_err);
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
         if (pi1 == "3") {
           boluot = [];
@@ -1797,15 +1886,21 @@ $(document).ready(function () {
       v_err.push(
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M3 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M3 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
 
-      v_err.push("<hr>");
-      v_err_1.push("<hr>");
-      v_err_2.push("<hr>");
+      v_err.unshift("<hr>");
+      v_err_1.unshift("<hr>");
+      v_err_2.unshift("<hr>");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
@@ -1866,11 +1961,17 @@ $(document).ready(function () {
       v_err.push(
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M3 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M3 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
 
       if (boluot.length >= 3 && huongsai == "") {
@@ -1931,11 +2032,17 @@ $(document).ready(function () {
       v_err.push(
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M3 đánh:" + chuyen_bai(_d_f) + "<br>");
+      v_err_1.push(
+        "M3 đánh: " +
+          chuyen_bai(_d_f) +
+          " (" +
+          chuyen_bai(originalCards) +
+          ")<br>"
+      );
       v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
       $("#them_vao").append(v_err);
-      $("#them_vao1").append(v_err_1);
+      $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
 
       if (boluot.length >= 3 && huongsai == "") {
@@ -1992,11 +2099,17 @@ $(document).ready(function () {
         v_err.push(
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("M3 đánh:" + chuyen_bai(_d_f) + "<br>");
+        v_err_1.push(
+          "M3 đánh: " +
+            chuyen_bai(_d_f) +
+            " (" +
+            chuyen_bai(originalCards) +
+            ")<br>"
+        );
         v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
         $("#mm3").text(mm_3 + "(" + may3.length + ")");
         $("#them_vao").append(v_err);
-        $("#them_vao1").append(v_err_1);
+        $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
       }
       if (thang.length == 3) {
