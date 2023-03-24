@@ -45,7 +45,7 @@ body {
 }
 #bot1 {
   position: absolute;
-  margin-left: 800px;
+  margin-left: 670px;
   margin-top: 320px;
 }
 #bot2 {
@@ -110,42 +110,47 @@ body {
 }
 #mm0 {
   color: red;
-  font-size: 15px;
+  font-size: 20px;
   position: absolute;
   margin-left: 28%;
   margin-top: 30%;
   float: left;
+  font-weight: bold;
 }
 #mm1 {
   color: red;
-  font-size: 15px;
+  font-size: 20px;
   position: absolute;
   margin-left: 40%;
   margin-top: 20%;
   float: left;
+  font-weight: bold;
 }
 #mm2 {
   color: red;
-  font-size: 15px;
+  font-size: 20px;
   position: absolute;
   margin-left: 28%;
   margin-top: 5%;
   float: left;
+  font-weight: bold;
 }
 #mm3 {
   color: red;
-  font-size: 15px;
+  font-size: 20px;
   position: absolute;
   margin-left: 18%;
   margin-top: 20%;
   float: left;
+  font-weight: bold;
 }
 #them_vao1 {
   overflow-y: scroll;
   display: block;
   max-height: 100%;
-  width: 35%;
+  width: 45%;
   background-color: white;
   margin-left: auto;
   padding-left: 15px;
+  font-size: 22px;
 }

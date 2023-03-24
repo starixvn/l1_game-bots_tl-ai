@@ -604,7 +604,7 @@ $(document).ready(function () {
             thang +
             "<br>"
         );
-        v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
+        v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
         v_err_2.push("M0 con lai:" + chuyen_bai(may0) + "<br>");
 
         //$("#mm0").text(mm_0+"("+may0.length+")");
@@ -677,7 +677,7 @@ $(document).ready(function () {
         v_err.push(
           "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
+        v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
         v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
         //$("#mm0").text(mm_0+"("+may0.length+")");
         $("#them_vao").append(v_err);
@@ -748,7 +748,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
+      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
 
       //$("#mm0").text(mm_0+"("+may0.length+")");
@@ -801,7 +801,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
+      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -848,7 +848,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
+      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -890,7 +890,7 @@ $(document).ready(function () {
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("M0 đánh: " + chuyen_bai(test1) + "<br>");
+      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
       v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -921,6 +921,7 @@ $(document).ready(function () {
   $("#m1").click(function () {
     const originalCards = [...may1];
     var _d_f = AI(layer0, may1); //0  1  2  3
+    const name = $("#mm1").text().split("(")[0];
     //_d_f="";
 
     if (huongsai != "") {
@@ -933,7 +934,8 @@ $(document).ready(function () {
         v_err_1 = [];
         console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
         v_err_1.push(
-          "M1 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
@@ -1006,7 +1008,8 @@ $(document).ready(function () {
           "M1:" + may1.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
         v_err_1.push(
-          "M1 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
@@ -1093,7 +1096,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M1 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1155,7 +1159,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M1 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1214,7 +1219,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M1 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1276,7 +1282,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M1 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1306,6 +1313,7 @@ $(document).ready(function () {
     //alert(k);
     const originalCards = [...may2];
     var _d_f = AI(layer0, may2);
+    const name = $("#mm2").text().split("(")[0];
 
     if (huongsai != "") {
       if (_d_f == "") {
@@ -1319,7 +1327,8 @@ $(document).ready(function () {
 
         console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
         v_err_1.push(
-          "M2 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
@@ -1387,7 +1396,8 @@ $(document).ready(function () {
         v_err_1 = [];
         console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
         v_err_1.push(
-          "M2 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
@@ -1475,7 +1485,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M2 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1530,7 +1541,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M2 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1595,7 +1607,8 @@ $(document).ready(function () {
       v_err_1 = [];
       console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
       v_err_1.push(
-        "M2 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1658,7 +1671,8 @@ $(document).ready(function () {
         "M2:" + may2.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
       v_err_1.push(
-        "M2 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1692,6 +1706,8 @@ $(document).ready(function () {
   $("#m3").click(function () {
     const originalCards = [...may3];
     var _d_f = AI(layer0, may3);
+    const name = $("#mm3").text().split("(")[0];
+
     if (huongsai != "") {
       if (_d_f == "") {
         boluot.push("3");
@@ -1708,7 +1724,8 @@ $(document).ready(function () {
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
         v_err_1.push(
-          "M3 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
@@ -1786,7 +1803,8 @@ $(document).ready(function () {
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
         v_err_1.push(
-          "M3 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
@@ -1887,7 +1905,8 @@ $(document).ready(function () {
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
       v_err_1.push(
-        "M3 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -1962,7 +1981,8 @@ $(document).ready(function () {
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
       v_err_1.push(
-        "M3 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -2033,7 +2053,8 @@ $(document).ready(function () {
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
       v_err_1.push(
-        "M3 đánh: " +
+        name +
+          " đánh: " +
           chuyen_bai(_d_f) +
           " *** (" +
           chuyen_bai(originalCards) +
@@ -2100,7 +2121,8 @@ $(document).ready(function () {
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
         v_err_1.push(
-          "M3 đánh: " +
+          name +
+            " đánh: " +
             chuyen_bai(_d_f) +
             " *** (" +
             chuyen_bai(originalCards) +
