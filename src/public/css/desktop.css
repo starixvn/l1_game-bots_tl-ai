@@ -38,6 +38,7 @@ body {
   position: absolute;
   float: right;
 }
+#bot0,
 #a {
   position: absolute;
   margin-left: 350px;
@@ -153,4 +154,21 @@ body {
   margin-left: auto;
   padding-left: 15px;
   font-size: 22px;
+}
+.autoNewRound {
+  position: absolute;
+  font-size: 23px;
+  font-weight: bold;
+  left: 10%;
+  bottom: 5%;
+}
+#autoContinue {
+  width: 30px;
+  height: 30px;
+}
+.timeout {
+  position: absolute;
+  font-size: 23px;
+  left: 30%;
+  bottom: 5%;
 }

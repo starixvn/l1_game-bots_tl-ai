@@ -1,0 +1,256 @@
+<html>
+  <head>
+    <title>Tiến lên miền nam-Hòa Lê</title>
+    <link rel="icon" href="img/clover.png" type="image/png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/reponse.css" />
+    <script src="js/library/jquery.min.js"></script>
+    <script src="js/library/popper.min.js"></script>
+    <script src="js/library/bootstrap.min.js"></script>
+    <script src="js/ai/load_data.js"></script>
+    <script src="js/ai/ai.js"></script>
+    <script src="js/ai/kiemtrahople.js"></script>
+    <script src="js/ai/contants.js"></script>
+    <script src="js/ai/cards.js"></script>
+    <script src="js/ai/ui.js"></script>
+    <script src="js/ai/bot.js"></script>
+    <script src="js/ai/xuly-test.js"></script>
+  </head>
+  <body>
+    <audio hidden="hidden" class="a12" id="tai_truoc1" controls controls loop>
+      <source src="sound/TienLenGSN.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc2" controls preload="none">
+      <source src="sound/ThuaDiCung.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc3" controls preload="none">
+      <source src="sound/MayHaBuoi.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc4" controls preload="none">
+      <source src="sound/ChetMayNe.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc5" controls preload="none">
+      <source src="sound/DoDi.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc6" controls preload="none">
+      <source src="sound/HaiNe.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc7" controls preload="none">
+      <source src="sound/BatDauGame.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc8" controls preload="none">
+      <source src="sound/Chon_bai.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc9" controls preload="none">
+      <source src="sound/DanhBai.mp3" type="audio/mp3" />
+    </audio>
+
+    <audio hidden="hidden" class="a12" id="tai_truoc10" controls preload="none">
+      <source src="sound/Nhat.mp3" type="audio/mp3" />
+    </audio>
+    <audio hidden="hidden" class="a12" id="tai_truoc11" controls preload="none">
+      <source src="sound/Nhi.mp3" type="audio/mp3" />
+    </audio>
+    <audio hidden="hidden" class="a12" id="tai_truoc12" controls preload="none">
+      <source src="sound/Ba.mp3" type="audio/mp3" />
+    </audio>
+    <audio hidden="hidden" class="a12" id="tai_truoc13" controls preload="none">
+      <source src="sound/Bet.mp3" type="audio/mp3" />
+    </audio>
+    <audio hidden="hidden" class="a12" id="tai_truoc14" controls preload="none">
+      <source src="sound/ToiTrang.mp3" type="audio/mp3" />
+    </audio>
+    <audio hidden="hidden" class="a12" id="tai_truoc15" controls preload="none">
+      <source src="sound/Button_Click.mp3" type="audio/mp3" />
+    </audio>
+    <img id="loading" src="img/load.gif" />
+    <img hidden="hidden" class="a1" src="anh/03a.png" />
+    <img hidden="hidden" class="a1" src="anh/03b.png" />
+    <img hidden="hidden" class="a1" src="anh/03c.png" />
+    <img hidden="hidden" class="a1" src="anh/03d.png" />
+    <img hidden="hidden" class="a1" src="anh/04a.png" />
+    <img hidden="hidden" class="a1" src="anh/04b.png" />
+    <img hidden="hidden" class="a1" src="anh/04c.png" />
+    <img hidden="hidden" class="a1" src="anh/04d.png" />
+    <img hidden="hidden" class="a1" src="anh/05a.png" />
+    <img hidden="hidden" class="a1" src="anh/05b.png" />
+    <img hidden="hidden" class="a1" src="anh/05c.png" />
+    <img hidden="hidden" class="a1" src="anh/05d.png" />
+    <img hidden="hidden" class="a1" src="anh/06a.png" />
+    <img hidden="hidden" class="a1" src="anh/06b.png" />
+    <img hidden="hidden" class="a1" src="anh/06c.png" />
+    <img hidden="hidden" class="a1" src="anh/06d.png" />
+    <img hidden="hidden" class="a1" src="anh/07a.png" />
+    <img hidden="hidden" class="a1" src="anh/07b.png" />
+    <img hidden="hidden" class="a1" src="anh/07c.png" />
+    <img hidden="hidden" class="a1" src="anh/07d.png" />
+    <img hidden="hidden" class="a1" src="anh/08a.png" />
+    <img hidden="hidden" class="a1" src="anh/03b.png" />
+    <img hidden="hidden" class="a1" src="anh/08c.png" />
+    <img hidden="hidden" class="a1" src="anh/08d.png" />
+    <img hidden="hidden" class="a1" src="anh/09a.png" />
+    <img hidden="hidden" class="a1" src="anh/09b.png" />
+    <img hidden="hidden" class="a1" src="anh/09c.png" />
+    <img hidden="hidden" class="a1" src="anh/09d.png" />
+    <img hidden="hidden" class="a1" src="anh/10a.png" />
+    <img hidden="hidden" class="a1" src="anh/10b.png" />
+    <img hidden="hidden" class="a1" src="anh/10c.png" />
+    <img hidden="hidden" class="a1" src="anh/10d.png" />
+    <img hidden="hidden" class="a1" src="anh/11a.png" />
+    <img hidden="hidden" class="a1" src="anh/11b.png" />
+    <img hidden="hidden" class="a1" src="anh/11c.png" />
+    <img hidden="hidden" class="a1" src="anh/11d.png" />
+    <img hidden="hidden" class="a1" src="anh/12a.png" />
+    <img hidden="hidden" class="a1" src="anh/12b.png" />
+    <img hidden="hidden" class="a1" src="anh/12c.png" />
+    <img hidden="hidden" class="a1" src="anh/12d.png" />
+    <img hidden="hidden" class="a1" src="anh/13a.png" />
+    <img hidden="hidden" class="a1" src="anh/13b.png" />
+    <img hidden="hidden" class="a1" src="anh/13c.png" />
+    <img hidden="hidden" class="a1" src="anh/13d.png" />
+    <img hidden="hidden" class="a1" src="anh/14a.png" />
+    <img hidden="hidden" class="a1" src="anh/14b.png" />
+    <img hidden="hidden" class="a1" src="anh/14c.png" />
+    <img hidden="hidden" class="a1" src="anh/14d.png" />
+    <img hidden="hidden" class="a1" src="anh/16a.png" />
+    <img hidden="hidden" class="a1" src="anh/16b.png" />
+    <img hidden="hidden" class="a1" src="anh/16c.png" />
+    <img hidden="hidden" class="a1" src="anh/16d.png" />
+    <div id="wrapper">
+      <div id="doithu">
+        <button
+          hidden="hidden"
+          type="button"
+          id="khl"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#myModal"
+        >
+          1
+        </button>
+      </div>
+      <div id="listMessages"></div>
+      <span id="mm0">M0</span>
+      <span id="mm1">M1</span>
+      <span id="mm2">M2</span>
+      <span id="mm3">M3</span>
+      <div id="bot0"></div>
+      <div id="bot1"></div>
+      <div id="bot2"></div>
+      <div id="bot3"></div>
+      <button
+        hidden="hidden"
+        type="button"
+        class="btn btn-success"
+        id="btnSendMessage2"
+        value="danh"
+        style="display: none"
+      ></button>
+      <button
+        hidden="hidden"
+        type="button"
+        class="btn btn-danger"
+        id="btnboluot2"
+        value="bo luot"
+        style="display: none"
+      ></button>
+      <button
+        type="button"
+        class="btn btn-danger"
+        id="btnboluot"
+        value="bo luot"
+        hidden
+      >
+        Bỏ qua
+      </button>
+      <button
+        type="button"
+        class="btn btn-success"
+        id="btnSendMessage"
+        value="danh"
+        hidden
+      >
+        Đánh
+      </button>
+
+      <button type="button" class="btn btn-success" id="btnbatdau">
+        Bắt đầu
+      </button>
+      <button type="button" class="btn btn-success" id="btntieptuc">
+        Tiếp tục
+      </button>
+      <button type="button" class="btn btn-warning" id="tn" value="">
+        Tua nhanh
+      </button>
+      <label for="autoContinue" class="autoNewRound">
+        Tự động tiếp tục ván mới
+        <input type="checkbox" id="autoContinue" checked />
+      </label>
+      <label class="timeout">
+        Thời gian
+        <input type="number" id="timeout" value="2000" />
+      </label>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Bài đánh không hợp lệ</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="myModal2">
+      <div class="modal-dialog" style="">
+        <div class="modal-content">
+          <!-- Modal Header -->
+
+          <div class="modal-header">
+            <span id="them_vao"></span>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" id="myModal4">
+      <div class="modal-dialog" style="">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <span id="them_vao2"></span>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span id="them_vao1"></span>
+
+    <span id="loading6"></span>
+    <span id="m0"></span>
+    <span id="m1"></span>
+    <span id="m2"></span>
+    <span id="m3"></span>
+    <span id="thang"></span>
+    <img id="rong2" src="img/rong3_f.gif" style="display: none" />
+    <img id="rong3" src="img/rong5_f.gif" style="display: none" />
+  </body>
+</html>

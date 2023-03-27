@@ -619,6 +619,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -669,6 +670,7 @@ $(document).ready(function () {
           }
           //huongsai=[];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         v_err = [];
         v_err_1 = [];
@@ -694,6 +696,7 @@ $(document).ready(function () {
           }
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -768,6 +771,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
 
       if (thang.length == 3) {
@@ -813,6 +817,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -859,6 +864,7 @@ $(document).ready(function () {
         boluot = giaomang1(thang);
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -901,6 +907,7 @@ $(document).ready(function () {
         boluot = giaomang1(thang);
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -951,6 +958,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -1027,6 +1035,7 @@ $(document).ready(function () {
           }
           //huongsai=[];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         if (boluot.length >= 4 && huongsai != "") {
           boluot = [];
@@ -1035,6 +1044,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -1112,6 +1122,7 @@ $(document).ready(function () {
         layer0 = [];
 
         hien2("");
+        $("#them_vao1").prepend("<hr />");
       } else if (boluot.length >= 4 && huongsai != "") {
         boluot = [];
         boluot = giaomang1(thang);
@@ -1119,6 +1130,7 @@ $(document).ready(function () {
 
         huongsai = [];
         hien2("");
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1174,6 +1186,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1227,7 +1240,6 @@ $(document).ready(function () {
           ")<br>"
       );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
-      v_err_1.unshift("<hr>");
       $("#them_vao1").prepend(v_err_1);
       console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
@@ -1236,6 +1248,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1262,6 +1275,7 @@ $(document).ready(function () {
 
       hien2("");
       layer0 = [];
+      $("#them_vao1").prepend("<hr />");
       _d_f = AI(layer0, may1); //0  1  2  3
       if (_d_f != "") {
         huongsai = [];
@@ -1343,6 +1357,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -1415,6 +1430,7 @@ $(document).ready(function () {
           }
           //huongsai=[];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         if (boluot.length >= 4 && huongsai != "") {
           boluot = [];
@@ -1423,6 +1439,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -1501,6 +1518,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1549,7 +1567,6 @@ $(document).ready(function () {
           ")<br>"
       );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
-      v_err_1.unshift("<hr>");
       $("#them_vao1").prepend(v_err_1);
       console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
@@ -1558,6 +1575,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1623,6 +1641,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1646,6 +1665,7 @@ $(document).ready(function () {
 
       hien2("");
       layer0 = [];
+      $("#them_vao1").prepend("<hr />");
       _d_f = AI(layer0, may1); //0  1  2  3
       if (_d_f != "") {
         huongsai = [];
@@ -1744,6 +1764,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -1825,6 +1846,7 @@ $(document).ready(function () {
           }
           //huongsai=[];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
 
         if (boluot.length >= 4 && huongsai != "") {
@@ -1834,6 +1856,7 @@ $(document).ready(function () {
 
           huongsai = [];
           hien2("");
+          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -1916,7 +1939,6 @@ $(document).ready(function () {
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
 
       v_err.unshift("<hr>");
-      v_err_1.unshift("<hr>");
       v_err_2.unshift("<hr>");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
@@ -1928,6 +1950,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
 
       // setTimeout(function(){document.getElementById('m1').click();}, 2000); //0 1 2 3
@@ -2000,6 +2023,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -2072,6 +2096,7 @@ $(document).ready(function () {
 
         hien2("");
         layer0 = [];
+        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -2096,6 +2121,7 @@ $(document).ready(function () {
 
       hien2("");
       layer0 = [];
+      $("#them_vao1").prepend("<hr />");
       _d_f = AI(layer0, may3); //0  1  2  3
       if (_d_f != "") {
         huongsai = [];
