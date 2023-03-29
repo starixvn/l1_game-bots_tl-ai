@@ -1,5 +1,4 @@
 function runBot(handId, cards) {
-  const timeout = $("#timeout").val();
   const originalCards = [...cards];
   let _d_f = AI(layer0, cards); //0  1  2  3
   const nextHandId = ((handId + 1) % 4).toString();
@@ -11,15 +10,14 @@ function runBot(handId, cards) {
   if (huongsai != "") {
     remainingCards = huongsaiBot(handId, _d_f, originalCards, cards);
   } else {
-    if (_d_f != "") {
-      remainingCards = dropBotCard(handId, _d_f, cards);
-    } else {
-      boluot.push(handIdString);
-      remainingCards = originalCards;
-    }
-    logTurn(handId, _d_f, originalCards);
-
     if (boluot.indexOf(nextHandId) < 0) {
+      if (_d_f != "") {
+        remainingCards = dropBotCard(handId, _d_f, cards);
+      } else {
+        boluot.push(handIdString);
+        remainingCards = originalCards;
+      }
+      logTurn(handId, _d_f, originalCards);
       if (boluot.length >= 3 && huongsai == "") {
         resetNewTurn();
       } else if (boluot.length >= 4 && huongsai != "") {
@@ -28,44 +26,52 @@ function runBot(handId, cards) {
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
+        return null;
       } else {
-        setBackgroundHand(nextHandId);
-        setTimeout(function () {
-          document.getElementById(`m${nextHandId}`).click();
-        }, timeout); //0 1 2 3
+        changeTurn(nextHandId);
       }
     } else if (
       boluot.indexOf(nextHandId) >= 0 &&
       boluot.indexOf(oppositeHandId) < 0
     ) {
+      if (_d_f != "") {
+        remainingCards = dropBotCard(handId, _d_f, cards);
+      } else {
+        boluot.push(handIdString);
+        remainingCards = originalCards;
+      }
+      logTurn(handId, _d_f, originalCards);
       if (boluot.length >= 3 && huongsai == "") {
         resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
+        return null;
       } else {
-        setBackgroundHand(oppositeHandId);
-        setTimeout(function () {
-          document.getElementById(`m${oppositeHandId}`).click();
-        }, timeout); //0 1 2 3
+        changeTurn(oppositeHandId);
       }
     } else if (
       boluot.indexOf(nextHandId) >= 0 &&
       boluot.indexOf(oppositeHandId) >= 0 &&
       boluot.indexOf(previousHandId) < 0
     ) {
+      if (_d_f != "") {
+        remainingCards = dropBotCard(handId, _d_f, cards);
+      } else {
+        boluot.push(handIdString);
+        remainingCards = originalCards;
+      }
+      logTurn(handId, _d_f, originalCards);
       if (boluot.length >= 3 && huongsai == "") {
         resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
+        return null;
       } else {
-        setBackgroundHand(previousHandId);
-        setTimeout(function () {
-          document.getElementById(`m${oppositeHandId}`).click();
-        }, timeout);
+        changeTurn(previousHandId);
       }
-    } else if (boluot.indexOf(handId.toString()) < 0) {
+    } else if (boluot.indexOf(handIdString) < 0) {
       resetNewTurn();
 
       _d_f = AI(layer0, cards);
@@ -76,11 +82,9 @@ function runBot(handId, cards) {
 
       if (thang.length == 3) {
         document.getElementById("thang").click();
+        return null;
       } else {
-        setBackgroundHand(handIdString);
-        setTimeout(function () {
-          document.getElementById(`m${handId}`).click();
-        }, timeout);
+        changeTurn(handIdString);
       }
     }
   }
@@ -89,7 +93,6 @@ function runBot(handId, cards) {
 }
 
 function huongsaiBot(handId, _d_f, originalCards, cards) {
-  const timeout = $("#timeout").val();
   let nextTurn = "";
   const handIdString = handId.toString();
 
@@ -104,13 +107,9 @@ function huongsaiBot(handId, _d_f, originalCards, cards) {
     }
     if (thang.length == 3) {
       document.getElementById("thang").click();
+      return null;
     } else {
-      setBackgroundHand(nextTurn);
-      setTimeout(function () {
-        if (nextTurn == "9") {
-          $("#btntieptuc").show();
-        } else document.getElementById("m" + nextTurn).click();
-      }, timeout); //0 1 2 3
+      changeTurn(nextTurn);
     }
     return cards;
   } else {
@@ -121,9 +120,6 @@ function huongsaiBot(handId, _d_f, originalCards, cards) {
 
     if (nextTurn == handIdString) {
       resetNewTurn();
-      if (thang.length == 3) {
-        endRound();
-      }
     }
     if (boluot.length >= 4 && huongsai != "") {
       resetNewTurn();
@@ -132,13 +128,9 @@ function huongsaiBot(handId, _d_f, originalCards, cards) {
 
     if (thang.length == 3) {
       document.getElementById("thang").click();
+      return null;
     } else {
-      setBackgroundHand(nextTurn);
-      setTimeout(function () {
-        if (nextTurn == "9") {
-          $("#btntieptuc").show();
-        } else document.getElementById("m" + nextTurn).click();
-      }, timeout); //0 1 2 3
+      changeTurn(nextTurn);
     }
 
     return remainingCards;
@@ -163,9 +155,25 @@ function dropBotCard(handId, _d_f, cards) {
   return remainingCards;
 }
 
+function changeTurn(handIdString) {
+  const timeout = +$(`input[name="speed"]:checked`).val();
+
+  setBackgroundHand(handIdString);
+  setTimeout(function () {
+    if (handIdString == "9") {
+      endRound();
+    } else document.getElementById(`m${handIdString}`).click();
+  }, timeout); //0 1 2 3
+}
+
 function endRound() {
-  const autoNewRound = $("#autoContinue").is(":checked");
-  autoNewRound ? $("#btntieptuc").click() : $("#btntieptuc").show();
+  Logger.insertLog().then(() => {
+    const autoNewRound = $("#autoContinue").is(":checked");
+    const limitRound = $("#limitRound").val();
+    autoNewRound && roundId < limitRound
+      ? $("#btntieptuc").click()
+      : $("#btntieptuc").show();
+  });
 }
 
 function resetNewTurn() {
@@ -173,5 +181,6 @@ function resetNewTurn() {
   boluot = giaomang1(thang);
   layer0 = [];
   hien2("");
+  Logger.addTurn();
   $("#them_vao1").prepend("<hr />");
 }

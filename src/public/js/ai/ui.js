@@ -14,15 +14,21 @@ function setBackgroundHand(turn) {
 }
 
 function logTurn(handId, droppedCards, originalCards) {
+  if (originalCards.length == 0) {
+    return;
+  }
   const name = $(`#mm${handId}`).text().split("(")[0];
   const textContent = document
     .getElementById(`mm${handId}`)
     .textContent.split("(")[0];
   v_err_1 = [];
+  const dropped = chuyen_bai(droppedCards);
+  const beforeDropCards = chuyen_bai(originalCards);
+  Logger.logTurn(name, dropped, beforeDropCards);
   v_err_1.push(
-    `${name} đánh: ${chuyen_bai(droppedCards)} *** (${chuyen_bai(
-      originalCards
-    )})<br>`
+    `${name} đánh: ${dropped.map((card) =>
+      renderLogUICard(card)
+    )} *** (${beforeDropCards.map((card) => renderLogUICard(card))})<br>`
   );
   $(`#mm${handId}`).text(
     textContent + "(" + (originalCards.length - droppedCards.length) + ")"
@@ -30,9 +36,14 @@ function logTurn(handId, droppedCards, originalCards) {
   $("#them_vao1").prepend(v_err_1);
 }
 
+function renderLogUICard(card) {
+  if (card.substring(1, 2) == "♦" || card.substring(1, 2) == "♥")
+    return "<span aria-hidden='true' style='color:red;'>" + card + "</span>";
+  else return "<span aria-hidden='true'>" + card + "</span>";
+}
+
 function chuyen_bai(a) {
   var kq = [];
-  var kq2 = [];
   var b = {
     "anh/03a.png": "3♠",
     "anh/03b.png": "3♣",
@@ -88,11 +99,7 @@ function chuyen_bai(a) {
     "anh/16d.png": "2♥",
   };
   for (var i = 0; i < a.length; i++) {
-    if (b[a[i]].substring(1, 2) == "♦" || b[a[i]].substring(1, 2) == "♥")
-      kq.push(
-        "<span aria-hidden='true' style='color:red;'>" + b[a[i]] + "</span>"
-      );
-    else kq.push("<span aria-hidden='true'>" + b[a[i]] + "</span>");
+    kq.push(b[a[i]]);
   }
 
   return kq;

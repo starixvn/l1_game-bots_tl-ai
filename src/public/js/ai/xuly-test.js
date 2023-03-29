@@ -18,12 +18,13 @@ var play_thang = [],
   v_err = [],
   v_err_1 = [],
   v_err_2 = [],
-  lkt = "";
+  lkt = "",
+  roundId = 1;
 $(document).ready(function () {
-  $("#mm0").text("Bot0");
-  $("#mm1").text("Bot1");
-  $("#mm2").text("Bot2");
-  $("#mm3").text("Bot3");
+  $("#mm0").text("Bot1");
+  $("#mm1").text("Bot2");
+  $("#mm2").text("Bot3");
+  $("#mm3").text("Bot4");
   var mm_0 = document.getElementById("mm0").textContent;
   var mm_1 = document.getElementById("mm1").textContent;
   var mm_2 = document.getElementById("mm2").textContent;
@@ -32,8 +33,6 @@ $(document).ready(function () {
   document.getElementById("btnboluot").disabled = true;
   $("#tn").hide();
   $(document).on("click", ".image", function () {
-    //var mySound = new sound("./sound/Chon_bai.mp3");
-    // mySound.play();
     $("#tai_truoc8").trigger("play");
 
     sound.onwaiting = function () {
@@ -46,8 +45,6 @@ $(document).ready(function () {
       return -1; //Không tìm thấy x trong mảng
     }
 
-    //alert(2);
-    //document.getElementById('btnSendMessage').value="";
     if ($(this).css("top") == "100px") {
       $(this).css("top", "50px");
       flag = 0;
@@ -67,15 +64,9 @@ $(document).ready(function () {
   });
   $("#btnbatdau").click(function () {
     $("#tai_truoc7").trigger("play");
-    //$('.play').trigger("play");
-    // mySound.play();
     play_nhac = 0;
     $("#tn").hide();
-    /*x1=["anh/03a.png", "anh/04b.png", "anh/06c.png", "anh/08a.png","anh/08a.png",//may 
-	   "anh/10d.png","anh/10c.png","anh/12d.png","anh/12a.png","anh/13d.png","anh/14c.png","anh/14c.png","anh/16c.png"];
-		x2=["anh/04a.png", "anh/05b.png", "anh/06d.png", "anh/07a.png","anh/08d.png",
-		    "anh/09a.png","anh/10b.png","anh/10c.png","anh/11b.png","anh/12b.png","anh/13a.png","anh/14d.png","anh/14b.png"];//nguoi*/
-
+    Logger.addTurn();
     var img = [
       "anh/03a.png",
       "anh/03b.png",
@@ -162,20 +153,12 @@ $(document).ready(function () {
     may1 = m2;
     may2 = m3;
     may3 = m4;
+    Logger.logInitCards(may0, may1, may2, may3);
 
-    /*may0=["anh/14d.png","anh/16a.png"];
-		 may1=["anh/03b.png", "anh/03c.png", "anh/03d.png"];
-		 may2=["anh/04b.png", "anh/04c.png", "anh/04d.png"];
-		 may3=["anh/16b.png"];*/
     hien(may0, "bot0");
     hien(may1, "bot1");
     hien(may2, "bot2");
     hien(may3, "bot3");
-    //thang=["1","2"];
-    // hien3(may1);
-
-    // var button = document.getElementById('btntieptuc');
-    //setTimeout(function(){ document.getElementById('btntieptuc').click(); }, 2000);
 
     $("#btnbatdau").hide();
 
@@ -202,7 +185,7 @@ $(document).ready(function () {
     var sanh1 = AIktra_sanh(may1);
     var sanh2 = AIktra_sanh(may2);
     var sanh3 = AIktra_sanh(may3);
-    //alert(doi_thong1);
+
     if (doi0.length == 12) {
       hien2(doi0);
       hien("", "bot0");
@@ -212,21 +195,21 @@ $(document).ready(function () {
       }, 2000);
     } else if (doi1.length == 12) {
       hien2(doi1);
-      hien("", "bot0");
+      hien("", "bot1");
       thang.push("1");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (doi2.length == 12) {
       hien2(doi2);
-      hien("", "bot0");
+      hien("", "bot2");
       thang.push("2");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (doi3.length == 12) {
       hien2(doi3);
-      hien("", "bot0");
+      hien("", "bot3");
       thang.push("3");
       setTimeout(function () {
         document.getElementById("thang").click();
@@ -240,21 +223,21 @@ $(document).ready(function () {
       }, 2000);
     } else if (kiemtrahople(doi_thong1) == "5doithong") {
       hien2(doi_thong1);
-      hien("", "bot0");
+      hien("", "bot1");
       thang.push("1");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (kiemtrahople(doi_thong2) == "5doithong") {
       hien2(doi_thong2);
-      hien("", "bot0");
+      hien("", "bot2");
       thang.push("2");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (kiemtrahople(doi_thong3) == "5doithong") {
       hien2(doi_thong3);
-      hien("", "bot0");
+      hien("", "bot3");
       thang.push("3");
       setTimeout(function () {
         document.getElementById("thang").click();
@@ -268,21 +251,21 @@ $(document).ready(function () {
       }, 2000);
     } else if (heo41.length == 4) {
       hien2(heo41);
-      hien("", "bot0");
+      hien("", "bot1");
       thang.push("1");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (heo42.length == 4) {
       hien2(heo42);
-      hien("", "bot0");
+      hien("", "bot2");
       thang.push("2");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (heo43.length == 4) {
       hien2(heo43);
-      hien("", "bot0");
+      hien("", "bot3");
       thang.push("3");
       setTimeout(function () {
         document.getElementById("thang").click();
@@ -296,27 +279,27 @@ $(document).ready(function () {
       }, 2000);
     } else if (sanh1.length == 12) {
       hien2(sanh1);
-      hien("", "bot0");
+      hien("", "bot1");
       thang.push("1");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (sanh2.length == 12) {
       hien2(sanh2);
-      hien("", "bot0");
+      hien("", "bot2");
       thang.push("2");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else if (sanh3.length == 12) {
       hien2(sanh3);
-      hien("", "bot0");
+      hien("", "bot3");
       thang.push("3");
       setTimeout(function () {
         document.getElementById("thang").click();
       }, 2000);
     } else {
-      const time = +$("#timeout").val();
+      const time = +$(`input[name="speed"]:checked`).val();
       if (thang1 == 0) {
         setTimeout(() => {
           document.getElementById("m0").click();
@@ -345,8 +328,9 @@ $(document).ready(function () {
 
   $("#btntieptuc").click(function () {
     hien2("");
-    //document.getElementById("btntieptuc").onclick();//ach su dung khong can jquery
-    $("#them_vao1").prepend(`============================== <br />`);
+    roundId++;
+    $("#roundId").text("Round: " + roundId);
+    $("#them_vao1").prepend(`<hr />============================== <hr />`);
 
     $("#btntieptuc").hide();
 
@@ -368,7 +352,7 @@ $(document).ready(function () {
     //nguoi danh
     //var mySound = new sound("./sound/Button_Click.mp3");
     //mySound.play();
-    const timeout = $("#timeout").val();
+    const timeout = +$(`input[name="speed"]:checked`).val();
     if (kiemtrahople(u) != "khonghople" && u != "") {
       if (layer0 == "") {
         document.getElementById("btnSendMessage").disabled = true;
@@ -434,8 +418,6 @@ $(document).ready(function () {
   });
   $("#btnboluot").click(function () {
     //nguoi danh
-    const timeout = $("#timeout").val();
-
     $("#tai_truoc15").trigger("play");
 
     document.getElementById("btnSendMessage").disabled = true;
@@ -451,7 +433,7 @@ $(document).ready(function () {
   });
   $("#thang").click(function () {
     //nguoi danh
-
+    Logger.logWinner(thang);
     if (thang.length <= 3 && play_nhac == 0) {
       play_nhac = 1;
       if (thang[0] == "0") $("#tai_truoc10").trigger("play");
@@ -487,15 +469,27 @@ $(document).ready(function () {
   });
 
   $("#m0").click(function () {
-    may0 = runBot(0, may0);
+    const remainingCards = runBot(0, may0);
+    if (remainingCards !== null) {
+      may0 = remainingCards;
+    }
   });
   $("#m1").click(function () {
-    may1 = runBot(1, may1);
+    const remainingCards = runBot(1, may1);
+    if (remainingCards !== null) {
+      may1 = remainingCards;
+    }
   });
   $("#m2").click(function () {
-    may2 = runBot(2, may2);
+    const remainingCards = runBot(2, may2);
+    if (remainingCards !== null) {
+      may2 = remainingCards;
+    }
   });
   $("#m3").click(function () {
-    may3 = runBot(3, may3);
+    const remainingCards = runBot(3, may3);
+    if (remainingCards !== null) {
+      may3 = remainingCards;
+    }
   });
 });

@@ -10,6 +10,7 @@ RUN yarn install --production
 ENV PATH /app/node_modules/.bin:$PATH
 
 COPY ./src/ .
+COPY ./src/configs/config.js ./config.js
 #HEALTHCHECK --interval=10s CMD node healthcheck.js
 
 USER node

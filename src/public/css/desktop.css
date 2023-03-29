@@ -77,6 +77,8 @@ body {
   position: absolute;
   bottom: 47%;
   left: 27%;
+  width: 100px;
+  height: 50px;
 }
 #loading {
   position: absolute;
@@ -159,16 +161,40 @@ body {
   position: absolute;
   font-size: 23px;
   font-weight: bold;
-  left: 10%;
-  bottom: 5%;
+  left: 30%;
+  bottom: 10%;
 }
 #autoContinue {
   width: 30px;
   height: 30px;
 }
-.timeout {
+.speed {
+  position: absolute;
+  font-size: 23px;
+  left: 10%;
+  bottom: 5%;
+}
+.speed span {
+  position: absolute;
+  left: -15%;
+  font-weight: bold;
+}
+.limitRound {
   position: absolute;
   font-size: 23px;
   left: 30%;
   bottom: 5%;
+}
+#roundId {
+  position: absolute;
+  font-size: 35px;
+}
+.btn-download {
+  background-color: aliceblue;
+  position: absolute;
+  top: 7%;
+  font-size: 20px;
+  width: 10%;
+  height: 40px;
+  margin-left: 7px;
 }

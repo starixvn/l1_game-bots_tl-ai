@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Tiến lên miền nam-Hòa Lê</title>
+    <title>Tiến lên miền nam</title>
     <link rel="icon" href="img/clover.png" type="image/png" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -17,6 +17,8 @@
     <script src="js/ai/ui.js"></script>
     <script src="js/ai/bot.js"></script>
     <script src="js/ai/xuly-test.js"></script>
+    <script src="js/ai/logger.js"></script>
+    <script src="js/ai/dowload.js"></script>
   </head>
   <body>
     <audio hidden="hidden" class="a12" id="tai_truoc1" controls controls loop>
@@ -183,22 +185,52 @@
         Đánh
       </button>
 
-      <button type="button" class="btn btn-success" id="btnbatdau">
-        Bắt đầu
-      </button>
-      <button type="button" class="btn btn-success" id="btntieptuc">
-        Tiếp tục
+      <button type="button" class="btn btn-danger" id="btnbatdau">Start</button>
+      <button type="button" class="btn btn-danger" id="btntieptuc">
+        Continue
       </button>
       <button type="button" class="btn btn-warning" id="tn" value="">
         Tua nhanh
       </button>
+      <button
+        type="button"
+        class="btn btn-download"
+        data-toggle="modal"
+        data-target="#downloadModal"
+      >
+        Download Logs
+      </button>
       <label for="autoContinue" class="autoNewRound">
-        Tự động tiếp tục ván mới
-        <input type="checkbox" id="autoContinue" checked />
+        Auto Continue
+        <input type="checkbox" id="autoContinue" />
       </label>
-      <label class="timeout">
-        Thời gian
-        <input type="number" id="timeout" value="2000" />
+
+      <div class="speed">
+        <span>Speed</span>
+        <div class="ml-5">
+          <input type="radio" name="speed" value="2000" id="speed-slow" />
+          <label for="speed-slow">Slow</label>
+          <input
+            type="radio"
+            name="speed"
+            value="1000"
+            id="speed-normal"
+            checked
+          />
+          <label for="speed-normal">Normal</label>
+        </div>
+
+        <div class="ml-5">
+          <input type="radio" name="speed" value="500" id="speed-fast" />
+          <label for="speed-fast">Fast</label>
+          <input type="radio" name="speed" value="100" id="speed-super-fast" />
+          <label for="speed-super-fast">Super Fast</label>
+        </div>
+      </div>
+
+      <label class="limitRound">
+        Limit Round
+        <input type="number" id="limitRound" value="10" />
       </label>
     </div>
     <!-- The Modal -->
@@ -242,8 +274,46 @@
         </div>
       </div>
     </div>
+    <div
+      class="modal fade"
+      id="downloadModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="downloadModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="downloadModalLabel">Download logs</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="inputDownloadLimit">Top Round</label>
+              <input
+                type="number"
+                class="form-control"
+                id="inputDownloadLimit"
+                value="100"
+              />
+            </div>
+            <button type="submit" class="btn btn-primary" id="download">
+              Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="ml-2" id="roundId">Round: 1</span>
     <span id="them_vao1"></span>
-
     <span id="loading6"></span>
     <span id="m0"></span>
     <span id="m1"></span>
