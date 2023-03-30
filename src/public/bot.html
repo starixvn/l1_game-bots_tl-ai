@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/reponse.css" />
+    <link rel="stylesheet" type="text/css" href="css/desktop.css" />
     <script src="js/library/jquery.min.js"></script>
     <script src="js/library/popper.min.js"></script>
     <script src="js/library/bootstrap.min.js"></script>
@@ -186,12 +186,14 @@
       </button>
 
       <button type="button" class="btn btn-danger" id="btnbatdau">Start</button>
-      <button type="button" class="btn btn-danger" id="btntieptuc">
-        Continue
-      </button>
-      <button type="button" class="btn btn-warning" id="tn" value="">
-        Tua nhanh
-      </button>
+      <div class="action-end-round">
+        <button type="button" class="btn btn-danger" id="btntieptuc">
+          Continue</button
+        ><button type="button" class="btn btn-warning" id="tn" value="">
+          Tua nhanh
+        </button>
+      </div>
+
       <button
         type="button"
         class="btn btn-download"
@@ -209,7 +211,7 @@
         <span>Speed</span>
         <div class="ml-5">
           <input type="radio" name="speed" value="2000" id="speed-slow" />
-          <label for="speed-slow">Slow</label>
+          <label for="speed-slow" style="width: 80px">Slow</label>
           <input
             type="radio"
             name="speed"
@@ -217,12 +219,10 @@
             id="speed-normal"
             checked
           />
-          <label for="speed-normal">Normal</label>
-        </div>
+          <label for="speed-normal" style="width: 80px">Normal</label>
 
-        <div class="ml-5">
           <input type="radio" name="speed" value="500" id="speed-fast" />
-          <label for="speed-fast">Fast</label>
+          <label for="speed-fast" style="width: 80px">Fast</label>
           <input type="radio" name="speed" value="100" id="speed-super-fast" />
           <label for="speed-super-fast">Super Fast</label>
         </div>

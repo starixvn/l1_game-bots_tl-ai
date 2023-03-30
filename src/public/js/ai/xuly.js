@@ -82,7 +82,7 @@ $(document).ready(function () {
     //alert(2);
     //document.getElementById('btnSendMessage').value="";
     if ($(this).css("top") == "100px") {
-      $(this).css("top", "50px");
+      $(this).css("top", "70px");
       flag = 0;
     } else {
       $(this).css("top", "100px");

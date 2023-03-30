@@ -796,7 +796,7 @@ function hien2(a) {
       a1[j] +
       "' value='" +
       a1[j] +
-      "'  style='position:absolute;  width: 70;height: 70; left: " +
+      "'  style='position:absolute;  width: 100;height: 140; left: " +
       k2 +
       "; top: " +
       k3 +
