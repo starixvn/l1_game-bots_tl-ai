@@ -18,20 +18,21 @@ class Logger {
   }
 
   static insertLog(code = "", hasPlayer = false) {
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({ ...roundData, code, hasPlayer }),
-    };
-    return fetch("/log", options)
-      .then(() => this.reset())
-      .catch((err) => {
-        this.reset();
-        alert(err);
-      });
+    return Promise.resolve();
+    // const options = {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    //   body: JSON.stringify({ ...roundData, code, hasPlayer }),
+    // };
+    // return fetch("/log", options)
+    //   .then(() => this.reset())
+    //   .catch((err) => {
+    //     this.reset();
+    //     alert(err);
+    //   });
   }
 
   static logInitCards(bot1, bot2, bot3, bot4) {

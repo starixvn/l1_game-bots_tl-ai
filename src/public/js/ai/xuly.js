@@ -67,6 +67,12 @@ $(document).ready(function () {
   document.getElementById("btnSendMessage").disabled = true;
   document.getElementById("btnboluot").disabled = true;
   $("#tn").hide();
+  $("#showHideLog").click(function () {
+    const wrapper = document.getElementById("wrapper");
+    const logs = document.getElementById("them_vao1");
+    wrapper.classList.toggle("show-logs");
+    logs.classList.toggle("show-logs");
+  });
   $(document).on("click", ".image", function () {
     //var mySound = new sound("./sound/Chon_bai.mp3");
     // mySound.play();

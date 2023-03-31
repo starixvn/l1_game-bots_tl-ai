@@ -1,6 +1,6 @@
 function runBot(handId, cards) {
   const originalCards = [...cards];
-  let _d_f = AI(layer0, cards); //0  1  2  3
+  let _d_f = AI(layer0, cards); //0  1  2  3  [""]
   const nextHandId = ((handId + 1) % 4).toString();
   const oppositeHandId = ((handId + 2) % 4).toString();
   const previousHandId = ((handId + 3) % 4).toString();

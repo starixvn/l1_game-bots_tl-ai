@@ -492,4 +492,10 @@ $(document).ready(function () {
       may3 = remainingCards;
     }
   });
+  $("#showHideLog").click(function () {
+    const wrapper = document.getElementById("wrapper");
+    const logs = document.getElementById("them_vao1");
+    wrapper.classList.toggle("show-logs");
+    logs.classList.toggle("show-logs");
+  });
 });
