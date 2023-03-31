@@ -15,6 +15,10 @@
     <script src="js/ai/contants.js"></script>
     <script src="js/ai/cards.js"></script>
     <script src="js/ai/xuly.js"></script>
+    <script src="js/ai/bot.js"></script>
+    <script src="js/ai/logger.js"></script>
+    <script src="js/ai/ui.js"></script>
+    <script src="js/ai/dowload.js"></script>
   </head>
   <body>
     <div class="audio">
@@ -229,6 +233,7 @@
         </button>
       </div>
       <div id="listMessages"></div>
+      <div id="history2"></div>
       <div class="user-1">
         <img class="profile" src="img/1.png" alt="bg" /><span id="mm0">M0</span>
       </div>
@@ -301,35 +306,63 @@
         </div>
       </div>
     </div>
-    <div class="modal" id="myModal2">
-      <div class="modal-dialog" style="">
+    <button
+      type="button"
+      class="btn btn-download"
+      data-toggle="modal"
+      data-target="#downloadModal"
+    >
+      Download Logs
+    </button>
+    <div
+      class="modal fade"
+      id="downloadModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="downloadModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <!-- Modal Header -->
-
           <div class="modal-header">
-            <span id="them_vao"></span>
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
+            <h5 class="modal-title" id="downloadModalLabel">Download logs</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="inputDownloadLimit">Top Round</label>
+              <input
+                type="number"
+                class="form-control"
+                id="inputDownloadLimit"
+                value="100"
+              />
+            </div>
+            <div class="form-group">
+              <label for="inputDownloadLimit">Code</label>
+              <input type="text" class="form-control" id="inputDownloadCode" />
+            </div>
+            <button type="submit" class="btn btn-primary" id="download">
+              Download
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="modal" id="myModal4">
-      <div class="modal-dialog" style="">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <span id="them_vao2"></span>
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <label class="code">
+      <span>Code</span>
+      <input type="text" id="inputCode" />
+    </label>
+    <input type="checkbox" id="hasPlayer" checked hidden />
+    <span class="ml-2" id="roundId">Round: 1</span>
     <span id="them_vao1"></span>
-
     <span id="loading6"></span>
     <span id="m0"></span>
     <span id="m1"></span>

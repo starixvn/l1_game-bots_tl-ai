@@ -17,14 +17,14 @@ class Logger {
     };
   }
 
-  static insertLog() {
+  static insertLog(code = "", hasPlayer = false) {
     const options = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
-      body: JSON.stringify(roundData),
+      body: JSON.stringify({ ...roundData, code, hasPlayer }),
     };
     return fetch("/log", options)
       .then(() => this.reset())

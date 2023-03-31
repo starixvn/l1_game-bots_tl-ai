@@ -167,7 +167,9 @@ function changeTurn(handIdString) {
 }
 
 function endRound() {
-  Logger.insertLog().then(() => {
+  const code = $("#inputCode").val();
+  const hasPlayer = $("#hasPlayer").is(":checked");
+  Logger.insertLog(code, hasPlayer).then(() => {
     const autoNewRound = $("#autoContinue").is(":checked");
     const limitRound = $("#limitRound").val();
     autoNewRound && roundId < limitRound

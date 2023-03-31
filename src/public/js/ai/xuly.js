@@ -18,7 +18,10 @@ var play_thang = [],
   v_err = [],
   v_err_1 = [],
   v_err_2 = [],
-  lkt = "";
+  lkt = "",
+  originalCards0 = [],
+  roundId = 1;
+hasPlayer = true;
 $(document).ready(function () {
   var ten_N_N = [
     "Lan",
@@ -99,6 +102,7 @@ $(document).ready(function () {
     u = sapxep(u);
   });
   $("#btnbatdau").click(function () {
+    Logger.addTurn();
     $("#tai_truoc7").trigger("play");
     //$('.play').trigger("play");
     // mySound.play();
@@ -195,7 +199,7 @@ $(document).ready(function () {
     may1 = m2;
     may2 = m3;
     may3 = m4;
-
+    Logger.logInitCards(may0, may1, may2, may3);
     /*may0=["anh/14d.png","anh/16a.png"];
 		 may1=["anh/03b.png", "anh/03c.png", "anh/03d.png"];
 		 may2=["anh/04b.png", "anh/04c.png", "anh/04d.png"];
@@ -376,7 +380,8 @@ $(document).ready(function () {
 
   $("#btntieptuc").click(function () {
     hien2("");
-    //document.getElementById("btntieptuc").onclick();//ach su dung khong can jquery
+    roundId++;
+    $("#roundId").text("Round: " + roundId);
     $("#them_vao1").prepend(`============================== <br />`);
 
     $("#btntieptuc").hide();
@@ -404,6 +409,7 @@ $(document).ready(function () {
         document.getElementById("btnSendMessage").disabled = true;
         document.getElementById("btnboluot").disabled = true;
         var n1 = may0;
+        originalCards0 = [...may0];
         //var n2 = n1.split(",");
         var xoa = giaomang(n1, u);
         may0 = xoa;
@@ -431,7 +437,7 @@ $(document).ready(function () {
           document.getElementById("btnSendMessage").disabled = true;
           document.getElementById("btnboluot").disabled = true;
           var n1 = may0;
-          //var n2 = n1.split(",");
+          originalCards0 = [...may0];
           var xoa = giaomang(n1, u);
           may0 = xoa;
           hien(may0, "a");
@@ -479,6 +485,7 @@ $(document).ready(function () {
   });
   $("#thang").click(function () {
     //nguoi danh
+    Logger.logWinner(thang);
     if (thang.length <= 3 && play_nhac == 0) {
       play_nhac = 1;
       if (thang[0] == "0") $("#tai_truoc10").trigger("play");
@@ -498,6 +505,7 @@ $(document).ready(function () {
     u = [];
     heo = [];
     may0 = [];
+    originalCards0 = [];
     may1 = [];
     may2 = [];
     may3 = [];
@@ -510,9 +518,9 @@ $(document).ready(function () {
     hs = 0;
     off_tuanhanh == 0;
 
-    $("#btntieptuc").show();
+    endRound();
   });
-  function chuyen_bai(a) {
+  function renderCardValue(a) {
     var kq = [];
     var kq2 = [];
     var b = {
@@ -594,7 +602,6 @@ $(document).ready(function () {
         v_err = [];
         v_err_1 = [];
         v_err_2 = [];
-        console.log(may0.length + " M0 đánh " + test1 + "---" + boluot);
         v_err.push(
           "M0 còn lại:" +
             may0.length +
@@ -604,8 +611,9 @@ $(document).ready(function () {
             thang +
             "<br>"
         );
-        v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
-        v_err_2.push("M0 con lai:" + chuyen_bai(may0) + "<br>");
+        Logger.logTurn("Bot0", chuyen_bai(test1), chuyen_bai(originalCards0));
+        v_err_1.push("Tôi đánh: " + renderCardValue(test1) + "<br>");
+        v_err_2.push("M0 con lai:" + renderCardValue(may0) + "<br>");
 
         //$("#mm0").text(mm_0+"("+may0.length+")");
 
@@ -613,13 +621,8 @@ $(document).ready(function () {
         $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -652,7 +655,7 @@ $(document).ready(function () {
           } else
             setTimeout(function () {
               if (pi1 == "9") {
-                $("#btntieptuc").show();
+                endRound();
               } else document.getElementById("m" + pi1).click();
             }, tuanhanh); //0 1 2 3
         }
@@ -661,42 +664,31 @@ $(document).ready(function () {
         pi1 = an(boluot, 0, thang);
         // lkt=pi1;
         if (pi1 == "0") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           if (thang.length == 3) {
-            $("#btntieptuc").show();
+            endRound();
           }
-          //huongsai=[];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         v_err = [];
         v_err_1 = [];
         v_err_2 = [];
-        console.log(may0.length + " M0 đánh " + test1 + "---" + boluot);
         v_err.push(
           "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
-        v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
-        v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
+        Logger.logTurn("Bot0", chuyen_bai(test1), chuyen_bai(originalCards0));
+        v_err_1.push("Tôi đánh: " + renderCardValue(test1) + "<br>");
+        v_err_2.push("M0 còn lại:" + renderCardValue(may0) + "<br>");
         //$("#mm0").text(mm_0+"("+may0.length+")");
         $("#them_vao").append(v_err);
         $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
 
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           if (thang.length == 3) {
-            $("#btntieptuc").show();
+            endRound();
           }
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -736,7 +728,7 @@ $(document).ready(function () {
             } else
               setTimeout(function () {
                 if (pi1 == "9") {
-                  $("#btntieptuc").show();
+                  endRound();
                 } else document.getElementById("m" + pi1).click();
               }, tuanhanh); //0 1 2 3
           }
@@ -747,12 +739,12 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may0.length + " M0 đánh " + test1 + "--" + boluot);
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
-      v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
+      Logger.logTurn("Bot0", chuyen_bai(test1), chuyen_bai(originalCards0));
+      v_err_1.push("Tôi đánh: " + renderCardValue(test1) + "<br>");
+      v_err_2.push("M0 còn lại:" + renderCardValue(may0) + "<br>");
 
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
@@ -766,12 +758,7 @@ $(document).ready(function () {
       }
 
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
 
       if (thang.length == 3) {
@@ -801,23 +788,18 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may0.length + " M0 đánh" + test1 + "--" + boluot);
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
-      v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
+      Logger.logTurn("Bot0", chuyen_bai(test1), chuyen_bai(originalCards0));
+      v_err_1.push("Tôi đánh: " + renderCardValue(test1) + "<br>");
+      v_err_2.push("M0 còn lại:" + renderCardValue(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -849,22 +831,18 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may0.length + " M0 đánh " + test1 + "--" + boluot);
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
-      v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
+      Logger.logTurn("Bot0", chuyen_bai(test1), chuyen_bai(originalCards0));
+      v_err_1.push("Tôi đánh: " + renderCardValue(test1) + "<br>");
+      v_err_2.push("M0 còn lại:" + renderCardValue(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -892,22 +870,18 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may0.length + " M0 đánh " + test1 + "--" + boluot);
       v_err.push(
         "M0:" + may0.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
-      v_err_1.push("Tôi đánh: " + chuyen_bai(test1) + "<br>");
-      v_err_2.push("M0 còn lại:" + chuyen_bai(may0) + "<br>");
+      Logger.logTurn("Bot0", chuyen_bai(test1), chuyen_bai(originalCards0));
+      v_err_1.push("Tôi đánh: " + renderCardValue(test1) + "<br>");
+      v_err_2.push("M0 còn lại:" + renderCardValue(may0) + "<br>");
       //$("#mm0").text(mm_0+"("+may0.length+")");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -939,26 +913,21 @@ $(document).ready(function () {
         pi1 = an(boluot, 1, thang);
 
         v_err_1 = [];
-        console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
+        Logger.logTurn("Bot1", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
         $("#mm1").text(mm_1 + "(" + may1.length + ")");
         $("#them_vao1").prepend(v_err_1);
 
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -986,7 +955,7 @@ $(document).ready(function () {
           } else
             setTimeout(function () {
               if (pi1 == "9") {
-                $("#btntieptuc").show();
+                endRound();
               } else document.getElementById("m" + pi1).click();
             }, tuanhanh); //0 1 2 3
         }
@@ -1011,40 +980,29 @@ $(document).ready(function () {
 
         pi1 = an(boluot, 1, thang);
         v_err_1 = [];
-        console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
         v_err.push(
           "M1:" + may1.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
+        Logger.logTurn("Bot1", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
         $("#mm1").text(mm_1 + "(" + may1.length + ")");
         $("#them_vao1").prepend(v_err_1);
         if (pi1 == "1") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           if (thang.length == 3) {
-            $("#btntieptuc").show();
+            endRound();
           }
-          //huongsai=[];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -1077,7 +1035,7 @@ $(document).ready(function () {
             } else
               setTimeout(function () {
                 if (pi1 == "9") {
-                  $("#btntieptuc").show();
+                  endRound();
                 } else document.getElementById("m" + pi1).click();
               }, tuanhanh); //0 1 2 3
           }
@@ -1104,33 +1062,23 @@ $(document).ready(function () {
         boluot.push("1");
       }
       v_err_1 = [];
-      console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot1", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
       $("#them_vao1").prepend(v_err_1);
 
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-        layer0 = [];
-
-        hien2("");
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       } else if (boluot.length >= 4 && huongsai != "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-        layer0 = [];
-
+        resetNewTurn();
         huongsai = [];
-        hien2("");
-        $("#them_vao1").prepend("<hr />");
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1169,24 +1117,19 @@ $(document).ready(function () {
         boluot.push("1");
       }
       v_err_1 = [];
-      console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot1", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
       $("#them_vao1").prepend(v_err_1);
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1230,25 +1173,19 @@ $(document).ready(function () {
         boluot.push("1");
       }
       v_err_1 = [];
-      console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot1", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
       $("#them_vao1").prepend(v_err_1);
-      console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1270,12 +1207,7 @@ $(document).ready(function () {
         }
       }
     } else if (boluot.indexOf("1") < 0) {
-      boluot = [];
-      boluot = giaomang1(thang);
-
-      hien2("");
-      layer0 = [];
-      $("#them_vao1").prepend("<hr />");
+      resetNewTurn();
       _d_f = AI(layer0, may1); //0  1  2  3
       if (_d_f != "") {
         huongsai = [];
@@ -1294,13 +1226,13 @@ $(document).ready(function () {
         layer0 = _d_f;
       }
       v_err_1 = [];
-      console.log(may1.length + " M1 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot1", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm1").text(mm_1 + "(" + may1.length + ")");
@@ -1338,26 +1270,20 @@ $(document).ready(function () {
         pi1 = an(boluot, 2, thang);
         //lkt=pi1;
         v_err_1 = [];
-
-        console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
+        Logger.logTurn("Bot2", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
         $("#mm2").text(mm_2 + "(" + may2.length + ")");
         $("#them_vao1").prepend(v_err_1);
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -1378,14 +1304,14 @@ $(document).ready(function () {
             $("#mm2").css("backgroundColor", "blue");
           if (boluot.indexOf("3") >= 0)
             $("#mm3").css("backgroundColor", "blue");
-          // v_err_2.push("M2 con lai:"+chuyen_bai(may2));
+          // v_err_2.push("M2 con lai:"+renderCardValue(may2));
           if (pi1 == "0") {
             document.getElementById("btnSendMessage").disabled = false;
             document.getElementById("btnboluot").disabled = false;
           } else
             setTimeout(function () {
               if (pi1 == "9") {
-                $("#btntieptuc").show();
+                endRound();
               } else document.getElementById("m" + pi1).click();
             }, tuanhanh); //0 1 2 3
         }
@@ -1409,37 +1335,26 @@ $(document).ready(function () {
 
         pi1 = an(boluot, 2, thang);
         v_err_1 = [];
-        console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
+        Logger.logTurn("Bot2", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
         $("#mm2").text(mm_2 + "(" + may2.length + ")");
         $("#them_vao1").prepend(v_err_1);
         if (pi1 == "2") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           if (thang.length == 3) {
-            $("#btntieptuc").show();
+            endRound();
           }
-          //huongsai=[];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -1467,13 +1382,13 @@ $(document).ready(function () {
               $("#mm2").css("backgroundColor", "blue");
             if (boluot.indexOf("3") >= 0)
               $("#mm3").css("backgroundColor", "blue");
-            // v_err_2.push("M2 con lai:"+chuyen_bai(may2));
+            // v_err_2.push("M2 con lai:"+renderCardValue(may2));
             if (pi1 == "0") {
               document.getElementById("btnSendMessage").disabled = false;
             } else
               setTimeout(function () {
                 if (pi1 == "9") {
-                  $("#btntieptuc").show();
+                  endRound();
                 } else document.getElementById("m" + pi1).click();
               }, tuanhanh); //0 1 2 3
           }
@@ -1500,25 +1415,20 @@ $(document).ready(function () {
         boluot.push("2");
       }
       v_err_1 = [];
-      console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot2", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
       $("#them_vao1").prepend(v_err_1);
 
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1557,25 +1467,19 @@ $(document).ready(function () {
         boluot.push("2");
       }
       v_err_1 = [];
-      console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot2", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
       $("#them_vao1").prepend(v_err_1);
-      console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1623,25 +1527,20 @@ $(document).ready(function () {
         boluot.push("2");
       }
       v_err_1 = [];
-      console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
+      Logger.logTurn("Bot2", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
       $("#them_vao1").prepend(v_err_1);
 
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -1660,12 +1559,7 @@ $(document).ready(function () {
         }, tuanhanh); //0 1 2 3
       }
     } else if (boluot.indexOf("2") < 0) {
-      boluot = [];
-      boluot = giaomang1(thang);
-
-      hien2("");
-      layer0 = [];
-      $("#them_vao1").prepend("<hr />");
+      resetNewTurn();
       _d_f = AI(layer0, may1); //0  1  2  3
       if (_d_f != "") {
         huongsai = [];
@@ -1686,19 +1580,19 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may2.length + " M2 đánh" + _d_f + "---" + boluot);
       v_err.push(
         "M2:" + may2.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
+      Logger.logTurn("Bot2", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
-      v_err_2.push("M2 còn lại:" + chuyen_bai(may2) + "<br>");
+      v_err_2.push("M2 còn lại:" + renderCardValue(may2) + "<br>");
       $("#mm2").text(mm_2 + "(" + may2.length + ")");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
@@ -1715,10 +1609,10 @@ $(document).ready(function () {
         if (boluot.indexOf("2") >= 0) $("#mm2").css("backgroundColor", "blue");
         if (boluot.indexOf("3") >= 0) $("#mm3").css("backgroundColor", "blue");
         $("#mm2").css("backgroundColor", "yellow");
-        //v_err_2.push("M2 con lai:"+chuyen_bai(may2));
+        //v_err_2.push("M2 con lai:"+renderCardValue(may2));
         setTimeout(function () {
           document.getElementById("m2").click();
-          //v_err_2.push("M2 con lai:"+chuyen_bai(may2)+"<br>");
+          //v_err_2.push("M2 con lai:"+renderCardValue(may2)+"<br>");
         }, tuanhanh); //0 1 2 3
       }
     }
@@ -1739,32 +1633,27 @@ $(document).ready(function () {
         v_err_1 = [];
         v_err_2 = [];
 
-        console.log(may3.length + " M3 đánh " + _d_f + "---" + boluot);
         v_err.push(
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
+        Logger.logTurn("Bot3", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
-        v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
+        v_err_2.push("M3 còn lại:" + renderCardValue(may3) + "<br>");
         $("#mm3").text(mm_3 + "(" + may3.length + ")");
         $("#them_vao").append(v_err);
         $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
 
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
         if (thang.length == 3) {
           document.getElementById("thang").click();
@@ -1785,14 +1674,14 @@ $(document).ready(function () {
             $("#mm2").css("backgroundColor", "blue");
           if (boluot.indexOf("3") >= 0)
             $("#mm3").css("backgroundColor", "blue");
-          // v_err_2.push("M3 con lai:"+chuyen_bai(may3));
+          // v_err_2.push("M3 con lai:"+renderCardValue(may3));
           if (pi1 == "0") {
             document.getElementById("btnSendMessage").disabled = false;
             document.getElementById("btnboluot").disabled = false;
           } else
             setTimeout(function () {
               if (pi1 == "9") {
-                $("#btntieptuc").show();
+                endRound();
                 alert(1);
               } else document.getElementById("m" + pi1).click();
             }, tuanhanh); //0 1 2 3
@@ -1819,44 +1708,33 @@ $(document).ready(function () {
         v_err = [];
         v_err_1 = [];
         v_err_2 = [];
-        console.log(may3.length + " M3 đánh " + _d_f + "---" + boluot);
         v_err.push(
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
+        Logger.logTurn("Bot3", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
-        v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
+        v_err_2.push("M3 còn lại:" + renderCardValue(may3) + "<br>");
         $("#mm3").text(mm_3 + "(" + may3.length + ")");
         $("#them_vao").append(v_err);
         $("#them_vao1").prepend(v_err_1);
         $("#them_vao2").append(v_err_2);
         if (pi1 == "3") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           if (thang.length == 3) {
-            $("#btntieptuc").show();
+            endRound();
           }
-          //huongsai=[];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
 
         if (boluot.length >= 4 && huongsai != "") {
-          boluot = [];
-          boluot = giaomang1(thang);
-          layer0 = [];
-
+          resetNewTurn();
           huongsai = [];
-          hien2("");
-          $("#them_vao1").prepend("<hr />");
         }
 
         if (pi1 == "0") {
@@ -1890,13 +1768,13 @@ $(document).ready(function () {
               $("#mm2").css("backgroundColor", "blue");
             if (boluot.indexOf("3") >= 0)
               $("#mm3").css("backgroundColor", "blue");
-            //v_err_2.push("M3 con lai:"+chuyen_bai(may3)+"<br>");
+            //v_err_2.push("M3 con lai:"+renderCardValue(may3)+"<br>");
             if (pi1 == "0") {
               document.getElementById("btnSendMessage").disabled = false;
             } else
               setTimeout(function () {
                 if (pi1 == "9") {
-                  $("#btntieptuc").show();
+                  endRound();
                 } else document.getElementById("m" + pi1).click();
               }, tuanhanh); //0 1 2 3
           }
@@ -1923,19 +1801,19 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may3.length + " M3 đánh " + _d_f + "---" + boluot);
       v_err.push(
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
+      Logger.logTurn("Bot3", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
-      v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
+      v_err_2.push("M3 còn lại:" + renderCardValue(may3) + "<br>");
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
 
       v_err.unshift("<hr>");
@@ -1943,14 +1821,8 @@ $(document).ready(function () {
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
-      console.log("--------------------------------");
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
 
       // setTimeout(function(){document.getElementById('m1').click();}, 2000); //0 1 2 3
@@ -1966,7 +1838,7 @@ $(document).ready(function () {
         if (boluot.indexOf("2") >= 0) $("#mm2").css("backgroundColor", "blue");
         if (boluot.indexOf("3") >= 0) $("#mm3").css("backgroundColor", "blue");
         $("#mm0").css("backgroundColor", "yellow");
-        //v_err_2.push("M3 con lai:"+chuyen_bai(may3));
+        //v_err_2.push("M3 con lai:"+renderCardValue(may3));
         if (layer0 == "") {
           document.getElementById("btnSendMessage").disabled = false;
         } else {
@@ -1999,31 +1871,26 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may3.length + " M3 đánh " + _d_f + "---" + boluot);
       v_err.push(
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
+      Logger.logTurn("Bot3", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
-      v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
+      v_err_2.push("M3 còn lại:" + renderCardValue(may3) + "<br>");
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
 
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -2037,10 +1904,10 @@ $(document).ready(function () {
         if (boluot.indexOf("2") >= 0) $("#mm2").css("backgroundColor", "blue");
         if (boluot.indexOf("3") >= 0) $("#mm3").css("backgroundColor", "blue");
         $("#mm1").css("backgroundColor", "yellow");
-        //v_err_2.push("M3 con lai:"+chuyen_bai(may3));
+        //v_err_2.push("M3 con lai:"+renderCardValue(may3));
         setTimeout(function () {
           document.getElementById("m1").click();
-          //v_err_2.push("M3 con lai:"+chuyen_bai(may3)+"<br>");
+          //v_err_2.push("M3 con lai:"+renderCardValue(may3)+"<br>");
         }, tuanhanh); //0 1 2 3
       }
     } else if (
@@ -2072,31 +1939,26 @@ $(document).ready(function () {
       v_err = [];
       v_err_1 = [];
       v_err_2 = [];
-      console.log(may3.length + " M3 đánh " + _d_f + "---" + boluot);
       v_err.push(
         "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
       );
+      Logger.logTurn("Bot3", chuyen_bai(_d_f), chuyen_bai(originalCards));
       v_err_1.push(
         name +
           " đánh: " +
-          chuyen_bai(_d_f) +
+          renderCardValue(_d_f) +
           " *** (" +
-          chuyen_bai(originalCards) +
+          renderCardValue(originalCards) +
           ")<br>"
       );
-      v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
+      v_err_2.push("M3 còn lại:" + renderCardValue(may3) + "<br>");
       $("#mm3").text(mm_3 + "(" + may3.length + ")");
       $("#them_vao").append(v_err);
       $("#them_vao1").prepend(v_err_1);
       $("#them_vao2").append(v_err_2);
 
       if (boluot.length >= 3 && huongsai == "") {
-        boluot = [];
-        boluot = giaomang1(thang);
-
-        hien2("");
-        layer0 = [];
-        $("#them_vao1").prepend("<hr />");
+        resetNewTurn();
       }
       if (thang.length == 3) {
         document.getElementById("thang").click();
@@ -2110,18 +1972,13 @@ $(document).ready(function () {
         if (boluot.indexOf("2") >= 0) $("#mm2").css("backgroundColor", "blue");
         if (boluot.indexOf("3") >= 0) $("#mm3").css("backgroundColor", "blue");
         $("#mm2").css("backgroundColor", "yellow");
-        //v_err_2.push("M3 con lai:"+chuyen_bai(may3)+"<br>");
+        //v_err_2.push("M3 con lai:"+renderCardValue(may3)+"<br>");
         setTimeout(function () {
           document.getElementById("m2").click();
         }, tuanhanh); //0 1 2 3
       }
     } else if (boluot.indexOf("3") < 0) {
-      boluot = [];
-      boluot = giaomang1(thang);
-
-      hien2("");
-      layer0 = [];
-      $("#them_vao1").prepend("<hr />");
+      resetNewTurn();
       _d_f = AI(layer0, may3); //0  1  2  3
       if (_d_f != "") {
         huongsai = [];
@@ -2142,19 +1999,19 @@ $(document).ready(function () {
         v_err = [];
         v_err_1 = [];
         v_err_2 = [];
-        console.log(may3.length + " M3 đánh " + _d_f + "---" + boluot);
         v_err.push(
           "M3:" + may3.length + "--bl:" + boluot + "--t:" + thang + "<br>"
         );
+        Logger.logTurn("Bot3", chuyen_bai(_d_f), chuyen_bai(originalCards));
         v_err_1.push(
           name +
             " đánh: " +
-            chuyen_bai(_d_f) +
+            renderCardValue(_d_f) +
             " *** (" +
-            chuyen_bai(originalCards) +
+            renderCardValue(originalCards) +
             ")<br>"
         );
-        v_err_2.push("M3 còn lại:" + chuyen_bai(may3) + "<br>");
+        v_err_2.push("M3 còn lại:" + renderCardValue(may3) + "<br>");
         $("#mm3").text(mm_3 + "(" + may3.length + ")");
         $("#them_vao").append(v_err);
         $("#them_vao1").prepend(v_err_1);
@@ -2172,7 +2029,7 @@ $(document).ready(function () {
         if (boluot.indexOf("2") >= 0) $("#mm2").css("backgroundColor", "blue");
         if (boluot.indexOf("3") >= 0) $("#mm3").css("backgroundColor", "blue");
         $("#mm3").css("backgroundColor", "yellow");
-        //v_err_2.push("M3 con lai:"+chuyen_bai(may3)+"<br>");
+        //v_err_2.push("M3 con lai:"+renderCardValue(may3)+"<br>");
         setTimeout(function () {
           document.getElementById("m3").click();
         }, 2000); //0 1 2 3

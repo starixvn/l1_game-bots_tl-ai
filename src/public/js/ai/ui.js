@@ -21,19 +21,17 @@ function logTurn(handId, droppedCards, originalCards) {
   const textContent = document
     .getElementById(`mm${handId}`)
     .textContent.split("(")[0];
-  v_err_1 = [];
   const dropped = chuyen_bai(droppedCards);
   const beforeDropCards = chuyen_bai(originalCards);
   Logger.logTurn(name, dropped, beforeDropCards);
-  v_err_1.push(
+  $(`#mm${handId}`).text(
+    textContent + "(" + (originalCards.length - droppedCards.length) + ")"
+  );
+  $("#them_vao1").prepend(
     `${name} đánh: ${dropped.map((card) =>
       renderLogUICard(card)
     )} *** (${beforeDropCards.map((card) => renderLogUICard(card))})<br>`
   );
-  $(`#mm${handId}`).text(
-    textContent + "(" + (originalCards.length - droppedCards.length) + ")"
-  );
-  $("#them_vao1").prepend(v_err_1);
 }
 
 function renderLogUICard(card) {

@@ -1,8 +1,17 @@
 $(document).ready(function () {
+  const code = makeId();
+  $("#inputDownloadCode").val(code);
+  $("#inputCode").val(code);
+
   $("#download").click(function () {
     const limitRound = +$("#inputDownloadLimit").val();
+    const code = $("#inputDownloadCode").val();
+    const hasPlayer = $("#hasPlayer").is(":checked");
+    const url = `/log?limitRound=${limitRound}&code=${code}${
+      hasPlayer ? "&hasPlayer=1" : ""
+    }`;
     $.ajax({
-      url: `/log?limitRound=${limitRound}`,
+      url,
       method: "GET",
       dataType: "json",
       contentType: "application/json",
@@ -15,4 +24,18 @@ $(document).ready(function () {
       },
     });
   });
+
+  function makeId(length = 9) {
+    let result = "";
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+      counter += 1;
+    }
+    return result;
+  }
 });

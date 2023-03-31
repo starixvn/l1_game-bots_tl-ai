@@ -783,12 +783,8 @@ function hien2(a) {
   var html = "";
   var a1 = [];
   a1 = a;
-  //alert(a1);
-  //a1=loc_anh(img);
 
   for (var j = 0; j < a1.length; j++) {
-    /////////anh len xuong
-
     k2 += 20;
     k3 = 100;
     html +=
@@ -803,7 +799,8 @@ function hien2(a) {
       ";'></img>";
   }
   var k = $("#listMessages").val();
-  //  console.log(a1);
+  $("#history2").html($("#listMessages").html());
+
   $("#listMessages").html("");
 
   $("#listMessages").html(html);

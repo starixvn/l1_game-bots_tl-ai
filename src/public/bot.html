@@ -143,6 +143,7 @@
         </button>
       </div>
       <div id="listMessages"></div>
+      <div id="history2"></div>
       <span id="mm0">M0</span>
       <span id="mm1">M1</span>
       <span id="mm2">M2</span>
@@ -209,7 +210,7 @@
       </label>
 
       <div class="speed">
-        <span>Speed</span>
+        <span><b>Speed</b></span>
         <div class="ml-5">
           <input type="radio" name="speed" value="2000" id="speed-slow" />
           <label for="speed-slow" style="width: 80px">Slow</label>
@@ -248,33 +249,6 @@
         </div>
       </div>
     </div>
-    <div class="modal" id="myModal2">
-      <div class="modal-dialog" style="">
-        <div class="modal-content">
-          <!-- Modal Header -->
-
-          <div class="modal-header">
-            <span id="them_vao"></span>
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal" id="myModal4">
-      <div class="modal-dialog" style="">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <span id="them_vao2"></span>
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
     <div
       class="modal fade"
       id="downloadModal"
@@ -306,6 +280,10 @@
                 value="100"
               />
             </div>
+            <div class="form-group">
+              <label for="inputDownloadLimit">Code</label>
+              <input type="text" class="form-control" id="inputDownloadCode" />
+            </div>
             <button type="submit" class="btn btn-primary" id="download">
               Download
             </button>
@@ -313,6 +291,10 @@
         </div>
       </div>
     </div>
+    <label class="code">
+      <span>Code</span>
+      <input type="text" id="inputCode" />
+    </label>
     <span class="ml-2" id="roundId">Round: 1</span>
     <span id="them_vao1"></span>
     <span id="loading6"></span>
