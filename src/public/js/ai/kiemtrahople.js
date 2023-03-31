@@ -754,7 +754,7 @@ function hien(mr, id) {
       a1[j] +
       "'  value='" +
       a1[j] +
-      "' style=' position:absolute; width: 100;  left: " +
+      "' style=' position:absolute; width: 73;  left: " +
       k2 +
       "; top: " +
       k3 +
