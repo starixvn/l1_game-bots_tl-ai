@@ -20,7 +20,8 @@ var play_thang = [],
   v_err_2 = [],
   lkt = "",
   originalCards0 = [],
-  roundId = 1;
+  roundId = 1,
+  numberBot = 4;
 hasPlayer = true;
 $(document).ready(function () {
   var ten_N_N = [

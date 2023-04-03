@@ -19,16 +19,13 @@ var play_thang = [],
   v_err_1 = [],
   v_err_2 = [],
   lkt = "",
-  roundId = 1;
+  roundId = 1,
+  numberBot = 4;
 $(document).ready(function () {
   $("#mm0").text("Bot1");
   $("#mm1").text("Bot2");
   $("#mm2").text("Bot3");
   $("#mm3").text("Bot4");
-  var mm_0 = document.getElementById("mm0").textContent;
-  var mm_1 = document.getElementById("mm1").textContent;
-  var mm_2 = document.getElementById("mm2").textContent;
-  var mm_3 = document.getElementById("mm3").textContent;
   document.getElementById("btnSendMessage").disabled = true;
   document.getElementById("btnboluot").disabled = true;
   $("#tn").hide();
@@ -63,11 +60,20 @@ $(document).ready(function () {
     u = sapxep(u);
   });
   $("#btnbatdau").click(function () {
+    numberBot = getNumberBot();
+    boluot = getSkipTurn();
+
     $("#tai_truoc7").trigger("play");
     play_nhac = 0;
     $("#tn").hide();
     Logger.addTurn();
-    var img = [
+    $("#mm0").css("background-color", "transparent");
+    $("#mm1").css("background-color", "transparent");
+    $("#mm2").css("background-color", "blue");
+    $("#mm3").css("background-color", "blue");
+    $("#btnbatdau").hide();
+
+    const img = [
       "anh/03a.png",
       "anh/03b.png",
       "anh/03c.png",
@@ -121,194 +127,47 @@ $(document).ready(function () {
       "anh/16c.png",
       "anh/16d.png",
     ];
-    var m1 = [];
-    var m2 = [];
-    var m3 = [];
-    var m4 = [];
-    var x0 = loc_anh(img);
-    var y1 = giaomang(img, x0);
-    var x2 = loc_anh(y1);
-    var y2 = giaomang(y1, x2);
-    var x3 = loc_anh(y2);
-    var y3 = giaomang(y2, x3);
-    //m1=sapxep(x1);
-    //m2=sapxep(x2);
-    //m3=sapxep(x3);
-    //m4=sapxep(y3);
-    ////////////////////////////////////////
+    may0 = dealCard(0, img);
+    const y1 = giaomang(img, may0);
+    may1 = dealCard(1, y1);
 
-    //var y2=x1.concat(x2);
-    //var	y21=y2.concat(x3);
-    //var y3=giaomang(img,y21);
+    let winningCards0 = getWinningCards(may0);
+    let winningCards1 = getWinningCards(may1);
+    let winningCards2 = [];
+    let winningCards3 = [];
 
-    m1 = sapxep(x0);
-    m2 = sapxep(x2);
-    m3 = sapxep(x3);
-    m4 = sapxep(loc_anh(y3));
-    //layer0=["anh/03a.png", "anh/03b.png", "anh/04a.png", "anh/04b.png", "anh/05a.png", "anh/05b.png"];
-    //
-    //boluot=["1"];
-    //hien2(layer0);
-    may0 = m1;
-    may1 = m2;
-    may2 = m3;
-    may3 = m4;
+    if (numberBot >= 3) {
+      const y2 = giaomang(y1, may1);
+      may2 = dealCard(2, y2);
+      $("#mm2").css("background-color", "transparent");
+      winningCards2 = getWinningCards(may2);
+      if (numberBot === 4) {
+        const y3 = giaomang(y2, may2);
+        may3 = dealCard(3, y3);
+        $("#mm3").css("background-color", "transparent");
+        winningCards3 = getWinningCards(may3);
+      }
+    }
+
     Logger.logInitCards(may0, may1, may2, may3);
 
-    hien(may0, "bot0");
-    hien(may1, "bot1");
-    hien(may2, "bot2");
-    hien(may3, "bot3");
-
-    $("#btnbatdau").hide();
-
-    $("#mm1").css("background-color", "transparent");
-    $("#mm2").css("background-color", "transparent");
-    $("#mm3").css("background-color", "transparent");
-    $("#mm0").css("background-color", "transparent");
-    $("#mm1").text(mm_1 + "(" + 13 + ")");
-    $("#mm2").text(mm_2 + "(" + 13 + ")");
-    $("#mm3").text(mm_3 + "(" + 13 + ")");
-    var doi1 = AIktra_doi(may1);
-    var doi_thong1 = AIktra_doithong(doi1);
-    var doi2 = AIktra_doi(may2);
-    var doi_thong2 = AIktra_doithong(doi2);
-    var doi3 = AIktra_doi(may3);
-    var doi_thong3 = AIktra_doithong(doi3);
-    var doi0 = AIktra_doi(may0);
-    var doi_thong0 = AIktra_doithong(doi0);
-    var heo40 = ktra_4_heo(may0);
-    var heo41 = ktra_4_heo(may1);
-    var heo42 = ktra_4_heo(may2);
-    var heo43 = ktra_4_heo(may3);
-    var sanh0 = AIktra_sanh(may0);
-    var sanh1 = AIktra_sanh(may1);
-    var sanh2 = AIktra_sanh(may2);
-    var sanh3 = AIktra_sanh(may3);
-
-    if (doi0.length == 12) {
-      hien2(doi0);
-      hien("", "bot0");
-      thang.push("0");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (doi1.length == 12) {
-      hien2(doi1);
-      hien("", "bot1");
-      thang.push("1");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (doi2.length == 12) {
-      hien2(doi2);
-      hien("", "bot2");
-      thang.push("2");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (doi3.length == 12) {
-      hien2(doi3);
-      hien("", "bot3");
-      thang.push("3");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (kiemtrahople(doi_thong0) == "5doithong") {
-      hien2(doi_thong0);
-      hien("", "bot0");
-      thang.push("0");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (kiemtrahople(doi_thong1) == "5doithong") {
-      hien2(doi_thong1);
-      hien("", "bot1");
-      thang.push("1");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (kiemtrahople(doi_thong2) == "5doithong") {
-      hien2(doi_thong2);
-      hien("", "bot2");
-      thang.push("2");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (kiemtrahople(doi_thong3) == "5doithong") {
-      hien2(doi_thong3);
-      hien("", "bot3");
-      thang.push("3");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (heo40.length == 4) {
-      hien2(heo40);
-      hien("", "bot0");
-      thang.push("0");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (heo41.length == 4) {
-      hien2(heo41);
-      hien("", "bot1");
-      thang.push("1");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (heo42.length == 4) {
-      hien2(heo42);
-      hien("", "bot2");
-      thang.push("2");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (heo43.length == 4) {
-      hien2(heo43);
-      hien("", "bot3");
-      thang.push("3");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (sanh0.length == 12) {
-      hien2(sanh0);
-      hien("", "bot0");
-      thang.push("0");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (sanh1.length == 12) {
-      hien2(sanh1);
-      hien("", "bot1");
-      thang.push("1");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (sanh2.length == 12) {
-      hien2(sanh2);
-      hien("", "bot2");
-      thang.push("2");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
-    } else if (sanh3.length == 12) {
-      hien2(sanh3);
-      hien("", "bot3");
-      thang.push("3");
-      setTimeout(function () {
-        document.getElementById("thang").click();
-      }, 2000);
+    if (winningCards0.length !== 0) {
+      showWinningCards(0, winningCards0);
+    } else if (winningCards1.length !== 0) {
+      showWinningCards(1, winningCards1);
+    } else if (numberBot === 3 && winningCards2.length !== 0) {
+      showWinningCards(2, winningCards2);
+    } else if (numberBot === 4 && winningCards3.length !== 0) {
+      showWinningCards(3, winningCards3);
     } else {
       const time = +$(`input[name="speed"]:checked`).val();
       if (thang1 == 0) {
+        $("#mm0").css("backgroundColor", "yellow");
         setTimeout(() => {
           document.getElementById("m0").click();
         }, time);
-
-        $("#mm0").css("backgroundColor", "yellow");
       } else if (thang1 == 1) {
         $("#mm1").css("backgroundColor", "yellow");
-
         setTimeout(function () {
           document.getElementById("m1").click();
         }, time);
@@ -328,6 +187,11 @@ $(document).ready(function () {
 
   $("#btntieptuc").click(function () {
     hien2("");
+    $("#history2").html("");
+    hien("", "bot1");
+    hien("", "bot2");
+    hien("", "bot3");
+    hien("", "bot4");
     roundId++;
     $("#roundId").text("Round: " + roundId);
     $("#them_vao1").prepend(`<hr />============================== <hr />`);
@@ -346,91 +210,125 @@ $(document).ready(function () {
     off_tuanhanh = 1;
   });
 
+  function dealCard(handId, images) {
+    const x0 = loc_anh(images);
+    const cards = sapxep(x0);
+    hien(cards, `bot${handId}`);
+    $(`#mm${handId}`).text(`Bot${handId}(13)`);
+    return cards;
+  }
+
+  function getWinningCards(cards) {
+    const doi = AIktra_doi(cards);
+    const doiThong = AIktra_doithong(doi);
+    const heo = ktra_4_heo(cards);
+    const sanh = AIktra_sanh(cards);
+    if (doi.length == 12) {
+      return doi;
+    } else if (kiemtrahople(doiThong) == "5doithong") {
+      return doiThong;
+    } else if (heo.length == 4) {
+      return heo;
+    } else if (sanh.length == 12) {
+      return sanh;
+    }
+    return [];
+  }
+
+  function showWinningCards(handId, cards) {
+    hien2(cards);
+    hien("", `bot${handId}`);
+    thang.push(handId.toString());
+    setTimeout(function () {
+      document.getElementById("thang").click();
+    }, 2000);
+  }
+
   ////////////////////////////////////////////////////////client server
 
-  $("#btnSendMessage").click(function () {
-    //nguoi danh
-    //var mySound = new sound("./sound/Button_Click.mp3");
-    //mySound.play();
-    const timeout = +$(`input[name="speed"]:checked`).val();
-    if (kiemtrahople(u) != "khonghople" && u != "") {
-      if (layer0 == "") {
-        document.getElementById("btnSendMessage").disabled = true;
-        document.getElementById("btnboluot").disabled = true;
-        var n1 = may0;
-        //var n2 = n1.split(",");
-        var xoa = giaomang(n1, u);
-        may0 = xoa;
-        hien(may0, "bot0");
+  // $("#btnSendMessage").click(function () {
+  //   //nguoi danh
+  //   //var mySound = new sound("./sound/Button_Click.mp3");
+  //   //mySound.play();
+  //   const timeout = +$(`input[name="speed"]:checked`).val();
+  //   if (kiemtrahople(u) != "khonghople" && u != "") {
+  //     if (layer0 == "") {
+  //       document.getElementById("btnSendMessage").disabled = true;
+  //       document.getElementById("btnboluot").disabled = true;
+  //       var n1 = may0;
+  //       //var n2 = n1.split(",");
+  //       var xoa = giaomang(n1, u);
+  //       may0 = xoa;
+  //       hien(may0, "bot0");
 
-        hien2(u);
+  //       hien2(u);
 
-        layer0 = u;
-        test1 = u;
-        u = [];
+  //       layer0 = u;
+  //       test1 = u;
+  //       u = [];
 
-        huongsai = [];
+  //       huongsai = [];
 
-        if (may0 == "") {
-          thang.push("0");
-          boluot.push("0");
-          huongsai.push(0);
-        }
+  //       if (may0 == "") {
+  //         thang.push("0");
+  //         boluot.push("0");
+  //         huongsai.push(0);
+  //       }
 
-        setTimeout(function () {
-          document.getElementById("m0").click();
-        }, timeout);
-      } else {
-        if (ktra_ng_danh(layer0, u) == "hople") {
-          document.getElementById("btnSendMessage").disabled = true;
-          document.getElementById("btnboluot").disabled = true;
-          var n1 = may0;
-          //var n2 = n1.split(",");
-          var xoa = giaomang(n1, u);
-          may0 = xoa;
-          hien(may0, "bot0");
+  //       setTimeout(function () {
+  //         document.getElementById("m0").click();
+  //       }, timeout);
+  //     } else {
+  //       if (ktra_ng_danh(layer0, u) == "hople") {
+  //         document.getElementById("btnSendMessage").disabled = true;
+  //         document.getElementById("btnboluot").disabled = true;
+  //         var n1 = may0;
+  //         //var n2 = n1.split(",");
+  //         var xoa = giaomang(n1, u);
+  //         may0 = xoa;
+  //         hien(may0, "bot0");
 
-          hien2(u);
+  //         hien2(u);
 
-          layer0 = u;
-          test1 = u;
-          u = [];
+  //         layer0 = u;
+  //         test1 = u;
+  //         u = [];
 
-          huongsai = [];
+  //         huongsai = [];
 
-          if (may0 == "") {
-            thang.push("0");
-            boluot.push("0");
-            huongsai.push(0);
-            off_tuanhanh == 0;
-          }
+  //         if (may0 == "") {
+  //           thang.push("0");
+  //           boluot.push("0");
+  //           huongsai.push(0);
+  //           off_tuanhanh == 0;
+  //         }
 
-          setTimeout(function () {
-            document.getElementById("m0").click();
-          }, 1000);
-        } else {
-          document.getElementById("khl").click();
-        }
-      }
-    } else {
-      document.getElementById("khl").click();
-    }
-  });
-  $("#btnboluot").click(function () {
-    //nguoi danh
-    $("#tai_truoc15").trigger("play");
+  //         setTimeout(function () {
+  //           document.getElementById("m0").click();
+  //         }, 1000);
+  //       } else {
+  //         document.getElementById("khl").click();
+  //       }
+  //     }
+  //   } else {
+  //     document.getElementById("khl").click();
+  //   }
+  // });
+  // $("#btnboluot").click(function () {
+  //   //nguoi danh
+  //   $("#tai_truoc15").trigger("play");
 
-    document.getElementById("btnSendMessage").disabled = true;
-    document.getElementById("btnboluot").disabled = true;
-    test1 = [];
-    //u=[];
-    if (boluot.indexOf("0") < 0) {
-      boluot.push("0");
-    }
-    setTimeout(function () {
-      document.getElementById("m0").click();
-    }, 1000);
-  });
+  //   document.getElementById("btnSendMessage").disabled = true;
+  //   document.getElementById("btnboluot").disabled = true;
+  //   test1 = [];
+  //   //u=[];
+  //   if (boluot.indexOf("0") < 0) {
+  //     boluot.push("0");
+  //   }
+  //   setTimeout(function () {
+  //     document.getElementById("m0").click();
+  //   }, 1000);
+  // });
   $("#thang").click(function () {
     //nguoi danh
     Logger.logWinner(thang);

@@ -59,7 +59,7 @@ function giaomang(a, b) {
   return c;
 }
 function giaomang1(b) {
-  var c = [];
+  var c = getSkipTurn();
   for (var i = 0; i < b.length; i++) {
     c.push(b[i]);
   }

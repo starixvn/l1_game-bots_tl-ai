@@ -24,7 +24,7 @@ function runBot(handId, cards) {
         resetNewTurn();
         huongsai = [];
       }
-      if (thang.length == 3) {
+      if (thang.length == numberBot - 1) {
         document.getElementById("thang").click();
         return null;
       } else {
@@ -44,7 +44,7 @@ function runBot(handId, cards) {
       if (boluot.length >= 3 && huongsai == "") {
         resetNewTurn();
       }
-      if (thang.length == 3) {
+      if (thang.length == numberBot - 1) {
         document.getElementById("thang").click();
         return null;
       } else {
@@ -65,7 +65,7 @@ function runBot(handId, cards) {
       if (boluot.length >= 3 && huongsai == "") {
         resetNewTurn();
       }
-      if (thang.length == 3) {
+      if (thang.length == numberBot - 1) {
         document.getElementById("thang").click();
         return null;
       } else {
@@ -80,7 +80,7 @@ function runBot(handId, cards) {
       }
       logTurn(handId, _d_f, originalCards);
 
-      if (thang.length == 3) {
+      if (thang.length == numberBot - 1) {
         document.getElementById("thang").click();
         return null;
       } else {
@@ -105,7 +105,7 @@ function huongsaiBot(handId, _d_f, originalCards, cards) {
       resetNewTurn();
       huongsai = [];
     }
-    if (thang.length == 3) {
+    if (thang.length == numberBot - 1) {
       document.getElementById("thang").click();
       return null;
     } else {
@@ -126,7 +126,7 @@ function huongsaiBot(handId, _d_f, originalCards, cards) {
       huongsai = [];
     }
 
-    if (thang.length == 3) {
+    if (thang.length == numberBot - 1) {
       document.getElementById("thang").click();
       return null;
     } else {
@@ -185,4 +185,20 @@ function resetNewTurn() {
   hien2("");
   Logger.addTurn();
   $("#them_vao1").prepend("<hr />");
+}
+
+function getNumberBot() {
+  return +$(`input[name="numberBot"]:checked`).val();
+}
+
+function getSkipTurn() {
+  console.log(numberBot);
+  switch (numberBot) {
+    case 2:
+      return ["2", "3"];
+    case 3:
+      return ["3"];
+    default:
+      return [];
+  }
 }
