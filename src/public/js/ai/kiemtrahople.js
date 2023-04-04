@@ -1,17 +1,4 @@
 function ktra_4_heo(a) {
-  // var kq1 = [];
-  // if (a.indexOf("anh/16a.png") >= 0) {
-  //   kq1.push("anh/16a.png");
-  // }
-  // if (a.indexOf("anh/16b.png") >= 0) {
-  //   kq1.push("anh/16b.png");
-  // }
-  // if (a.indexOf("anh/16c.png") >= 0) {
-  //   kq1.push("anh/16c.png");
-  // }
-  // if (a.indexOf("anh/16d.png") >= 0) {
-  //   kq1.push("anh/16d.png");
-  // }
   return a.filter((card) => card.includes("anh/16"));
 }
 
@@ -1018,7 +1005,7 @@ function kiemtrahople(data) {
         }
       } else if (dem == 8) {
         if (ktradoithong(data) == 0) {
-          g = rank;
+          g = rank.bondoithong;
         } else {
           g = rank.khonghople;
         }

@@ -19,6 +19,7 @@
     <script src="js/ai/logger.js"></script>
     <script src="js/ai/ui.js"></script>
     <script src="js/ai/dowload.js"></script>
+    <script src="js/ai/ultilities.js"></script>
   </head>
   <body>
     <div class="audio">
@@ -239,7 +240,7 @@
       <span id="mm1">M1</span>
       <span id="mm2">M2</span>
       <span id="mm3">M3</span>
-      <div id="a"></div>
+      <div id="bot0"></div>
       <div id="bot1"></div>
       <div id="bot2"></div>
       <div id="bot3"></div>
@@ -285,10 +286,35 @@
         <button type="button" class="btn btn-danger" id="btntieptuc">
           Tiếp tục
         </button>
-        <button type="button" class="btn btn-warning" id="tn" value="">
-          Tua nhanh
-        </button>
       </div>
+      <div class="speed">
+        <span><b>Speed</b></span>
+        <div class="ml-5">
+          <input type="radio" name="speed" value="2000" id="speed-slow" />
+          <label for="speed-slow" style="width: 80px">Slow</label>
+          <input
+            type="radio"
+            name="speed"
+            value="1000"
+            id="speed-normal"
+            checked
+          />
+          <label for="speed-normal" style="width: 80px">Normal</label>
+
+          <input type="radio" name="speed" value="500" id="speed-fast" />
+          <label for="speed-fast" style="width: 80px">Fast</label>
+          <input type="radio" name="speed" value="100" id="speed-super-fast" />
+          <label for="speed-super-fast">Super Fast</label>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-setting"
+        data-toggle="modal"
+        data-target="#settingModal"
+      >
+        Setting
+      </button>
     </div>
     <!-- The Modal -->
     <div class="modal" id="myModal">
@@ -349,6 +375,94 @@
             </div>
             <button type="submit" class="btn btn-primary" id="download">
               Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="settingModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="settingModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingModalLabel">Setting</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label for="limitRound" class="col-5 col-form-label"
+                >Limit Round</label
+              >
+              <div class="col-5">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="limitRound"
+                  value="10"
+                />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="autoContinue" class="col-5 col-form-label"
+                >Auto Continue</label
+              >
+              <div class="col-5">
+                <input
+                  type="checkbox"
+                  id="autoContinue"
+                  class="form-check-label mt-2"
+                  style="width: 20px; height: 20px"
+                />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-5 col-form-label">Number bots</label>
+              <div class="col-7 mt-2">
+                <input
+                  type="radio"
+                  name="numberBot"
+                  id="numberBot2"
+                  value="2"
+                />
+                <label for="numberBot2" style="width: 50px">1</label>
+                <input
+                  type="radio"
+                  name="numberBot"
+                  id="numberBot3"
+                  value="3"
+                />
+                <label for="numberBot3" style="width: 50px">2</label>
+                <input
+                  type="radio"
+                  name="numberBot"
+                  id="numberBot4"
+                  value="4"
+                  checked
+                />
+                <label for="numberBot4" style="width: 50px">3</label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
             </button>
           </div>
         </div>

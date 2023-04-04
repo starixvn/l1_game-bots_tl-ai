@@ -192,7 +192,6 @@ function getNumberBot() {
 }
 
 function getSkipTurn() {
-  console.log(numberBot);
   switch (numberBot) {
     case 2:
       return ["2", "3"];
