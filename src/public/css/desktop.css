@@ -1,5 +1,5 @@
 body {
-  background-color: antiquewhite;
+  background-color: #2a2852;
   overflow: hidden;
 }
 
@@ -15,6 +15,25 @@ body {
 #wrapper.show-logs {
   width: 1100px;
   background-size: 1100px 100%;
+}
+
+.image {
+  will-change: top;
+  transition: top 0.3s ease;
+}
+
+.animation {
+  opacity: 1;
+  animation: show 0.5s ease;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .table-bg {

@@ -1,11 +1,22 @@
 function runBot(handId, cards) {
   const originalCards = [...cards];
   let _d_f = AI(layer0, cards); //0  1  2  3  [""]
+
   const nextHandId = ((handId + 1) % 4).toString();
   const oppositeHandId = ((handId + 2) % 4).toString();
   const previousHandId = ((handId + 3) % 4).toString();
   const handIdString = handId.toString();
   let remainingCards = null;
+  let images = [...$(`#bot${handId} .image`)];
+
+  images.forEach((item) => {
+    const itemSrc = item.src.toString();
+    for (let card of _d_f) {
+      if (itemSrc.includes(card)) {
+        $(item).css("top", "70px");
+      }
+    }
+  });
 
   if (huongsai != "") {
     remainingCards = huongsaiBot(handId, _d_f, originalCards, cards);
@@ -139,6 +150,7 @@ function huongsaiBot(handId, _d_f, originalCards, cards) {
 
 function dropBotCard(handId, _d_f, cards) {
   const handIdString = handId.toString();
+  const timeout = +$(`input[name="speed"]:checked`).val();
 
   huongsai = [];
   const s1 = giaomang(cards, _d_f);
@@ -149,8 +161,11 @@ function dropBotCard(handId, _d_f, cards) {
     boluot.push(handIdString);
     huongsai.push(handId);
   }
-  hien(remainingCards, `bot${handId}`);
-  hien2(_d_f);
+  setTimeout(() => {
+    hien(remainingCards, `bot${handId}`);
+    hien2(_d_f);
+  }, timeout / 2);
+
   layer0 = _d_f;
   return remainingCards;
 }

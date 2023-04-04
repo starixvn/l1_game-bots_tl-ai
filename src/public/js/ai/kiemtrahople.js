@@ -735,13 +735,13 @@ function hien(mr, id) {
     ////////
 
     k +=
-      "<img class='image' id='" +
+      "<img class='image animation' id='" +
       j +
       "' src='" +
       a1[j] +
       "'  value='" +
       a1[j] +
-      "' style=' position:absolute; width: 73;  left: " +
+      "' style='position:absolute; width: 73;  left: " +
       k2 +
       "; top: " +
       k3 +
@@ -775,7 +775,7 @@ function hien2(a) {
     k2 += 20;
     k3 = 100;
     html +=
-      "<img src='" +
+      "<img  src='" +
       a1[j] +
       "' value='" +
       a1[j] +
