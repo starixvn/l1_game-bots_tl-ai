@@ -1,169 +1,226 @@
 <html>
-  <head>
-    <title>Tiến lên miền nam</title>
-    <link rel="icon" href="img/clover.png" type="image/png" />
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/desktop.css" />
-    <script src="js/library/jquery.min.js"></script>
-    <script src="js/library/popper.min.js"></script>
-    <script src="js/library/bootstrap.min.js"></script>
-    <script src="js/ai/load_data.js"></script>
-    <script src="js/ai/ai.js"></script>
-    <script src="js/ai/kiemtrahople.js"></script>
-    <script src="js/ai/contants.js"></script>
-    <script src="js/ai/cards.js"></script>
-    <script src="js/ai/xuly.js"></script>
-    <script src="js/ai/bot.js"></script>
-    <script src="js/ai/logger.js"></script>
-    <script src="js/ai/ui.js"></script>
-    <script src="js/ai/dowload.js"></script>
-    <script src="js/ai/ultilities.js"></script>
-  </head>
-  <body>
+
+<head>
+  <title>Tiến lên miền nam</title>
+  <link rel="icon" href="img/clover.png" type="image/png" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/desktop.css" />
+
+</head>
+
+<body>
+  <img id="loading" src="img/load.gif" />
+
+  <div id="wrapper">
+    <img class="table-bg" src="img/tienlen_table.png" alt="bg" />
+    <div id="doithu"></div>
+    <div id="listMessages"></div>
+    <div id="history2"></div>
+
+    <span id="mm0">M0</span>
+    <span id="mm1">M1</span>
+    <span id="mm2">M2</span>
+    <span id="mm3">M3</span>
+    <div id="bot0"></div>
+    <div id="bot1"></div>
+    <div id="bot2"></div>
+    <div id="bot3"></div>
+
+    <div class="action-button">
+      <button type="button" class="btn btn-danger" id="btnboluot" value="bo luot">Bỏ qua</button>
+      <button type="button" class="btn btn-success" id="btnSendMessage" value="danh">Đánh</button>
+    </div>
+
+    <button type="button" class="btn btn-danger" id="btnbatdau">Bắt đầu</button>
+    <div class="action-end-round">
+      <button type="button" class="btn btn-tieptuc" id="btntieptuc">Tiếp tục</button>
+    </div>
+
+    <div class="speed">
+      <span><b>Speed</b></span>
+      <div class="ml-5">
+        <input type="radio" name="speed" value="2000" id="speed-slow" />
+        <label for="speed-slow" style="width: 80px">Slow</label>
+        <input type="radio" name="speed" value="1000" id="speed-normal" checked />
+        <label for="speed-normal" style="width: 80px">Normal</label>
+
+        <input type="radio" name="speed" value="500" id="speed-fast" />
+        <label for="speed-fast" style="width: 80px">Fast</label>
+        <input type="radio" name="speed" value="100" id="speed-super-fast" />
+        <label for="speed-super-fast">Super Fast</label>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-setting" data-toggle="modal" data-target="#settingModal">Setting</button>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Bài đánh không hợp lệ</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-download" data-toggle="modal" data-target="#downloadModal">
+    Download Logs
+  </button>
+  <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="downloadModalLabel">Download logs</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="inputDownloadLimit">Top Round</label>
+            <input type="number" class="form-control" id="inputDownloadLimit" value="100" />
+          </div>
+          <div class="form-group">
+            <label for="inputDownloadLimit">Code</label>
+            <input type="text" class="form-control" id="inputDownloadCode" />
+          </div>
+          <button type="submit" class="btn btn-primary" id="download">
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingModalLabel">Setting</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group row">
+            <label for="limitRound" class="col-5 col-form-label">Limit Round</label>
+            <div class="col-5">
+              <input type="number" class="form-control" id="limitRound" value="10" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="autoContinue" class="col-5 col-form-label">Auto Continue</label>
+            <div class="col-5">
+              <input type="checkbox" id="autoContinue" class="form-check-label mt-2"
+                style="width: 20px; height: 20px" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-5 col-form-label">Number bots</label>
+            <div class="col-7 mt-2">
+              <input type="radio" name="numberBot" id="numberBot2" value="2" />
+              <label for="numberBot2" style="width: 50px">1</label>
+              <input type="radio" name="numberBot" id="numberBot3" value="3" />
+              <label for="numberBot3" style="width: 50px">2</label>
+              <input type="radio" name="numberBot" id="numberBot4" value="4" checked />
+              <label for="numberBot4" style="width: 50px">3</label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <label class="code">
+    <span>Code</span>
+    <input type="text" id="inputCode" />
+  </label>
+  <button class="btn btn-primary" id="showHideLog">Show/Hide Logs</button>
+  <input type="checkbox" id="hasPlayer" checked hidden />
+  <span class="ml-2" id="roundId">Round: 1</span>
+  <span id="them_vao1"></span>
+  <span id="loading6"></span>
+  <span id="m0"></span>
+  <span id="m1"></span>
+  <span id="m2"></span>
+  <span id="m3"></span>
+  <span id="thang"></span>
+  <img id="rong2" src="img/rong3_f.gif" style="display: none" />
+  <img id="rong3" src="img/rong5_f.gif" style="display: none" />
+
+  <!-- Hidden Elements -->
+  <div class="hidden-elements" style="display: none;">
+    <!-- Hidden Audio -->
     <div class="audio">
       <audio hidden="hidden" class="a12" id="tai_truoc1" controls controls loop>
         <source src="sound/TienLenGSN.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc2"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc2" controls preload="none">
         <source src="sound/ThuaDiCung.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc3"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc3" controls preload="none">
         <source src="sound/MayHaBuoi.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc4"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc4" controls preload="none">
         <source src="sound/ChetMayNe.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc5"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc5" controls preload="none">
         <source src="sound/DoDi.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc6"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc6" controls preload="none">
         <source src="sound/HaiNe.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc7"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc7" controls preload="none">
         <source src="sound/BatDauGame.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc8"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc8" controls preload="none">
         <source src="sound/Chon_bai.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc9"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc9" controls preload="none">
         <source src="sound/DanhBai.mp3" type="audio/mp3" />
       </audio>
 
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc10"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc10" controls preload="none">
         <source src="sound/Nhat.mp3" type="audio/mp3" />
       </audio>
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc11"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc11" controls preload="none">
         <source src="sound/Nhi.mp3" type="audio/mp3" />
       </audio>
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc12"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc12" controls preload="none">
         <source src="sound/Ba.mp3" type="audio/mp3" />
       </audio>
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc13"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc13" controls preload="none">
         <source src="sound/Bet.mp3" type="audio/mp3" />
       </audio>
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc14"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc14" controls preload="none">
         <source src="sound/ToiTrang.mp3" type="audio/mp3" />
       </audio>
-      <audio
-        hidden="hidden"
-        class="a12"
-        id="tai_truoc15"
-        controls
-        preload="none"
-      >
+      <audio hidden="hidden" class="a12" id="tai_truoc15" controls preload="none">
         <source src="sound/Button_Click.mp3" type="audio/mp3" />
       </audio>
     </div>
 
-    <img id="loading" src="img/load.gif" />
+    <!-- Hidden Card Images -->
     <div class="card-images">
       <img hidden="hidden" class="a1" src="anh/03a.png" />
       <img hidden="hidden" class="a1" src="anh/03b.png" />
@@ -219,262 +276,13 @@
       <img hidden="hidden" class="a1" src="anh/16d.png" />
     </div>
 
-    <div id="wrapper">
-      <img class="table-bg" src="img/tienlen_table.png" alt="bg" />
-      <div id="doithu">
-        <button
-          hidden="hidden"
-          type="button"
-          id="khl"
-          class="btn btn-primary"
-          data-toggle="modal"
-          data-target="#myModal"
-        >
-          1
-        </button>
-      </div>
-      <div id="listMessages"></div>
-      <div id="history2"></div>
+    <!-- Hidden Buttons and Controls -->
+    <button hidden="hidden" type="button" id="khl" class="btn btn-primary" data-toggle="modal"
+      data-target="#myModal">1</button>
+    <button hidden="hidden" type="button" class="btn btn-success" id="btnSendMessage2" value="danh"></button>
+    <button hidden="hidden" type="button" class="btn btn-danger" id="btnboluot2" value="bo luot"></button>
 
-      <span id="mm0">M0</span>
-      <span id="mm1">M1</span>
-      <span id="mm2">M2</span>
-      <span id="mm3">M3</span>
-      <div id="bot0"></div>
-      <div id="bot1"></div>
-      <div id="bot2"></div>
-      <div id="bot3"></div>
-      <button
-        hidden="hidden"
-        type="button"
-        class="btn btn-success"
-        id="btnSendMessage2"
-        value="danh"
-        style="display: none"
-      ></button>
-      <button
-        hidden="hidden"
-        type="button"
-        class="btn btn-danger"
-        id="btnboluot2"
-        value="bo luot"
-        style="display: none"
-      ></button>
-      <div class="action-button">
-        <button
-          type="button"
-          class="btn btn-danger"
-          id="btnboluot"
-          value="bo luot"
-        >
-          Bỏ qua
-        </button>
-        <button
-          type="button"
-          class="btn btn-success"
-          id="btnSendMessage"
-          value="danh"
-        >
-          Đánh
-        </button>
-      </div>
-
-      <button type="button" class="btn btn-danger" id="btnbatdau">
-        Bắt đầu
-      </button>
-      <div class="action-end-round">
-        <button type="button" class="btn btn-danger" id="btntieptuc">
-          Tiếp tục
-        </button>
-      </div>
-      <div class="speed">
-        <span><b>Speed</b></span>
-        <div class="ml-5">
-          <input type="radio" name="speed" value="2000" id="speed-slow" />
-          <label for="speed-slow" style="width: 80px">Slow</label>
-          <input
-            type="radio"
-            name="speed"
-            value="1000"
-            id="speed-normal"
-            checked
-          />
-          <label for="speed-normal" style="width: 80px">Normal</label>
-
-          <input type="radio" name="speed" value="500" id="speed-fast" />
-          <label for="speed-fast" style="width: 80px">Fast</label>
-          <input type="radio" name="speed" value="100" id="speed-super-fast" />
-          <label for="speed-super-fast">Super Fast</label>
-        </div>
-      </div>
-      <button
-        type="button"
-        class="btn btn-setting"
-        data-toggle="modal"
-        data-target="#settingModal"
-      >
-        Setting
-      </button>
-    </div>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Bài đánh không hợp lệ</h4>
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button
-      type="button"
-      class="btn btn-download"
-      data-toggle="modal"
-      data-target="#downloadModal"
-    >
-      Download Logs
-    </button>
-    <div
-      class="modal fade"
-      id="downloadModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="downloadModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="downloadModalLabel">Download logs</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="inputDownloadLimit">Top Round</label>
-              <input
-                type="number"
-                class="form-control"
-                id="inputDownloadLimit"
-                value="100"
-              />
-            </div>
-            <div class="form-group">
-              <label for="inputDownloadLimit">Code</label>
-              <input type="text" class="form-control" id="inputDownloadCode" />
-            </div>
-            <button type="submit" class="btn btn-primary" id="download">
-              Download
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="modal fade"
-      id="settingModal"
-      tabindex="-1"
-      role="dialog"
-      aria-labelledby="settingModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="settingModalLabel">Setting</h5>
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group row">
-              <label for="limitRound" class="col-5 col-form-label"
-                >Limit Round</label
-              >
-              <div class="col-5">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="limitRound"
-                  value="10"
-                />
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="autoContinue" class="col-5 col-form-label"
-                >Auto Continue</label
-              >
-              <div class="col-5">
-                <input
-                  type="checkbox"
-                  id="autoContinue"
-                  class="form-check-label mt-2"
-                  style="width: 20px; height: 20px"
-                />
-              </div>
-            </div>
-            <div class="form-group row">
-              <label class="col-5 col-form-label">Number bots</label>
-              <div class="col-7 mt-2">
-                <input
-                  type="radio"
-                  name="numberBot"
-                  id="numberBot2"
-                  value="2"
-                />
-                <label for="numberBot2" style="width: 50px">1</label>
-                <input
-                  type="radio"
-                  name="numberBot"
-                  id="numberBot3"
-                  value="3"
-                />
-                <label for="numberBot3" style="width: 50px">2</label>
-                <input
-                  type="radio"
-                  name="numberBot"
-                  id="numberBot4"
-                  value="4"
-                  checked
-                />
-                <label for="numberBot4" style="width: 50px">3</label>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <label class="code">
-      <span>Code</span>
-      <input type="text" id="inputCode" />
-    </label>
-    <button class="btn btn-primary" id="showHideLog">Show/Hide Logs</button>
-    <input type="checkbox" id="hasPlayer" checked hidden />
-    <span class="ml-2" id="roundId">Round: 1</span>
+    <!-- Hidden Status Elements -->
     <span id="them_vao1"></span>
     <span id="loading6"></span>
     <span id="m0"></span>
@@ -484,5 +292,29 @@
     <span id="thang"></span>
     <img id="rong2" src="img/rong3_f.gif" style="display: none" />
     <img id="rong3" src="img/rong5_f.gif" style="display: none" />
-  </body>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/library/jquery.min.js"></script>
+  <script src="js/library/popper.min.js"></script>
+  <script src="js/library/bootstrap.min.js"></script>
+
+  <!-- Game scripts -->
+  <script src="js/ai/contants.js"></script>
+  <script src="js/ai/cards.js"></script>
+  <script src="js/ai/kiemtrahople.js"></script>
+  <script src="js/ai/xuly.js"></script>
+  <script src="js/ai/load_data.js"></script>
+  <script src="js/ai/ai.js"></script>
+  <script src="js/ai/bot.js"></script>
+
+  <!-- Utility scripts -->
+  <script src="js/ai/logger.js"></script>
+  <script src="js/ai/ultilities.js"></script>
+
+  <!-- UI scripts -->
+  <script src="js/ai/ui.js"></script>
+  <script src="js/ai/dowload.js"></script>
+</body>
+
 </html>
