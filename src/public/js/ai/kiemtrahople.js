@@ -1,5 +1,9 @@
-function ktra_4_heo(a) {
-  return a.filter((card) => card.includes("anh/16"));
+function checkFourPigs(cards) {
+  return cards.filter((card) => card.includes("anh/16"));
+}
+
+function ktra_4_heo(cards) {
+  return checkFourPigs(cards);
 }
 
 function an(boluot, stt, thang) {
@@ -705,13 +709,11 @@ function ktra_ng_danh(a, b) {
   return _k_q;
 }
 
-function chuyenchuoi(a) {
-  g = [];
-
-  for (var i = 0; i < a.length; i++) {
-    g.push(Card.getValue(a[i])); //substring cat chuoi
-  }
-  return g;
+function convertToCardValues(cards) {
+  return cards.map((card) => Card.getValue(card));
+}
+function chuyenchuoi(cards) {
+  return convertToCardValues(cards);
 }
 
 function sortNumberAsc(a, b) {
@@ -927,104 +929,55 @@ function hien3(a) {
   $("#id1").html(html);
 }
 
+function checkStraight(data) {
+  const values = convertToCardValues(data);
+  values.sort(sortNumberAsc);
+
+  for (let i = 0; i < values.length - 1; i++) {
+    if (values[i] + 1 != values[i + 1]) {
+      return 1;
+    }
+  }
+  return 0;
+}
 function ktrasanh(data) {
-  var v = [];
-  v = chuyenchuoi(data);
-  v.sort(sortNumberAsc); //sap xep mang tang dan
-
-  for (var i = 0; i < v.length - 1; i++) {
-    if (v[i] + 1 == v[i + 1]) {
-      t = 0;
-    } else {
-      t = 1;
-      break;
-    }
-  }
-  return t;
+  return checkStraight(data);
 }
 
+function checkPairSequence(data) {
+  const values = convertToCardValues(data);
+  values.sort(sortNumberAsc);
+
+  for (let i = 0; i < values.length - 2; i += 2) {
+    if (values[i] != values[i + 1] || values[i] + 1 != values[i + 2]) {
+      return 1;
+    }
+  }
+  return 0;
+}
 function ktradoithong(data) {
-  var v = [];
-  v = chuyenchuoi(data);
-
-  v.sort(sortNumberAsc); //sap xep mang tang dan
-
-  for (var i = 0; i < v.length - 2; i += 2) {
-    if (v[i] == v[i + 1] && v[i] + 1 == v[i + 2]) {
-      //kiem tra ex: 1,2,3,4,5...
-      t = 0;
-    } else {
-      t = 1;
-      break;
-    }
-  }
-  return t;
+  return checkPairSequence(data);
 }
 
-function kiemtrahople(data) {
-  dem = data.length;
-  var g = "";
-  if (dem == 1 && data != "") {
-    g = rank.coc;
-  } else if (dem == 2) {
-    c1 = Card.getValue(data[0]);
-    c2 = Card.getValue(data[1]);
-    if (c1 == c2) {
-      g = rank.doi;
+function checkValidCardCombination(data) {
+  const count = data.length;
+  let result = "";
+
+  if (count == 1 && data != "") {
+    result = rank.coc;
+  } else if (count == 2) {
+    const c1 = Card.getValue(data[0]);
+    const c2 = Card.getValue(data[1]);
+    result = c1 == c2 ? rank.doi : rank.khonghople;
+  } else if (count > 2) {
+    if (checkStraight(data) == 0) {
+      result = "sanh";
     } else {
-      g = rank.khonghople;
-    }
-  } else if (dem > 2) {
-    if (ktrasanh(data) == 0) {
-      g = "sanh";
-    } else {
-      if (dem == 3) {
-        c1 = Card.getValue(data[0]);
-        c2 = Card.getValue(data[1]);
-        c3 = Card.getValue(data[2]);
-        if (c1 == c2 && c2 == c3) {
-          g = rank.bacay;
-        } else {
-          g = rank.khonghople;
-        }
-      } else if (dem == 4) {
-        c1 = Card.getValue(data[0]);
-        c2 = Card.getValue(data[1]);
-        c3 = Card.getValue(data[2]);
-        c4 = Card.getValue(data[3]);
-        if (c1 == c2 && c1 == c3 && c1 == c4) {
-          g = rank.tuqui;
-        } else {
-          g = rank.khonghople;
-        }
-      } else if (dem == 6) {
-        if (ktradoithong(data) == 0) {
-          g = rank.badoithong;
-        } else {
-          g = rank.khonghople;
-        }
-      } else if (dem == 8) {
-        if (ktradoithong(data) == 0) {
-          g = rank.bondoithong;
-        } else {
-          g = rank.khonghople;
-        }
-      } else if (dem == 10) {
-        if (ktradoithong(data) == 0) {
-          g = rank.namdoithong;
-        } else {
-          g = rank.khonghople;
-        }
-      } else if (dem == 12) {
-        if (ktradoithong(data) == 0) {
-          g = rank.saudoithong;
-        } else {
-          g = rank.khonghople;
-        }
-      } else {
-        g = rank.khonghople;
-      }
+      result = checkMultipleCards(data, count);
     }
   }
-  return g;
+  return result;
+}
+function kiemtrahople(data) {
+  return checkValidCardCombination(data);
 }
