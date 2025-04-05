@@ -959,122 +959,153 @@ function ktradoithong(arr) {
   return 0;
 }
 
-function kiemtrahople(data) {
-  console.log("=== CHECKING HAND TYPE FOR:", data, "===");
+/**
+ * Kiểm tra loại bài và tính hợp lệ
+ * @param {string[]} cards - Mảng các lá bài cần kiểm tra
+ * @returns {string} Loại bài (MOT_LA, DOI, SANH, v.v.)
+ */
+function kiemtrahople(cards) {
+  console.log("=== CHECKING HAND TYPE FOR:", cards, "===");
 
-  if (!data || !Array.isArray(data) || data.length === 0) {
+  // Kiểm tra đầu vào
+  if (!isValidInput(cards)) {
     console.log("Invalid input data, returning KHONG_HOP_LE");
     return rank.KHONG_HOP_LE;
   }
 
-  if (data.length === 1) {
-    console.log("Single card, returning MOT_LA");
-    return rank.MOT_LA;
-  }
+  // Xử lý theo số lượng lá bài
+  const handCheckers = {
+    1: checkSingleCard,
+    2: checkPair,
+    3: checkThreeCards,
+    4: checkFourCards,
+    5: checkFiveCards,
+    6: checkSixCards,
+    8: checkEightCards,
+  };
 
-  if (data.length === 2) {
-    var a1 = Card.getValue(data[0]);
-    var a2 = Card.getValue(data[1]);
-    console.log("Two cards with values:", a1, a2);
-
-    if (a1 === a2) {
-      console.log("Pair (DOI), returning DOI");
-      return rank.DOI;
-    } else {
-      console.log("Two different cards, returning KHONG_HOP_LE");
-      return rank.KHONG_HOP_LE;
-    }
-  }
-
-  if (data.length === 3) {
+  const checker = handCheckers[cards.length];
+  if (!checker) {
     console.log(
-      "Three cards, checking if all have same value (ba cây/xám/bộ 3)"
+      `Unknown hand type with ${cards.length} cards, returning KHONG_HOP_LE`
     );
-    var a1 = Card.getValue(data[0]);
-    var a2 = Card.getValue(data[1]);
-    var a3 = Card.getValue(data[2]);
-    console.log("Card values:", a1, a2, a3);
-
-    if (a1 === a2 && a2 === a3) {
-      console.log(
-        "All three cards have same value, returning BACAY (xám/bộ 3)"
-      );
-      return rank.BACAY;
-    }
-
-    console.log("Checking if it's a straight (sảnh)");
-    if (ktrasanh(data) === 0) {
-      console.log("Valid straight (sảnh), returning SANH");
-      return rank.SANH;
-    }
-
-    console.log("Not a valid three-card hand, returning KHONG_HOP_LE");
     return rank.KHONG_HOP_LE;
   }
 
-  if (data.length === 4) {
-    console.log("Four cards, checking for TU QUI (four of a kind)");
-    var a1 = Card.getValue(data[0]);
-    var a2 = Card.getValue(data[1]);
-    var a3 = Card.getValue(data[2]);
-    var a4 = Card.getValue(data[3]);
-    console.log("Card values:", a1, a2, a3, a4);
+  return checker(cards);
+}
 
-    if (a1 === a2 && a2 === a3 && a3 === a4) {
-      console.log("All four cards have same value, returning TUQUI");
-      return rank.TUQUI;
-    }
+function isValidInput(cards) {
+  return cards && Array.isArray(cards) && cards.length > 0;
+}
 
-    console.log("Checking if it's a straight (sảnh)");
-    if (ktrasanh(data) === 0) {
-      console.log("Valid straight (sảnh), returning SANH");
-      return rank.SANH;
-    }
+function checkSingleCard(cards) {
+  console.log("Single card, returning MOT_LA");
+  return rank.MOT_LA;
+}
 
-    console.log("Checking if it's two pairs (đôi thông)");
-    if (ktradoithong(data) === 0) {
-      console.log("Valid two pairs (đôi thông), returning DOI_THONG");
-      return rank.DOI_THONG;
-    }
-
-    console.log("Not a valid four-card hand, returning KHONG_HOP_LE");
-    return rank.KHONG_HOP_LE;
-  }
-
-  if (data.length === 5) {
-    console.log("Five cards, checking for straight (sảnh)");
-    if (ktrasanh(data) === 0) {
-      console.log("Valid straight (sảnh), returning SANH");
-      return rank.SANH;
-    }
-    console.log("Not a valid five-card hand, returning KHONG_HOP_LE");
-    return rank.KHONG_HOP_LE;
-  }
-
-  if (data.length === 6) {
-    console.log("Six cards, checking for BA DOI THONG (three pairs)");
-    if (ktradoithong(data) === 0) {
-      console.log("Valid three pairs (ba đôi thông), returning BA_DOI_THONG");
-      return rank.BA_DOI_THONG;
-    }
-    console.log("Six cards but not BA DOI THONG, returning KHONG_HOP_LE");
-    return rank.KHONG_HOP_LE;
-  }
-
-  if (data.length === 8) {
-    console.log("Eight cards, checking for BON DOI THONG (four pairs)");
-    if (ktradoithong(data) === 0) {
-      console.log("Valid four pairs (bốn đôi thông), returning BON_DOI_THONG");
-      return rank.BON_DOI_THONG;
-    }
-    console.log("Eight cards but not BON DOI THONG, returning KHONG_HOP_LE");
-    return rank.KHONG_HOP_LE;
-  }
-
+function checkPair(cards) {
   console.log(
-    "Unknown hand type with",
-    data.length,
-    "cards, returning KHONG_HOP_LE"
+    "Two cards with values:",
+    Card.getValue(cards[0]),
+    Card.getValue(cards[1])
   );
+
+  if (Card.getValue(cards[0]) === Card.getValue(cards[1])) {
+    console.log("Pair (DOI), returning DOI");
+    return rank.DOI;
+  }
+
+  console.log("Two different cards, returning KHONG_HOP_LE");
+  return rank.KHONG_HOP_LE;
+}
+
+function checkThreeCards(cards) {
+  console.log("Three cards, checking combinations");
+
+  const values = cards.map((card) => Card.getValue(card));
+  console.log("Card values:", values);
+
+  // Kiểm tra bộ ba
+  if (values[0] === values[1] && values[1] === values[2]) {
+    console.log("Three of a kind (BACAY), returning BACAY");
+    return rank.BACAY;
+  }
+
+  // Kiểm tra sảnh
+  if (ktrasanh(cards) === 0) {
+    console.log("Straight (SANH), returning SANH");
+    return rank.SANH;
+  }
+
+  console.log("Not a valid three-card hand, returning KHONG_HOP_LE");
+  return rank.KHONG_HOP_LE;
+}
+
+function checkFourCards(cards) {
+  console.log("Four cards, checking combinations");
+
+  const values = cards.map((card) => Card.getValue(card));
+  console.log("Card values:", values);
+
+  // Kiểm tra tứ quý
+  if (values.every((val) => val === values[0])) {
+    console.log("Four of a kind (TUQUI), returning TUQUI");
+    return rank.TUQUI;
+  }
+
+  // Kiểm tra sảnh
+  if (ktrasanh(cards) === 0) {
+    console.log("Straight (SANH), returning SANH");
+    return rank.SANH;
+  }
+
+  // Kiểm tra đôi thông
+  if (ktradoithong(cards) === 0) {
+    console.log("Two pairs (DOI_THONG), returning DOI_THONG");
+    return rank.DOI_THONG;
+  }
+
+  console.log("Not a valid four-card hand, returning KHONG_HOP_LE");
+  return rank.KHONG_HOP_LE;
+}
+
+function checkFiveCards(cards) {
+  console.log("Five cards, checking for straight");
+
+  if (ktrasanh(cards) === 0) {
+    console.log("Straight (SANH), returning SANH");
+    return rank.SANH;
+  }
+
+  console.log("Not a valid five-card hand, returning KHONG_HOP_LE");
+  return rank.KHONG_HOP_LE;
+}
+
+function checkSixCards(cards) {
+  console.log("Six cards, checking for BA DOI THONG");
+
+  if (ktradoithong(cards) === 0) {
+    console.log(
+      "Three consecutive pairs (BA_DOI_THONG), returning BA_DOI_THONG"
+    );
+    return rank.BA_DOI_THONG;
+  }
+
+  console.log("Not a valid six-card hand, returning KHONG_HOP_LE");
+  return rank.KHONG_HOP_LE;
+}
+
+function checkEightCards(cards) {
+  console.log("Eight cards, checking for BON DOI THONG");
+
+  if (ktradoithong(cards) === 0) {
+    console.log(
+      "Four consecutive pairs (BON_DOI_THONG), returning BON_DOI_THONG"
+    );
+    return rank.BON_DOI_THONG;
+  }
+
+  console.log("Not a valid eight-card hand, returning KHONG_HOP_LE");
   return rank.KHONG_HOP_LE;
 }
