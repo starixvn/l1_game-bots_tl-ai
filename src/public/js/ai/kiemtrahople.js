@@ -117,21 +117,60 @@ function hs1(skippedPlayers) {
   return matchedPattern ? matchedPattern.nextPlayer : "";
 }
 
-function loc_anh(a) {
-  var b = [];
-  var k = "";
-  k = a[Math.floor(Math.random() * a.length)];
-  b.push(k);
-  for (var i = 0; i < 12; ) {
-    if (b.indexOf(k) < 0) {
-      b.push(k);
-      i++;
-    } else {
-      k = a[Math.floor(Math.random() * a.length)];
+/**
+ * Lọc và trộn ngẫu nhiên 13 lá bài từ mảng đầu vào
+ * @param {string[]} cards - Mảng các lá bài đầu vào
+ * @returns {string[]} Mảng 13 lá bài đã được trộn ngẫu nhiên
+ */
+function loc_anh(cards) {
+  console.log("=== SHUFFLING AND SELECTING CARDS ===");
+  console.log("Input cards:", cards);
+
+  // Kiểm tra đầu vào
+  if (!isValidInput(cards)) {
+    console.log("Invalid input, returning empty array");
+    return [];
+  }
+
+  // Clone mảng để không ảnh hưởng đến mảng gốc
+  const shuffledCards = [...cards];
+  const selectedCards = [];
+  const CARDS_TO_SELECT = 13;
+
+  // Chọn lá bài đầu tiên
+  const firstCard = getRandomCard(shuffledCards);
+  selectedCards.push(firstCard);
+  console.log("First selected card:", firstCard);
+
+  // Chọn các lá bài tiếp theo
+  while (selectedCards.length < CARDS_TO_SELECT) {
+    const nextCard = getRandomCard(shuffledCards);
+
+    if (!selectedCards.includes(nextCard)) {
+      selectedCards.push(nextCard);
+      console.log(`Selected card ${selectedCards.length}:`, nextCard);
     }
   }
 
-  return b;
+  console.log("Final selected cards:", selectedCards);
+  return selectedCards;
+}
+
+/**
+ * Kiểm tra tính hợp lệ của đầu vào
+ */
+function isValidInput(cards) {
+  const isValid = cards && Array.isArray(cards) && cards.length >= 13;
+  console.log("Input validation:", isValid);
+  return isValid;
+}
+
+/**
+ * Lấy ngẫu nhiên một lá bài từ mảng
+ */
+function getRandomCard(cards) {
+  const randomIndex = Math.floor(Math.random() * cards.length);
+  return cards[randomIndex];
 }
 
 /**
