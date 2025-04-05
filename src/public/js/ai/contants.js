@@ -13,6 +13,20 @@ const rank = {
   baheo: "baheo",
   khonghople: "khonghople",
   hople: "hople",
+  KHONG_HOP_LE: "khonghople",
+  MOT_LA: "coc",
+  DOI: "doi",
+  SANH: "sanh",
+  BACAY: "bacay",
+  TUQUI: "tuqui",
+  BA_DOI_THONG: "badoithong",
+  BON_DOI_THONG: "bondoithong",
+  NAM_DOI_THONG: "namdoithong",
+  SAU_DOI_THONG: "saudoithong",
+  HEO: "heo",
+  DOI_HEO: "doiheo",
+  BA_HEO: "baheo",
+  HOP_LE: "hople",
 };
 
 const card = {

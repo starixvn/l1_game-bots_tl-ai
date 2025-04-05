@@ -1,511 +1,122 @@
-function checkFourPigs(cards) {
-  return cards.filter((card) => card.includes("anh/16"));
+function ktra_4_heo(a) {
+  // Kiểm tra đầu vào
+  if (!a || !Array.isArray(a) || a.length === 0) {
+    return [];
+  }
+
+  // Lấy các lá heo (lá 2) từ bộ bài
+  const heoCards = a.filter(
+    (card) => card && typeof card === "string" && card.includes("anh/16")
+  );
+
+  // Trả về mảng heo nếu đủ 4 lá
+  return heoCards.length === 4 ? heoCards : [];
 }
 
-function ktra_4_heo(cards) {
-  return checkFourPigs(cards);
+/**
+ * Xác định người chơi tiếp theo dựa trên trạng thái hiện tại
+ * @param {string} skippedPlayers - Chuỗi chứa các người chơi đã bỏ lượt ("0123")
+ * @param {number} currentPosition - Vị trí người chơi hiện tại (0-3)
+ * @param {string[]} winners - Mảng chứa người chơi đã thắng
+ * @returns {string} Vị trí người chơi tiếp theo
+ */
+function getNextPlayer(skippedPlayers, currentPosition, winners) {
+  // Xử lý trường hợp đặc biệt khi tất cả đã bỏ lượt
+  if (isAllSkipped(skippedPlayers)) {
+    return handleSpecialCase(winners);
+  }
+
+  // Xác định người chơi tiếp theo dựa trên vị trí hiện tại
+  return findNextAvailablePlayer(skippedPlayers, currentPosition);
 }
 
+function isAllSkipped(skippedPlayers) {
+  return ["0", "1", "2", "3"].every((player) =>
+    skippedPlayers.includes(player)
+  );
+}
+
+function findNextAvailablePlayer(skippedPlayers, currentPosition) {
+  // Thứ tự ưu tiên cho mỗi vị trí
+  const nextPlayerOrder = {
+    0: ["1", "2", "3", "0"],
+    1: ["2", "3", "0", "1"],
+    2: ["3", "0", "1", "2"],
+    3: ["0", "1", "2", "3"],
+  };
+
+  // Tìm người chơi tiếp theo chưa bỏ lượt
+  const order = nextPlayerOrder[currentPosition] || [];
+  const nextPlayer = order.find((player) => !skippedPlayers.includes(player));
+
+  return nextPlayer || "9";
+}
+
+function handleSpecialCase(winners) {
+  if (!winners || winners.length === 0) return "9";
+
+  if (winners.length === 1) {
+    const winnerMap = {
+      3: "0",
+      0: "1",
+      1: "2",
+      2: "3",
+    };
+    return winnerMap[winners[0]] || "9";
+  }
+
+  if (winners.length === 2) {
+    const [first, second] = winners;
+    const winnerPairMap = {
+      "0,1": "2",
+      "0,2": "3",
+      "0,3": "1",
+      "1,0": "2",
+      "1,2": "3",
+      "1,3": "0",
+      "2,0": "1",
+      "2,1": "3",
+      "2,3": "0",
+      "3,0": "1",
+      "3,1": "2",
+      "3,2": "0",
+    };
+    return winnerPairMap[`${first},${second}`] || "9";
+  }
+
+  return "9";
+}
+
+// Giữ lại function gốc để đảm bảo backward compatibility
 function an(boluot, stt, thang) {
-  var t = "";
-  if (stt == 0) {
-    if (boluot.indexOf("1") < 0) {
-      t = "1";
-    } else if (boluot.indexOf("1") >= 0 && boluot.indexOf("2") < 0) {
-      t = "2";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0"; //hs(thang);
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") >= 0
-    ) {
-      t = "9";
-      if (thang.length == 1) {
-        if (thang[0] == "3") {
-          t = "0";
-        } else if (thang[0] == "0") {
-          t = "1";
-        } else if (thang[0] == "1") {
-          t = "2";
-        } else if (thang[0] == "2") {
-          t = "3";
-        }
-      } else if (thang.length == 2) {
-        var b1 = thang[0],
-          b2 = thang[1];
-
-        if (b1 == "0" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "0" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "0" && b2 == "3") {
-          t = "1";
-        } else if (b1 == "1" && b2 == "0") {
-          t = "2";
-        } else if (b1 == "1" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "1" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "2" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "2" && b2 == "1") {
-          t = "3";
-        } else if (b1 == "2" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "3" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "3" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "3" && b2 == "2") {
-          t = "0";
-        }
-      } //0  1  2  3
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") < 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") < 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2";
-    }
-  } else if (stt == 1) {
-    if (boluot.indexOf("2") < 0) {
-      t = "2";
-    } else if (boluot.indexOf("2") >= 0 && boluot.indexOf("3") < 0) {
-      t = "3";
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0";
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "1"; //hs(thang);
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") >= 0
-    ) {
-      t = "9";
-      if (thang.length == 1) {
-        if (thang[0] == "3") {
-          t = "0";
-        } else if (thang[0] == "0") {
-          t = "1";
-        } else if (thang[0] == "1") {
-          t = "2";
-        } else if (thang[0] == "2") {
-          t = "3";
-        }
-      } else if (thang.length == 2) {
-        var b1 = thang[0],
-          b2 = thang[1];
-
-        if (b1 == "0" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "0" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "0" && b2 == "3") {
-          t = "1";
-        } else if (b1 == "1" && b2 == "0") {
-          t = "2";
-        } else if (b1 == "1" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "1" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "2" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "2" && b2 == "1") {
-          t = "3";
-        } else if (b1 == "2" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "3" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "3" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "3" && b2 == "2") {
-          t = "0";
-        }
-      } //0 1 2 3
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("2") < 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") < 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("2") < 0 &&
-      boluot.indexOf("3") >= 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3";
-    }
-  } else if (stt == 2) {
-    //0  1  2  3
-    if (boluot.indexOf("3") < 0) {
-      t = "3";
-    } else if (boluot.indexOf("3") >= 0 && boluot.indexOf("0") < 0) {
-      t = "0";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2"; //	t=hs(thang);
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") >= 0
-    ) {
-      t = "9";
-      if (thang.length == 1) {
-        if (thang[0] == "3") {
-          t = "0";
-        } else if (thang[0] == "0") {
-          t = "1";
-        } else if (thang[0] == "1") {
-          t = "2";
-        } else if (thang[0] == "2") {
-          t = "3";
-        }
-      } else if (thang.length == 2) {
-        var b1 = thang[0],
-          b2 = thang[1];
-
-        if (b1 == "0" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "0" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "0" && b2 == "3") {
-          t = "1";
-        } else if (b1 == "1" && b2 == "0") {
-          t = "2";
-        } else if (b1 == "1" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "1" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "2" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "2" && b2 == "1") {
-          t = "3";
-        } else if (b1 == "2" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "3" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "3" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "3" && b2 == "2") {
-          t = "0";
-        }
-      } //0  1  2  3
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") < 0 &&
-      boluot.indexOf("3") < 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") < 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") < 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "3";
-    } else if (
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") < 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0";
-    }
-  } else if (stt == 3) {
-    if (boluot.indexOf("0") < 0) {
-      t = "0";
-    } else if (boluot.indexOf("0") >= 0 && boluot.indexOf("1") < 0) {
-      t = "1";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "3"; //hs(thang);
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "1";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") < 0
-    ) {
-      t = "2";
-    } else if (
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("2") >= 0
-    ) {
-      t = "9";
-      if (thang.length == 1) {
-        if (thang[0] == "3") {
-          t = "0";
-        } else if (thang[0] == "0") {
-          t = "1";
-        } else if (thang[0] == "1") {
-          t = "2";
-        } else if (thang[0] == "2") {
-          t = "3";
-        }
-      } else if (thang.length == 2) {
-        var b1 = thang[0],
-          b2 = thang[1];
-
-        if (b1 == "0" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "0" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "0" && b2 == "3") {
-          t = "1";
-        } else if (b1 == "1" && b2 == "0") {
-          t = "2";
-        } else if (b1 == "1" && b2 == "2") {
-          t = "3";
-        } else if (b1 == "1" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "2" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "2" && b2 == "1") {
-          t = "3";
-        } else if (b1 == "2" && b2 == "3") {
-          t = "0";
-        } else if (b1 == "3" && b2 == "0") {
-          t = "1";
-        } else if (b1 == "3" && b2 == "1") {
-          t = "2";
-        } else if (b1 == "3" && b2 == "2") {
-          t = "0";
-        }
-      } //0 1 2 3
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("3") < 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0";
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("3") >= 0 &&
-      boluot.indexOf("0") < 0 &&
-      boluot.indexOf("1") < 0
-    ) {
-      t = "0";
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("1") >= 0 &&
-      boluot.indexOf("3") < 0 &&
-      boluot.indexOf("0") < 0
-    ) {
-      t = "0";
-    } else if (
-      boluot.indexOf("2") >= 0 &&
-      boluot.indexOf("0") >= 0 &&
-      boluot.indexOf("1") < 0 &&
-      boluot.indexOf("3") < 0
-    ) {
-      t = "1";
-    }
-  }
-  return t;
+  return getNextPlayer(boluot, stt, thang);
 }
 
-function hs1(boluot) {
-  var t = "";
-  if (
-    boluot.indexOf("0") >= 0 &&
-    boluot.indexOf("1") >= 0 &&
-    boluot.indexOf("2") >= 0 &&
-    boluot.indexOf("3") < 0
-  ) {
-    t = "3";
-  } else if (
-    boluot.indexOf("0") >= 0 &&
-    boluot.indexOf("1") >= 0 &&
-    boluot.indexOf("3") >= 0 &&
-    boluot.indexOf("2") < 0
-  ) {
-    t = "2";
-  } else if (
-    boluot.indexOf("0") >= 0 &&
-    boluot.indexOf("3") >= 0 &&
-    boluot.indexOf("2") >= 0 &&
-    boluot.indexOf("1") < 0
-  ) {
-    t = "1";
-  } else if (
-    boluot.indexOf("3") >= 0 &&
-    boluot.indexOf("1") >= 0 &&
-    boluot.indexOf("2") >= 0 &&
-    boluot.indexOf("0") < 0
-  ) {
-    t = "0";
-  }
-  return t.toString();
+/**
+ * Tìm người chơi chưa bỏ lượt khi 3 người khác đã bỏ lượt
+ * @param {string} skippedPlayers - Chuỗi chứa các người chơi đã bỏ lượt (vd: "012")
+ * @returns {string} Vị trí người chơi chưa bỏ lượt, hoặc chuỗi rỗng nếu không tìm thấy
+ */
+function hs1(skippedPlayers) {
+  // Định nghĩa các pattern bỏ lượt và người chơi tương ứng
+  const skipPatterns = [
+    { skipped: ["0", "1", "2"], nextPlayer: "3" },
+    { skipped: ["0", "1", "3"], nextPlayer: "2" },
+    { skipped: ["0", "2", "3"], nextPlayer: "1" },
+    { skipped: ["1", "2", "3"], nextPlayer: "0" },
+  ];
+
+  // Tìm pattern phù hợp
+  const matchedPattern = skipPatterns.find(
+    (pattern) =>
+      pattern.skipped.every((player) => skippedPlayers.includes(player)) &&
+      !skippedPlayers.includes(pattern.nextPlayer)
+  );
+
+  // Trả về người chơi tiếp theo hoặc chuỗi rỗng
+  return matchedPattern ? matchedPattern.nextPlayer : "";
 }
+
 function loc_anh(a) {
   var b = [];
   var k = "";
@@ -523,128 +134,246 @@ function loc_anh(a) {
   return b;
 }
 
-function hs(thang) {
-  var t = "";
-  if (thang.length == 1) {
-    if (thang[0] == "3") {
-      t = "0";
-    } else if (thang[0] == "0") {
-      t = "1";
-    } else if (thang[0] == "1") {
-      t = "2";
-    } else if (thang[0] == "2") {
-      t = "3";
-    }
-  } else if (thang.length == 2) {
-    var b1 = thang[0],
-      b2 = thang[1];
-
-    if (b1 == "0" && b2 == "1") {
-      t = "2";
-    } else if (b1 == "0" && b2 == "2") {
-      t = "3";
-    } else if (b1 == "0" && b2 == "3") {
-      t = "1";
-    } else if (b1 == "1" && b2 == "0") {
-      t = "2";
-    } else if (b1 == "1" && b2 == "2") {
-      t = "3";
-    } else if (b1 == "1" && b2 == "3") {
-      t = "0";
-    } else if (b1 == "2" && b2 == "0") {
-      t = "1";
-    } else if (b1 == "2" && b2 == "1") {
-      t = "3";
-    } else if (b1 == "2" && b2 == "3") {
-      t = "0";
-    } else if (b1 == "3" && b2 == "0") {
-      t = "1";
-    } else if (b1 == "3" && b2 == "1") {
-      t = "2";
-    } else if (b1 == "3" && b2 == "2") {
-      t = "0";
-    }
+/**
+ * Xác định người chơi tiếp theo dựa trên danh sách người thắng
+ * @param {string[]} winners - Mảng chứa các người chơi đã thắng
+ * @returns {string} Vị trí người chơi tiếp theo
+ */
+function hs(winners) {
+  // Xử lý trường hợp một người thắng
+  if (winners.length === 1) {
+    const singleWinnerMap = {
+      3: "0",
+      0: "1",
+      1: "2",
+      2: "3",
+    };
+    return singleWinnerMap[winners[0]] || "";
   }
-  //document.getElementById("demo").innerHTML = t;
-  return t.toString();
-}
-function sapxep(a) {
-  var ppp = [];
-  var tg;
 
-  var i;
-  var j;
-  var j1, j2, j3, i1, i2, i3, t, t1, q1, q2;
-  for (i = 0; i < a.length; i++) {
-    for (j = i + 1; j < a.length; j++) {
-      i1 = a[j].substring(4, 7); //16a
-      i2 = i1.substring(0, 2);
-      i3 = i1.substring(2);
-      //////////////////////
-      j1 = a[i].substring(4, 7); //16a
-      j2 = j1.substring(0, 2);
-      j3 = j1.substring(2);
-      // alert(j2);
-
-      if (i3 == "a") {
-        t = 0.1;
-      } else if (i3 == "b") {
-        t = 0.2;
-      } else if (i3 == "c") {
-        //
-        t = 0.3;
-      } else if (i3 == "d") {
-        t = 0.4;
-      }
-      //////////
-      if (j3 == "a") {
-        t1 = 0.1;
-      } else if (j3 == "b") {
-        t1 = 0.2;
-      } else if (j3 == "c") {
-        t1 = 0.3;
-      } else if (j3 == "d") {
-        t1 = 0.4;
-      }
-
-      q1 = parseInt(i2) + t;
-      q2 = parseInt(j2) + t1;
-      //alert(q1);
-      if (q1 < q2) {
-        //<------
-        tg = a[i];
-        a[i] = a[j];
-        a[j] = tg;
-      }
-    }
+  // Xử lý trường hợp hai người thắng
+  if (winners.length === 2) {
+    const [firstWinner, secondWinner] = winners;
+    const doubleWinnerMap = {
+      "0,1": "2",
+      "0,2": "3",
+      "0,3": "1",
+      "1,0": "2",
+      "1,2": "3",
+      "1,3": "0",
+      "2,0": "1",
+      "2,1": "3",
+      "2,3": "0",
+      "3,0": "1",
+      "3,1": "2",
+      "3,2": "0",
+    };
+    return doubleWinnerMap[`${firstWinner},${secondWinner}`] || "";
   }
-  for (j = 0; j < a.length; j++) {
-    ppp.push(a[j]);
-  }
-  return ppp;
+
+  return "";
 }
 
-function ktra_h(a) {
-  var kq = "noheo";
-  if (a != "") {
-    const cardValue = Card.getValue(a[0]);
-    if (cardValue == card[2] && a.length == 1) {
-      kq = rank.heo;
-    } else if (cardValue == card[2] && a.length == 2) {
-      kq = rank.doiheo;
-    } else if (cardValue == card[2] && a.length == 3) {
-      kq = rank.baheo;
-    } else kq = "noheo";
-  } else kq = "noheo";
-  return kq;
+/**
+ * Sắp xếp bài từ nhỏ đến lớn (3->K,A,2)
+ * @param {string[]} cards - Mảng các lá bài cần sắp xếp
+ * @returns {string[]} Mảng các lá bài đã sắp xếp
+ */
+function sapxep(cards) {
+  if (!cards || !Array.isArray(cards)) {
+    return [];
+  }
+
+  // Bảng tra cứu giá trị chất bài
+  const suitValues = {
+    a: 0.1, // ♠
+    b: 0.2, // ♣
+    c: 0.3, // ♦
+    d: 0.4, // ♥
+  };
+
+  // Clone mảng để không thay đổi mảng gốc
+  const sortedCards = [...cards];
+
+  // Sắp xếp bài
+  sortedCards.sort((cardA, cardB) => {
+    // Lấy thông tin của lá bài A
+    const valueA = cardA.substring(4, 7); // vd: "16a"
+    const numberA = parseInt(valueA.substring(0, 2)); // vd: 16
+    const suitA = valueA.substring(2); // vd: "a"
+
+    // Lấy thông tin của lá bài B
+    const valueB = cardB.substring(4, 7); // vd: "16a"
+    const numberB = parseInt(valueB.substring(0, 2)); // vd: 16
+    const suitB = valueB.substring(2); // vd: "a"
+
+    // So sánh giá trị trước
+    if (numberA !== numberB) {
+      return numberA - numberB; // Sắp xếp tăng dần theo giá trị
+    }
+
+    // Nếu cùng giá trị, so sánh chất
+    return (suitValues[suitA] || 0) - (suitValues[suitB] || 0);
+  });
+
+  return sortedCards;
 }
 
-function ktra_ng_danh(a, b) {
+/**
+ * Kiểm tra các trường hợp đặc biệt của lá heo (lá 2)
+ * @param {string[]} cards - Mảng các lá bài cần kiểm tra
+ * @returns {string} Loại bài heo (HEO, DOI_HEO, BA_HEO) hoặc "noheo"
+ */
+function ktra_h(cards) {
+  // Kiểm tra đầu vào
+  if (!cards || !Array.isArray(cards) || cards.length === 0) {
+    return "noheo";
+  }
+
+  // Kiểm tra xem bài có phải là lá 2 không (heo)
+  if (!isValidCard(cards[0])) {
+    return "noheo";
+  }
+
+  // Lấy giá trị lá đầu tiên
+  const firstCardValue = Card.getValue(cards[0]);
+
+  // Kiểm tra có phải lá heo không (giá trị 16 = lá 2)
+  if (firstCardValue !== 16) {
+    return "noheo";
+  }
+
+  // Kiểm tra tất cả các lá có phải heo không
+  const allCardsAreHeo = cards.every(
+    (card) => isValidCard(card) && Card.getValue(card) === 16
+  );
+
+  if (!allCardsAreHeo) {
+    return "noheo";
+  }
+
+  // Xác định loại bài heo dựa vào số lượng
+  switch (cards.length) {
+    case 1:
+      return rank.HEO;
+    case 2:
+      return rank.DOI_HEO;
+    case 3:
+      return rank.BA_HEO;
+    default:
+      return "noheo";
+  }
+}
+
+/**
+ * Kiểm tra tính hợp lệ của lá bài
+ * @param {string} card - Lá bài cần kiểm tra
+ * @returns {boolean} True nếu lá bài hợp lệ
+ */
+function isValidCard(card) {
+  return card && typeof card === "string";
+}
+
+function hoanvi_all(a) {
+  if (!a || a.length === 0) return [];
+  // Create a copy of the array to avoid modifying the original
+  const result = [...a];
+  // Sort the array (same as sapxep but simpler)
+  return sapxep(result);
+}
+
+function ktra_ng_danh(a, b, isNewRound) {
+  console.log("======= CHECK PLAY VALIDITY =======");
+  console.log("Previous cards:", a);
+  console.log("Current cards:", b);
+  console.log("Is new round:", isNewRound);
+
+  // Kiểm tra nếu bài đánh là sảnh và log để debug
+  const isSanh = ktrasanh(b) === 0;
+  console.log("Is current hand a straight (sảnh):", isSanh);
+
+  // Nếu bài đánh không hợp lệ, luôn trả về không hợp lệ
+  const baiHopLe = kiemtrahople(b);
+  console.log("Current cards validity:", baiHopLe);
+  console.log("SANH constant value:", rank.SANH);
+  console.log("BACAY constant value:", rank.BACAY);
+
+  if (baiHopLe === rank.KHONG_HOP_LE || baiHopLe === "khonghople") {
+    console.log("Current hand is invalid, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  // Nếu là lượt đầu tiên hoặc lượt mới
+  if (
+    isNewRound === true ||
+    a === undefined ||
+    a === null ||
+    !Array.isArray(a) ||
+    a.length === 0
+  ) {
+    console.log("New round or first play detected");
+
+    // Trường hợp đặc biệt cho sảnh
+    if (isSanh) {
+      console.log("Straight (sảnh) on first turn -> HOP_LE (special case)");
+      return rank.HOP_LE;
+    }
+
+    // Các bài hợp lệ khác
+    if (baiHopLe !== rank.KHONG_HOP_LE && baiHopLe !== "khonghople") {
+      console.log("Valid hand in first turn -> HOP_LE");
+      return rank.HOP_LE;
+    } else {
+      console.log("Invalid hand -> KHONG_HOP_LE");
+      return rank.KHONG_HOP_LE;
+    }
+  }
+
+  // Trường hợp thông thường - so sánh 2 bộ bài
   a = hoanvi_all(a);
   b = hoanvi_all(b);
-  var _k_q = rank.khonghople,
+
+  console.log("Sorted previous cards:", a);
+  console.log("Sorted current cards:", b);
+
+  var _k_q = rank.KHONG_HOP_LE,
     tt3 = "",
     ttt3 = "";
+
+  // Kiểm tra dữ liệu đầu vào
+  if (!a.length || !b.length) {
+    console.log("Invalid input data, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  // Kiểm tra loại bài giống nhau
+  const prevHandType = kiemtrahople(a);
+  const currHandType = kiemtrahople(b);
+  console.log("Previous hand type:", prevHandType);
+  console.log("Current hand type:", currHandType);
+
+  // Kiểm tra các loại bài đặc biệt
+  const isSamePrevSanh = prevHandType === rank.SANH || prevHandType === "sanh";
+  const isSameCurrSanh = currHandType === rank.SANH || currHandType === "sanh";
+  const isSamePrevBacay =
+    prevHandType === rank.BACAY ||
+    prevHandType === "xamco" ||
+    prevHandType === "bacay";
+  const isSameCurrBacay =
+    currHandType === rank.BACAY ||
+    currHandType === "xamco" ||
+    currHandType === "bacay";
+
+  // Nếu lượt trước là SANH và lượt này cũng SANH, chỉ cần so sánh giá trị cao nhất
+  if (isSamePrevSanh && isSameCurrSanh && a.length === b.length) {
+    console.log("Both are SANH with same length, comparing highest cards");
+  }
+
+  // Nếu lượt trước là BACAY và lượt này cũng BACAY, chỉ cần so sánh giá trị
+  if (isSamePrevBacay && isSameCurrBacay) {
+    console.log("Both are BACAY (3 of a kind), comparing values");
+  }
+
   var a1 = a[a.length - 1].substring(4, 7); //16a
   var a2 = a1.substring(0, 2);
   var a3 = a1.substring(2);
@@ -660,7 +389,10 @@ function ktra_ng_danh(a, b) {
   var b1 = b[b.length - 1].substring(4, 7); //16a
   var b2 = b1.substring(0, 2);
   var b3 = b1.substring(2);
-  //alert(kiemtrahople(b) + ktra_h(a));
+
+  console.log("Previous highest card value:", a2, "with modifier:", tt3);
+  console.log("Current highest card value:", b2, "with modifier:", ttt3);
+
   if (b3 == "a") {
     ttt3 = 0.1;
   } else if (b3 == "b") {
@@ -670,88 +402,247 @@ function ktra_ng_danh(a, b) {
   } else if (b3 == "d") {
     ttt3 = 0.4;
   }
-  if (ktra_h(a) == rank.heo && kiemtrahople(b) == rank.badoithong) {
-    _k_q = rank.hople;
-  } else if (ktra_h(a) == rank.heo && kiemtrahople(b) == rank.bondoithong) {
-    _k_q = rank.hople;
-  } else if (ktra_h(a) == rank.heo && kiemtrahople(b) == rank.tuqui) {
-    _k_q = rank.hople;
-  } else if (ktra_h(a) == rank.doiheo && kiemtrahople(b) == rank.tuqui) {
-    _k_q = rank.hople;
-  } else if (ktra_h(a) == rank.doiheo && kiemtrahople(b) == rank.bondoithong) {
-    _k_q = rank.hople;
-  } else if (ktra_h(a) == rank.baheo && kiemtrahople(b) == rank.bondoithong) {
-    _k_q = rank.hople;
-  } else if (
-    kiemtrahople(a) == rank.badoithong &&
-    kiemtrahople(b) == rank.tuqui
-  ) {
-    _k_q = rank.hople;
-  } else if (
-    kiemtrahople(a) == rank.badoithong &&
-    kiemtrahople(b) == rank.bondoithong
-  ) {
-    _k_q = rank.hople;
-  } else if (
-    kiemtrahople(a) == rank.tuqui &&
-    kiemtrahople(b) == rank.bondoithong
-  ) {
-    _k_q = rank.hople;
-  } else if (b2 > a2 && b.length == a.length) {
-    _k_q = rank.hople;
-  } else if (b2 == a2 && b.length == a.length) {
-    if (ttt3 > tt3) _k_q = rank.hople;
-    else _k_q = rank.khonghople;
-  } else if (b2 < a2 && b.length == a.length) {
-    _k_q = rank.khonghople;
+
+  // So sánh sảnh với sảnh - so sánh giá trị lá cao nhất
+  if (isSamePrevSanh && isSameCurrSanh && a.length === b.length) {
+    if (b2 > a2) {
+      _k_q = rank.HOP_LE;
+      console.log("SANH with higher value -> HOP_LE");
+    } else if (b2 == a2 && ttt3 > tt3) {
+      _k_q = rank.HOP_LE;
+      console.log("SANH with same value but higher suit -> HOP_LE");
+    } else {
+      _k_q = rank.KHONG_HOP_LE;
+      console.log("SANH with lower value -> KHONG_HOP_LE");
+    }
+
+    console.log("Final result for SANH comparison:", _k_q);
+    return _k_q;
   }
 
+  // So sánh bộ 3 với bộ 3
+  if (isSamePrevBacay && isSameCurrBacay) {
+    // Lấy giá trị của các bộ 3
+    const prevValue = Card.getValue(a[0]);
+    const currValue = Card.getValue(b[0]);
+
+    if (currValue > prevValue) {
+      _k_q = rank.HOP_LE;
+      console.log("BACAY with higher value -> HOP_LE");
+    } else if (currValue === prevValue) {
+      // Kiểm tra chất (suit) cao hơn
+      if (ttt3 > tt3) {
+        _k_q = rank.HOP_LE;
+        console.log("BACAY with same value but higher suit -> HOP_LE");
+      } else {
+        _k_q = rank.KHONG_HOP_LE;
+        console.log("BACAY with same or lower suit -> KHONG_HOP_LE");
+      }
+    } else {
+      _k_q = rank.KHONG_HOP_LE;
+      console.log("BACAY with lower value -> KHONG_HOP_LE");
+    }
+
+    console.log("Final result for BACAY comparison:", _k_q);
+    return _k_q;
+  }
+
+  // Các trường hợp đặc biệt khi bài mạnh hơn
+  if (
+    ktra_h(a) == rank.HEO &&
+    (currHandType == rank.BA_DOI_THONG ||
+      currHandType == rank.SANH ||
+      currHandType == "sanh" ||
+      currHandType == rank.BACAY ||
+      currHandType == "xamco" ||
+      currHandType == "bacay")
+  ) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: HEO vs BA_DOI_THONG/SANH/BACAY -> HOP_LE");
+  } else if (ktra_h(a) == rank.HEO && currHandType == rank.BON_DOI_THONG) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: HEO vs BON_DOI_THONG -> HOP_LE");
+  } else if (ktra_h(a) == rank.HEO && currHandType == rank.TUQUI) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: HEO vs TUQUI -> HOP_LE");
+  } else if (ktra_h(a) == rank.DOI_HEO && currHandType == rank.TUQUI) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: DOI_HEO vs TUQUI -> HOP_LE");
+  } else if (ktra_h(a) == rank.DOI_HEO && currHandType == rank.BON_DOI_THONG) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: DOI_HEO vs BON_DOI_THONG -> HOP_LE");
+  } else if (ktra_h(a) == rank.BA_HEO && currHandType == rank.BON_DOI_THONG) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: BA_HEO vs BON_DOI_THONG -> HOP_LE");
+  } else if (
+    (prevHandType == rank.BA_DOI_THONG || prevHandType == "badoithong") &&
+    currHandType == rank.TUQUI
+  ) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: BA_DOI_THONG vs TUQUI -> HOP_LE");
+  } else if (
+    (prevHandType == rank.BA_DOI_THONG || prevHandType == "badoithong") &&
+    currHandType == rank.BON_DOI_THONG
+  ) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: BA_DOI_THONG vs BON_DOI_THONG -> HOP_LE");
+  } else if (
+    (prevHandType == rank.TUQUI || prevHandType == "tuqui") &&
+    currHandType == rank.BON_DOI_THONG
+  ) {
+    _k_q = rank.HOP_LE;
+    console.log("Case: TUQUI vs BON_DOI_THONG -> HOP_LE");
+  } else if (
+    isTypesSame(prevHandType, currHandType) &&
+    b2 > a2 &&
+    b.length == a.length
+  ) {
+    _k_q = rank.HOP_LE;
+    console.log("Same type and length, higher value -> HOP_LE");
+  } else if (
+    isTypesSame(prevHandType, currHandType) &&
+    b2 == a2 &&
+    b.length == a.length
+  ) {
+    if (ttt3 > tt3) {
+      _k_q = rank.HOP_LE;
+      console.log("Same type, length and value, higher suit -> HOP_LE");
+    } else {
+      _k_q = rank.KHONG_HOP_LE;
+      console.log(
+        "Same type, length and value, same or lower suit -> KHONG_HOP_LE"
+      );
+    }
+  } else if (
+    isTypesSame(prevHandType, currHandType) &&
+    b2 < a2 &&
+    b.length == a.length
+  ) {
+    _k_q = rank.KHONG_HOP_LE;
+    console.log("Same type and length, lower value -> KHONG_HOP_LE");
+  } else {
+    console.log("Different type, length or other case -> KHONG_HOP_LE");
+    _k_q = rank.KHONG_HOP_LE;
+  }
+
+  console.log("Final result:", _k_q);
+  console.log("======= END CHECK =======");
   return _k_q;
 }
 
-function convertToCardValues(cards) {
-  return cards.map((card) => Card.getValue(card));
+// Hàm trợ giúp kiểm tra xem hai loại bài có cùng loại không
+function isTypesSame(type1, type2) {
+  // Kiểm tra phiên bản chuẩn
+  if (type1 === type2) return true;
+
+  // Kiểm tra SANH
+  if (
+    (type1 === rank.SANH || type1 === "sanh") &&
+    (type2 === rank.SANH || type2 === "sanh")
+  )
+    return true;
+
+  // Kiểm tra BACAY
+  if (
+    (type1 === rank.BACAY || type1 === "xamco" || type1 === "bacay") &&
+    (type2 === rank.BACAY || type2 === "xamco" || type2 === "bacay")
+  )
+    return true;
+
+  // Kiểm tra BA_DOI_THONG
+  if (
+    (type1 === rank.BA_DOI_THONG || type1 === "badoithong") &&
+    (type2 === rank.BA_DOI_THONG || type2 === "badoithong")
+  )
+    return true;
+
+  // Kiểm tra BON_DOI_THONG
+  if (
+    (type1 === rank.BON_DOI_THONG || type1 === "bondoithong") &&
+    (type2 === rank.BON_DOI_THONG || type2 === "bondoithong")
+  )
+    return true;
+
+  // Kiểm tra TUQUI
+  if (
+    (type1 === rank.TUQUI || type1 === "tuqui") &&
+    (type2 === rank.TUQUI || type2 === "tuqui")
+  )
+    return true;
+
+  return false;
 }
-function chuyenchuoi(cards) {
-  return convertToCardValues(cards);
+
+function chuyenchuoi(data) {
+  console.log("Converting card data to values:", data);
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.log("Invalid card data for conversion");
+    return [];
+  }
+
+  const g = [];
+  for (var i = 0; i < data.length; i++) {
+    if (data[i] && typeof data[i] === "string") {
+      const value = Card.getValue(data[i]);
+      console.log(`Card ${data[i]} converted to value: ${value}`);
+      g.push(value);
+    }
+  }
+  console.log("Converted values:", g);
+  return g;
 }
 
 function sortNumberAsc(a, b) {
   return a - b;
 }
 
-function hien(mr, id) {
-  let k = "";
-  //var k1=100;
-  let k2 = 0;
-  let k3 = 0;
-  a1 = [];
-
-  a1 = mr;
-  //a1=loc_anh(img);
-  for (let j = 0; j <= a1.length - 1; j++) {
-    /////////anh len xuong
-
-    k2 += 20;
-    k3 = 100;
-    ////////
-
-    k +=
-      "<img class='image animation' id='" +
-      j +
-      "' src='" +
-      a1[j] +
-      "'  value='" +
-      a1[j] +
-      "' style='position:absolute; width: 73;  left: " +
-      k2 +
-      "; top: " +
-      k3 +
-      ";height: 100;'></img>";
+/**
+ * Hiển thị các lá bài lên giao diện
+ * @param {string[]} cards - Mảng các lá bài cần hiển thị
+ * @param {string} containerId - ID của container chứa bài
+ */
+function hien(cards, containerId) {
+  // Kiểm tra đầu vào
+  if (!cards || !Array.isArray(cards) || !containerId) {
+    console.warn("Invalid input for hien function");
+    return;
   }
-  //  console.log(a1);
-  $(`#${id}`).html(k);
+
+  const cardStyles = {
+    position: "absolute",
+    width: "73px",
+    height: "100px",
+    baseLeft: 20, // Khoảng cách giữa các lá bài
+    top: "100px", // Vị trí top cố định
+  };
+
+  const cardElements = cards
+    .map((card, index) => {
+      const left = index * cardStyles.baseLeft;
+
+      return `
+            <img 
+                class="image animation" 
+                id="${index}" 
+                src="${card}" 
+                value="${card}" 
+                style="
+                    position: ${cardStyles.position};
+                    width: ${cardStyles.width};
+                    height: ${cardStyles.height};
+                    left: ${left}px;
+                    top: ${cardStyles.top};
+                "
+            >
+        `;
+    })
+    .join("");
+
+  // Cập nhật DOM
+  $(`#${containerId}`).html(cardElements);
 }
+
 function sound(src) {
   this.sound = document.createElement("audio");
   this.sound.src = src;
@@ -766,148 +657,156 @@ function sound(src) {
     this.sound.pause();
   };
 }
-function hien2(a) {
-  var k2 = 0;
-  var k3 = 0;
-  var html = "";
-  var a1 = [];
-  a1 = a;
 
-  for (var j = 0; j < a1.length; j++) {
-    k2 += 20;
-    k3 = 100;
-    html +=
-      "<img  src='" +
-      a1[j] +
-      "' value='" +
-      a1[j] +
-      "'  style='position:absolute;  width: 100;height: 140; left: " +
-      k2 +
-      "; top: " +
-      k3 +
-      ";'></img>";
+/**
+ * Hiển thị bài và phát âm thanh tương ứng
+ * @param {string[]} cards - Mảng các lá bài cần hiển thị
+ */
+function hien2(cards) {
+  // Kiểm tra đầu vào
+  if (!cards || !Array.isArray(cards)) {
+    console.warn("Invalid input for hien2 function");
+    return;
   }
-  var k = $("#listMessages").val();
+
+  const cardStyles = {
+    position: "absolute",
+    width: "100px",
+    height: "140px",
+    baseLeft: 20, // Khoảng cách giữa các lá bài
+    top: "100px", // Vị trí top cố định
+  };
+
+  // Tạo HTML cho các lá bài
+  const cardElements = cards
+    .map((card, index) => {
+      const left = (index + 1) * cardStyles.baseLeft;
+
+      return `
+            <img 
+                src="${card}" 
+                value="${card}" 
+                style="
+                    position: ${cardStyles.position};
+                    width: ${cardStyles.width};
+                    height: ${cardStyles.height};
+                    left: ${left}px;
+                    top: ${cardStyles.top};
+                "
+            >
+        `;
+    })
+    .join("");
+
+  // Lưu trữ bài cũ
+  const previousCards = $("#listMessages").val();
   $("#history2").html($("#listMessages").html());
 
-  $("#listMessages").html("");
+  // Cập nhật bài mới
+  $("#listMessages").html(cardElements);
 
-  $("#listMessages").html(html);
-  if (a1.length == 1 || a1.length == 2 || a1.length == 3) {
-    if (
-      a1[0] == "anh/16a.png" ||
-      a1[0] == "anh/16b.png" ||
-      a1[0] == "anh/16c.png" ||
-      a1[0] == "anh/16d.png"
-    ) {
+  // Phát âm thanh dựa vào loại bài
+  playCardSound(cards, previousCards);
+
+  // Hiển thị hiệu ứng rồng nếu cần
+  showDragonEffect(cards.length);
+}
+
+/**
+ * Phát âm thanh tương ứng với loại bài
+ * @param {string[]} currentCards - Bài hiện tại
+ * @param {string[]} previousCards - Bài trước đó
+ */
+function playCardSound(currentCards, previousCards) {
+  const isHeo = (card) => card.includes("anh/16");
+  const isHighCard = (card) => Card.getValue(card) >= Card.K;
+
+  // Xử lý các trường hợp đặc biệt
+  if (currentCards.length <= 3) {
+    if (currentCards.length === 1 && isHeo(currentCards[0])) {
       $("#tai_truoc6").trigger("play");
-    } else if (a.length == 2 && k.length == 2) {
-      if (Card.isA(a[0]) && Card.isA(k[0])) {
-        var r = [1, 2, 3][Math.floor(Math.random() * 3)];
-        if (r == 1) {
-          $("#tai_truoc3").trigger("play");
-        } else if (r == 2) {
-          $("#tai_truoc5").trigger("play");
-        } else if (r == 3) {
-          $("#tai_truoc4").trigger("play");
-        }
-      }
-    } else if (a.length == 3 && k.length == 3) {
-      if (Card.isA(a[a.length - 1]) && Card.isA(k[k.length - 1])) {
-        var r = [1, 2, 3][Math.floor(Math.random() * 3)];
-        if (r == 1) {
-          $("#tai_truoc3").trigger("play");
-        } else if (r == 2) {
-          $("#tai_truoc5").trigger("play");
-        } else if (r == 3) {
-          $("#tai_truoc4").trigger("play");
-        }
-      }
-    } else {
-      $("#tai_truoc9").trigger("play");
+      return;
     }
-  } else if (a1.length >= 6) {
-    if (k.length >= 6) {
-      var r = [1, 2][Math.floor(Math.random() * 2)];
-      if (r == 1) {
-        $("#tai_truoc3").trigger("play");
-      } else {
-        $("#tai_truoc2").trigger("play");
-      }
-    } else {
-      $("#tai_truoc2").trigger("play");
-    }
-  } else if (
-    a1.length == 4 &&
-    k.length == 4 &&
-    Card.getValue(a1[0]) != Card.getValue(a1[1])
-  ) {
+
     if (
-      Card.getValue(a1[a1.length - 1]) >= card.K &&
-      Card.getValue(k[a1.length - 1]) >= card[10]
+      currentCards.length >= 2 &&
+      previousCards.length === currentCards.length
     ) {
-      var r = [1, 2, 3][Math.floor(Math.random() * 3)];
-      if (r == 1) {
-        $("#tai_truoc3").trigger("play");
-      } else if (r == 2) {
-        $("#tai_truoc5").trigger("play");
-      } else if (r == 3) {
-        $("#tai_truoc4").trigger("play");
-      }
-    } else if (Card.getValue(a1[0]) == Card.getValue(a1[1])) {
-      $("#tai_truoc2").trigger("play");
-    } else {
-      $("#tai_truoc9").trigger("play");
-    }
-  } else if (a1.length == 5 && k.length == 5) {
-    if (
-      Card.getValue(a1[a1.length - 1]) >= card.K &&
-      Card.getValue(k[a1.length - 1]) >= card[9]
-    ) {
-      var r = [1, 2, 3][Math.floor(Math.random() * 3)];
-      if (r == 1) {
-        $("#tai_truoc3").trigger("play");
-      } else if (r == 2) {
-        $("#tai_truoc5").trigger("play");
-      } else if (r == 3) {
-        $("#tai_truoc4").trigger("play");
-      } else {
-        $("#tai_truoc9").trigger("play");
-      }
-    } else {
-      $("#tai_truoc9").trigger("play");
-    }
-  } else if (a1.length == 4) {
-    if (Card.getValue(a1[0]) == Card.getValue(a1[1])) {
-      if (k.length == 0) {
-        $("#tai_truoc9").trigger("play");
-      } else if (k.length == 1) {
-        $("#tai_truoc4").trigger("play");
-      } else if (k.length > 1) {
-        var r = [1, 2][Math.floor(Math.random() * 2)];
-        if (r == 1) {
-          $("#tai_truoc3").trigger("play");
-        } else if (r == 2) {
-          $("#tai_truoc5").trigger("play");
-        }
+      if (
+        isHighCard(currentCards[currentCards.length - 1]) &&
+        isHighCard(previousCards[previousCards.length - 1])
+      ) {
+        playRandomTaiTruoc([3, 4, 5]);
+        return;
       }
     }
-  } else if (a1 != []) {
+
     $("#tai_truoc9").trigger("play");
+    return;
   }
-  //alert(k+"----------------"+a1);
-  if (a1.length >= 8 && a1.length <= 11) {
+
+  // Xử lý bài dài
+  if (currentCards.length >= 6) {
+    if (previousCards.length >= 6) {
+      playRandomTaiTruoc([2, 3]);
+    } else {
+      $("#tai_truoc2").trigger("play");
+    }
+    return;
+  }
+
+  // Xử lý bài 4 lá
+  if (currentCards.length === 4 && previousCards.length === 4) {
+    if (Card.getValue(currentCards[0]) !== Card.getValue(currentCards[1])) {
+      if (
+        isHighCard(currentCards[currentCards.length - 1]) &&
+        Card.getValue(previousCards[previousCards.length - 1]) >= 10
+      ) {
+        playRandomTaiTruoc([3, 4, 5]);
+        return;
+      }
+    }
+    if (Card.getValue(currentCards[0]) === Card.getValue(currentCards[1])) {
+      $("#tai_truoc2").trigger("play");
+      return;
+    }
+  }
+
+  // Xử lý bài 5 lá
+  if (currentCards.length === 5 && previousCards.length === 5) {
+    if (
+      isHighCard(currentCards[currentCards.length - 1]) &&
+      Card.getValue(previousCards[previousCards.length - 1]) >= 9
+    ) {
+      playRandomTaiTruoc([3, 4, 5]);
+      return;
+    }
+  }
+
+  $("#tai_truoc9").trigger("play");
+}
+
+/**
+ * Phát ngẫu nhiên một âm thanh từ danh sách
+ * @param {number[]} soundNumbers - Mảng số của các âm thanh
+ */
+function playRandomTaiTruoc(soundNumbers) {
+  const randomIndex = Math.floor(Math.random() * soundNumbers.length);
+  $(`#tai_truoc${soundNumbers[randomIndex]}`).trigger("play");
+}
+
+/**
+ * Hiển thị hiệu ứng rồng dựa vào số lượng bài
+ * @param {number} cardCount - Số lượng lá bài
+ */
+function showDragonEffect(cardCount) {
+  if (cardCount >= 8 && cardCount <= 11) {
     $("#rong2").show();
-    setTimeout(function () {
-      $("#rong2").hide();
-    }, 1300); //0 1 2 3
-  } else if (a1.length4 > 11) {
+    setTimeout(() => $("#rong2").hide(), 1300);
+  } else if (cardCount > 11) {
     $("#rong3").show();
-    setTimeout(function () {
-      $("#rong3").hide();
-    }, 1300); //0 1 2 3
+    setTimeout(() => $("#rong3").hide(), 1300);
   }
-  document.getElementById("listMessages").value = a1;
 }
 
 function hien3(a) {
@@ -929,55 +828,253 @@ function hien3(a) {
   $("#id1").html(html);
 }
 
-function checkStraight(data) {
-  const values = convertToCardValues(data);
-  values.sort(sortNumberAsc);
+function ktrasanh(arr) {
+  console.log("=== CHECKING STRAIGHT (SẢNH) ===");
+  console.log("Input array:", arr);
 
-  for (let i = 0; i < values.length - 1; i++) {
-    if (values[i] + 1 != values[i + 1]) {
+  // Kiểm tra dữ liệu đầu vào
+  if (!arr || !Array.isArray(arr) || arr.length < 3) {
+    console.log("Invalid input: not an array or less than 3 cards");
+    return 1;
+  }
+
+  // Lấy giá trị các lá bài và sắp xếp
+  let cardValues = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (!arr[i] || typeof arr[i] !== "string") {
+      console.log(`Invalid card at position ${i}`);
+      return 1;
+    }
+
+    const value = Card.getValue(arr[i]);
+    console.log(`Card ${i + 1}: ${arr[i]} has value: ${value}`);
+
+    if (isNaN(value) || value <= 0) {
+      console.log(`Invalid card value: ${value}`);
+      return 1;
+    }
+
+    cardValues.push(value);
+  }
+
+  // Sắp xếp giá trị
+  cardValues.sort((a, b) => a - b);
+  console.log("Sorted card values:", cardValues);
+
+  // Kiểm tra xem có lá nào giống nhau không
+  for (let i = 0; i < cardValues.length - 1; i++) {
+    if (cardValues[i] === cardValues[i + 1]) {
+      console.log(
+        `Duplicate values found: ${cardValues[i]} at positions ${i} and ${
+          i + 1
+        }`
+      );
       return 1;
     }
   }
-  return 0;
-}
-function ktrasanh(data) {
-  return checkStraight(data);
+
+  // Kiểm tra xem có liên tiếp không
+  let isConsecutive = true;
+  for (let i = 0; i < cardValues.length - 1; i++) {
+    console.log(`Comparing ${cardValues[i]} and ${cardValues[i + 1]}`);
+
+    if (cardValues[i] + 1 !== cardValues[i + 1]) {
+      console.log(`Not consecutive: ${cardValues[i]} and ${cardValues[i + 1]}`);
+      isConsecutive = false;
+      break;
+    }
+  }
+
+  if (isConsecutive) {
+    console.log("Valid straight (SẢNH) detected!");
+    return 0;
+  } else {
+    console.log("Not a valid straight (SẢNH)");
+    return 1;
+  }
 }
 
-function checkPairSequence(data) {
-  const values = convertToCardValues(data);
-  values.sort(sortNumberAsc);
+function ktradoithong(arr) {
+  console.log("=== CHECKING DOI THONG (CONSECUTIVE PAIRS) ===");
+  console.log("Input array:", arr);
 
-  for (let i = 0; i < values.length - 2; i += 2) {
-    if (values[i] != values[i + 1] || values[i] + 1 != values[i + 2]) {
+  // Kiểm tra dữ liệu đầu vào
+  if (!arr || !Array.isArray(arr) || arr.length < 4 || arr.length % 2 !== 0) {
+    console.log(
+      "Invalid input: not an array, less than 4 cards, or odd number of cards"
+    );
+    return 1;
+  }
+
+  // Lấy giá trị các lá bài
+  let cardValues = [];
+  for (let i = 0; i < arr.length; i++) {
+    const value = Card.getValue(arr[i]);
+    console.log(`Card ${i + 1}: ${arr[i]} has value: ${value}`);
+    cardValues.push(value);
+  }
+
+  // Sắp xếp giá trị
+  cardValues.sort((a, b) => a - b);
+  console.log("Sorted card values:", cardValues);
+
+  // Nhóm thành các cặp và kiểm tra
+  let pairs = [];
+  for (let i = 0; i < cardValues.length; i += 2) {
+    if (i + 1 < cardValues.length) {
+      // Kiểm tra xem hai lá có giống nhau không
+      if (cardValues[i] === cardValues[i + 1]) {
+        console.log(
+          `Found pair of ${cardValues[i]} at positions ${i} and ${i + 1}`
+        );
+        pairs.push(cardValues[i]);
+      } else {
+        console.log(
+          `Cards at positions ${i} and ${i + 1} are not a pair: ${
+            cardValues[i]
+          } != ${cardValues[i + 1]}`
+        );
+        return 1;
+      }
+    }
+  }
+
+  console.log("Pairs found:", pairs);
+
+  // Kiểm tra nếu chỉ có 1 cặp, hoặc các cặp liên tiếp
+  if (pairs.length === 1) {
+    console.log("Only one pair, valid DOI_THONG");
+    return 0;
+  }
+
+  // Kiểm tra xem các cặp có liên tiếp không
+  for (let i = 0; i < pairs.length - 1; i++) {
+    if (pairs[i] + 1 !== pairs[i + 1]) {
+      console.log(`Pairs not consecutive: ${pairs[i]} and ${pairs[i + 1]}`);
       return 1;
     }
   }
+
+  console.log("Valid DOI_THONG (consecutive pairs) detected!");
   return 0;
 }
-function ktradoithong(data) {
-  return checkPairSequence(data);
-}
 
-function checkValidCardCombination(data) {
-  const count = data.length;
-  let result = "";
-
-  if (count == 1 && data != "") {
-    result = rank.coc;
-  } else if (count == 2) {
-    const c1 = Card.getValue(data[0]);
-    const c2 = Card.getValue(data[1]);
-    result = c1 == c2 ? rank.doi : rank.khonghople;
-  } else if (count > 2) {
-    if (checkStraight(data) == 0) {
-      result = "sanh";
-    } else {
-      result = checkMultipleCards(data, count);
-    }
-  }
-  return result;
-}
 function kiemtrahople(data) {
-  return checkValidCardCombination(data);
+  console.log("=== CHECKING HAND TYPE FOR:", data, "===");
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.log("Invalid input data, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  if (data.length === 1) {
+    console.log("Single card, returning MOT_LA");
+    return rank.MOT_LA;
+  }
+
+  if (data.length === 2) {
+    var a1 = Card.getValue(data[0]);
+    var a2 = Card.getValue(data[1]);
+    console.log("Two cards with values:", a1, a2);
+
+    if (a1 === a2) {
+      console.log("Pair (DOI), returning DOI");
+      return rank.DOI;
+    } else {
+      console.log("Two different cards, returning KHONG_HOP_LE");
+      return rank.KHONG_HOP_LE;
+    }
+  }
+
+  if (data.length === 3) {
+    console.log(
+      "Three cards, checking if all have same value (ba cây/xám/bộ 3)"
+    );
+    var a1 = Card.getValue(data[0]);
+    var a2 = Card.getValue(data[1]);
+    var a3 = Card.getValue(data[2]);
+    console.log("Card values:", a1, a2, a3);
+
+    if (a1 === a2 && a2 === a3) {
+      console.log(
+        "All three cards have same value, returning BACAY (xám/bộ 3)"
+      );
+      return rank.BACAY;
+    }
+
+    console.log("Checking if it's a straight (sảnh)");
+    if (ktrasanh(data) === 0) {
+      console.log("Valid straight (sảnh), returning SANH");
+      return rank.SANH;
+    }
+
+    console.log("Not a valid three-card hand, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  if (data.length === 4) {
+    console.log("Four cards, checking for TU QUI (four of a kind)");
+    var a1 = Card.getValue(data[0]);
+    var a2 = Card.getValue(data[1]);
+    var a3 = Card.getValue(data[2]);
+    var a4 = Card.getValue(data[3]);
+    console.log("Card values:", a1, a2, a3, a4);
+
+    if (a1 === a2 && a2 === a3 && a3 === a4) {
+      console.log("All four cards have same value, returning TUQUI");
+      return rank.TUQUI;
+    }
+
+    console.log("Checking if it's a straight (sảnh)");
+    if (ktrasanh(data) === 0) {
+      console.log("Valid straight (sảnh), returning SANH");
+      return rank.SANH;
+    }
+
+    console.log("Checking if it's two pairs (đôi thông)");
+    if (ktradoithong(data) === 0) {
+      console.log("Valid two pairs (đôi thông), returning DOI_THONG");
+      return rank.DOI_THONG;
+    }
+
+    console.log("Not a valid four-card hand, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  if (data.length === 5) {
+    console.log("Five cards, checking for straight (sảnh)");
+    if (ktrasanh(data) === 0) {
+      console.log("Valid straight (sảnh), returning SANH");
+      return rank.SANH;
+    }
+    console.log("Not a valid five-card hand, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  if (data.length === 6) {
+    console.log("Six cards, checking for BA DOI THONG (three pairs)");
+    if (ktradoithong(data) === 0) {
+      console.log("Valid three pairs (ba đôi thông), returning BA_DOI_THONG");
+      return rank.BA_DOI_THONG;
+    }
+    console.log("Six cards but not BA DOI THONG, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  if (data.length === 8) {
+    console.log("Eight cards, checking for BON DOI THONG (four pairs)");
+    if (ktradoithong(data) === 0) {
+      console.log("Valid four pairs (bốn đôi thông), returning BON_DOI_THONG");
+      return rank.BON_DOI_THONG;
+    }
+    console.log("Eight cards but not BON DOI THONG, returning KHONG_HOP_LE");
+    return rank.KHONG_HOP_LE;
+  }
+
+  console.log(
+    "Unknown hand type with",
+    data.length,
+    "cards, returning KHONG_HOP_LE"
+  );
+  return rank.KHONG_HOP_LE;
 }
