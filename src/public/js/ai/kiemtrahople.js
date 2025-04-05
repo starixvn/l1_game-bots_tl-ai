@@ -809,154 +809,267 @@ function showDragonEffect(cardCount) {
   }
 }
 
-function hien3(a) {
-  var html = "";
-  var a1 = [];
-  a1 = a;
-  //a1=loc_anh(img);
-
-  for (var j = 0; j < a1.length; j++) {
-    html +=
-      "<img src='" +
-      a1[j] +
-      "' value='" +
-      a1[j] +
-      "'  style='  width: 80;height: 80;'></img>";
+/**
+ * Hiển thị các lá bài trong container id1
+ * @param {string[]} cards - Mảng các lá bài cần hiển thị
+ */
+function hien3(cards) {
+  // Kiểm tra đầu vào
+  if (!cards || !Array.isArray(cards)) {
+    console.warn("Invalid input for hien3 function");
+    return;
   }
 
-  $("#id1").html("");
-  $("#id1").html(html);
+  const cardStyles = {
+    width: "80px",
+    height: "80px",
+  };
+
+  const cardElements = cards
+    .map(
+      (card) => `
+        <img 
+            src="${card}" 
+            value="${card}" 
+            style="
+                width: ${cardStyles.width};
+                height: ${cardStyles.height};
+            "
+        >
+    `
+    )
+    .join("");
+
+  // Cập nhật DOM
+  $("#id1").html(cardElements);
 }
 
-function ktrasanh(arr) {
+/**
+ * Kiểm tra bộ bài có phải là sảnh (dây) không
+ * @param {string[]} cards - Mảng các lá bài cần kiểm tra
+ * @returns {number} 0 nếu là sảnh, 1 nếu không phải
+ */
+function ktrasanh(cards) {
   console.log("=== CHECKING STRAIGHT (SẢNH) ===");
-  console.log("Input array:", arr);
+  console.log("Input array:", cards);
 
-  // Kiểm tra dữ liệu đầu vào
-  if (!arr || !Array.isArray(arr) || arr.length < 3) {
+  // Kiểm tra điều kiện cơ bản
+  if (!isValidStraightInput(cards)) {
+    return 1;
+  }
+
+  // Lấy và sắp xếp giá trị các lá bài
+  const cardValues = getCardValues(cards);
+  if (!cardValues) {
+    return 1;
+  }
+
+  // Kiểm tra có lá nào trùng nhau không
+  if (hasDuplicateValues(cardValues)) {
+    return 1;
+  }
+
+  // Kiểm tra tính liên tục của dãy bài
+  if (!isConsecutive(cardValues)) {
+    return 1;
+  }
+
+  console.log("Valid straight (SẢNH) detected!");
+  return 0;
+}
+
+/**
+ * Kiểm tra điều kiện đầu vào cơ bản cho sảnh
+ */
+function isValidStraightInput(cards) {
+  if (!cards || !Array.isArray(cards) || cards.length < 3) {
     console.log("Invalid input: not an array or less than 3 cards");
-    return 1;
+    return false;
   }
+  return true;
+}
 
-  // Lấy giá trị các lá bài và sắp xếp
-  let cardValues = [];
-  for (let i = 0; i < arr.length; i++) {
-    if (!arr[i] || typeof arr[i] !== "string") {
-      console.log(`Invalid card at position ${i}`);
-      return 1;
-    }
+/**
+ * Lấy và sắp xếp giá trị các lá bài
+ */
+function getCardValues(cards) {
+  try {
+    const values = cards.map((card) => {
+      if (!card || typeof card !== "string") {
+        throw new Error("Invalid card format");
+      }
 
-    const value = Card.getValue(arr[i]);
-    console.log(`Card ${i + 1}: ${arr[i]} has value: ${value}`);
+      const value = Card.getValue(card);
+      console.log(`Card value: ${value} from ${card}`);
 
-    if (isNaN(value) || value <= 0) {
-      console.log(`Invalid card value: ${value}`);
-      return 1;
-    }
+      if (isNaN(value) || value <= 0) {
+        throw new Error("Invalid card value");
+      }
 
-    cardValues.push(value);
-  }
+      return value;
+    });
 
-  // Sắp xếp giá trị
-  cardValues.sort((a, b) => a - b);
-  console.log("Sorted card values:", cardValues);
-
-  // Kiểm tra xem có lá nào giống nhau không
-  for (let i = 0; i < cardValues.length - 1; i++) {
-    if (cardValues[i] === cardValues[i + 1]) {
-      console.log(
-        `Duplicate values found: ${cardValues[i]} at positions ${i} and ${
-          i + 1
-        }`
-      );
-      return 1;
-    }
-  }
-
-  // Kiểm tra xem có liên tiếp không
-  let isConsecutive = true;
-  for (let i = 0; i < cardValues.length - 1; i++) {
-    console.log(`Comparing ${cardValues[i]} and ${cardValues[i + 1]}`);
-
-    if (cardValues[i] + 1 !== cardValues[i + 1]) {
-      console.log(`Not consecutive: ${cardValues[i]} and ${cardValues[i + 1]}`);
-      isConsecutive = false;
-      break;
-    }
-  }
-
-  if (isConsecutive) {
-    console.log("Valid straight (SẢNH) detected!");
-    return 0;
-  } else {
-    console.log("Not a valid straight (SẢNH)");
-    return 1;
+    values.sort((a, b) => a - b);
+    console.log("Sorted card values:", values);
+    return values;
+  } catch (error) {
+    console.log("Error getting card values:", error.message);
+    return null;
   }
 }
 
-function ktradoithong(arr) {
-  console.log("=== CHECKING DOI THONG (CONSECUTIVE PAIRS) ===");
-  console.log("Input array:", arr);
+/**
+ * Kiểm tra có giá trị nào trùng nhau không
+ */
+function hasDuplicateValues(values) {
+  for (let i = 0; i < values.length - 1; i++) {
+    if (values[i] === values[i + 1]) {
+      console.log(
+        `Duplicate values found: ${values[i]} at positions ${i} and ${i + 1}`
+      );
+      return true;
+    }
+  }
+  return false;
+}
 
-  // Kiểm tra dữ liệu đầu vào
-  if (!arr || !Array.isArray(arr) || arr.length < 4 || arr.length % 2 !== 0) {
+/**
+ * Kiểm tra tính liên tục của dãy số
+ */
+function isConsecutive(values) {
+  for (let i = 0; i < values.length - 1; i++) {
+    console.log(`Comparing ${values[i]} and ${values[i + 1]}`);
+
+    if (values[i] + 1 !== values[i + 1]) {
+      console.log(`Not consecutive: ${values[i]} and ${values[i + 1]}`);
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Kiểm tra bộ bài có phải là đôi thông không
+ * @param {string[]} cards - Mảng các lá bài cần kiểm tra
+ * @returns {number} 0 nếu là đôi thông, 1 nếu không phải
+ */
+function ktradoithong(cards) {
+  console.log("=== CHECKING DOI THONG (CONSECUTIVE PAIRS) ===");
+  console.log("Input array:", cards);
+
+  // Kiểm tra điều kiện cơ bản
+  if (!isValidDoiThongInput(cards)) {
+    return 1;
+  }
+
+  // Lấy và sắp xếp giá trị các lá bài
+  const cardValues = getAndSortCardValues(cards);
+  if (!cardValues) {
+    return 1;
+  }
+
+  // Nhóm thành các cặp và kiểm tra
+  const pairs = getPairs(cardValues);
+  if (!pairs) {
+    return 1;
+  }
+
+  // Kiểm tra tính liên tục của các cặp
+  if (!areConsecutivePairs(pairs)) {
+    return 1;
+  }
+
+  console.log("Valid DOI_THONG (consecutive pairs) detected!");
+  return 0;
+}
+
+/**
+ * Kiểm tra điều kiện đầu vào cơ bản cho đôi thông
+ */
+function isValidDoiThongInput(cards) {
+  if (
+    !cards ||
+    !Array.isArray(cards) ||
+    cards.length < 4 ||
+    cards.length % 2 !== 0
+  ) {
     console.log(
       "Invalid input: not an array, less than 4 cards, or odd number of cards"
     );
-    return 1;
+    return false;
   }
+  return true;
+}
 
-  // Lấy giá trị các lá bài
-  let cardValues = [];
-  for (let i = 0; i < arr.length; i++) {
-    const value = Card.getValue(arr[i]);
-    console.log(`Card ${i + 1}: ${arr[i]} has value: ${value}`);
-    cardValues.push(value);
+/**
+ * Lấy và sắp xếp giá trị các lá bài
+ */
+function getAndSortCardValues(cards) {
+  try {
+    const values = cards.map((card) => {
+      const value = Card.getValue(card);
+      console.log(`Card value: ${value} from ${card}`);
+      return value;
+    });
+
+    values.sort((a, b) => a - b);
+    console.log("Sorted card values:", values);
+    return values;
+  } catch (error) {
+    console.log("Error getting card values:", error.message);
+    return null;
   }
+}
 
-  // Sắp xếp giá trị
-  cardValues.sort((a, b) => a - b);
-  console.log("Sorted card values:", cardValues);
+/**
+ * Nhóm các lá bài thành cặp và kiểm tra tính hợp lệ
+ */
+function getPairs(values) {
+  const pairs = [];
 
-  // Nhóm thành các cặp và kiểm tra
-  let pairs = [];
-  for (let i = 0; i < cardValues.length; i += 2) {
-    if (i + 1 < cardValues.length) {
-      // Kiểm tra xem hai lá có giống nhau không
-      if (cardValues[i] === cardValues[i + 1]) {
-        console.log(
-          `Found pair of ${cardValues[i]} at positions ${i} and ${i + 1}`
-        );
-        pairs.push(cardValues[i]);
-      } else {
-        console.log(
-          `Cards at positions ${i} and ${i + 1} are not a pair: ${
-            cardValues[i]
-          } != ${cardValues[i + 1]}`
-        );
-        return 1;
-      }
+  for (let i = 0; i < values.length; i += 2) {
+    if (i + 1 >= values.length) {
+      console.log("Odd number of cards found");
+      return null;
+    }
+
+    // Kiểm tra xem hai lá có giống nhau không
+    if (values[i] === values[i + 1]) {
+      console.log(`Found pair of ${values[i]} at positions ${i} and ${i + 1}`);
+      pairs.push(values[i]);
+    } else {
+      console.log(
+        `Cards at positions ${i} and ${i + 1} are not a pair: ${values[i]} != ${
+          values[i + 1]
+        }`
+      );
+      return null;
     }
   }
 
   console.log("Pairs found:", pairs);
+  return pairs;
+}
 
-  // Kiểm tra nếu chỉ có 1 cặp, hoặc các cặp liên tiếp
+/**
+ * Kiểm tra tính liên tục của các cặp
+ */
+function areConsecutivePairs(pairs) {
+  // Nếu chỉ có 1 cặp, hợp lệ
   if (pairs.length === 1) {
     console.log("Only one pair, valid DOI_THONG");
-    return 0;
+    return true;
   }
 
   // Kiểm tra xem các cặp có liên tiếp không
   for (let i = 0; i < pairs.length - 1; i++) {
     if (pairs[i] + 1 !== pairs[i + 1]) {
       console.log(`Pairs not consecutive: ${pairs[i]} and ${pairs[i + 1]}`);
-      return 1;
+      return false;
     }
   }
 
-  console.log("Valid DOI_THONG (consecutive pairs) detected!");
-  return 0;
+  return true;
 }
 
 /**
