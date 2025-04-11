@@ -1,33 +1,44 @@
 function hoanvi_all(a) {
-  var tam = 0;
-  for (var i = 0; i < a.length - 1; i++) {
-    dt1 = a[i].substring(4, 6);
-    dt2 = a[i].substring(6, 7);
-    dt3 = a[i + 1].substring(4, 6);
-    dt4 = a[i + 1].substring(6, 7);
-    if (dt2 == "a") {
-      dt2 = 0.1;
-    } else if (dt2 == "b") {
-      dt2 = 0.2;
-    } else if (dt2 == "c") {
-      dt2 = 0.3;
-    } else if (dt2 == "d") {
-      dt2 = 0.4;
-    }
+  // The function needs to properly sort cards by number and then by suit (a, b, c, d)
+  for (var i = 0; i < a.length; i++) {
+    for (var j = i + 1; j < a.length; j++) {
+      var dt1 = a[i].substring(4, 6); // Card number for first card
+      var dt2 = a[i].substring(6, 7); // Suit for first card
+      var dt3 = a[j].substring(4, 6); // Card number for second card
+      var dt4 = a[j].substring(6, 7); // Suit for second card
 
-    if (dt4 == "a") {
-      dt4 = 0.1;
-    } else if (dt4 == "b") {
-      dt4 = 0.2;
-    } else if (dt4 == "c") {
-      dt4 = 0.3;
-    } else if (dt4 == "d") {
-      dt4 = 0.4;
-    }
-    if (dt1 + dt2 > dt3 + dt4) {
-      tam = a[i];
-      a[i] = a[i + 1];
-      a[i + 1] = tam;
+      // Convert suits to numeric values for comparison
+      var suitValue1 = 0;
+      if (dt2 == "a") {
+        suitValue1 = 0.1;
+      } else if (dt2 == "b") {
+        suitValue1 = 0.2;
+      } else if (dt2 == "c") {
+        suitValue1 = 0.3;
+      } else if (dt2 == "d") {
+        suitValue1 = 0.4;
+      }
+
+      var suitValue2 = 0;
+      if (dt4 == "a") {
+        suitValue2 = 0.1;
+      } else if (dt4 == "b") {
+        suitValue2 = 0.2;
+      } else if (dt4 == "c") {
+        suitValue2 = 0.3;
+      } else if (dt4 == "d") {
+        suitValue2 = 0.4;
+      }
+
+      // Compare card numbers first, then suits if numbers are equal
+      if (
+        parseInt(dt1) > parseInt(dt3) ||
+        (dt1 === dt3 && suitValue1 > suitValue2)
+      ) {
+        var tam = a[i];
+        a[i] = a[j];
+        a[j] = tam;
+      }
     }
   }
   return a;
