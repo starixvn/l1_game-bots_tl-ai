@@ -1,48 +1,83 @@
-function hoanvi_all(a) {
-  // The function needs to properly sort cards by number and then by suit (a, b, c, d)
-  for (var i = 0; i < a.length; i++) {
-    for (var j = i + 1; j < a.length; j++) {
-      var dt1 = a[i].substring(4, 6); // Card number for first card
-      var dt2 = a[i].substring(6, 7); // Suit for first card
-      var dt3 = a[j].substring(4, 6); // Card number for second card
-      var dt4 = a[j].substring(6, 7); // Suit for second card
+/**
+ * Mapping of card suits to numeric values for comparison
+ * spades = 0.1, hearts = 0.2, clubs = 0.3, diamonds = 0.4
+ */
+const SUIT_VALUES = { spades: 0.1, hearts: 0.2, clubs: 0.3, diamonds: 0.4 };
 
-      // Convert suits to numeric values for comparison
-      var suitValue1 = 0;
-      if (dt2 == "a") {
-        suitValue1 = 0.1;
-      } else if (dt2 == "b") {
-        suitValue1 = 0.2;
-      } else if (dt2 == "c") {
-        suitValue1 = 0.3;
-      } else if (dt2 == "d") {
-        suitValue1 = 0.4;
-      }
+// Mapping from single letter codes to suit names for backward compatibility
+const SUIT_CODES = { a: "spades", b: "hearts", c: "clubs", d: "diamonds" };
 
-      var suitValue2 = 0;
-      if (dt4 == "a") {
-        suitValue2 = 0.1;
-      } else if (dt4 == "b") {
-        suitValue2 = 0.2;
-      } else if (dt4 == "c") {
-        suitValue2 = 0.3;
-      } else if (dt4 == "d") {
-        suitValue2 = 0.4;
-      }
-
-      // Compare card numbers first, then suits if numbers are equal
-      if (
-        parseInt(dt1) > parseInt(dt3) ||
-        (dt1 === dt3 && suitValue1 > suitValue2)
-      ) {
-        var tam = a[i];
-        a[i] = a[j];
-        a[j] = tam;
-      }
-    }
-  }
-  return a;
+/**
+ * Converts a single letter suit code to a suit name
+ * @param {string} suitCode - Single letter suit code (a, b, c, d)
+ * @returns {string} - Suit name (spades, hearts, clubs, diamonds)
+ */
+function getSuitName(suitCode) {
+  return SUIT_CODES[suitCode] || suitCode;
 }
+
+/**
+ * Helper functions for parsing card information
+ */
+
+/**
+ * Extracts the card number from a card filename
+ * @param {string} card - Card filename in format "anh/XXy.png"
+ * @returns {string} Two digit card number
+ */
+function getCardNumber(card) {
+  return card.substring(4, 6);
+}
+
+/**
+ * Extracts the suit code from a card filename
+ * @param {string} card - Card filename in format "anh/XXy.png"
+ * @returns {string} Single letter suit code
+ */
+function getSuitCode(card) {
+  return card.substring(6, 7);
+}
+
+/**
+ * Gets the numeric value for comparing cards
+ * @param {string} card - Card filename
+ * @returns {number} Numeric value for comparison (number + suit value)
+ */
+function getCardValue(card) {
+  const number = parseInt(getCardNumber(card));
+  const suitName = getSuitName(getSuitCode(card));
+  const suitValue = SUIT_VALUES[suitName] || 0;
+  return number + suitValue;
+}
+
+/**
+ * Sorts an array of card filenames by card number and then by suit (spades, hearts, clubs, diamonds)
+ * @param {string[]} cards - Array of card filenames in format "anh/XXy.png" where XX is number and y is suit
+ * @returns {string[]} - Sorted array of cards
+ */
+function hoanvi_all(cards) {
+  if (!cards || cards.length <= 1) {
+    return cards;
+  }
+
+  return [...cards].sort((cardA, cardB) => {
+    const numA = parseInt(getCardNumber(cardA));
+    const numB = parseInt(getCardNumber(cardB));
+
+    // Compare numbers first
+    const numberComparison = numA - numB;
+
+    // If numbers are equal, compare suits
+    if (numberComparison === 0) {
+      const suitA = getSuitName(getSuitCode(cardA));
+      const suitB = getSuitName(getSuitCode(cardB));
+      return (SUIT_VALUES[suitA] || 0) - (SUIT_VALUES[suitB] || 0);
+    }
+
+    return numberComparison;
+  });
+}
+
 function trung_lap(a) {
   var seen = {};
   return a.filter(function (item) {
@@ -86,44 +121,30 @@ function AIktra(a, x1) {
     dem1 = 0,
     dem = a.length,
     a1 = [];
+
   for (var i = 0; i < x1.length - 1; i++) {
-    if (
-      parseInt(x1[i].substring(4, 6)) + 1 ==
-        parseInt(x1[i + 1].substring(4, 6)) &&
-      x1[i].substring(4, 6) >= a[0].substring(4, 6)
-    ) {
+    const currentNum = parseInt(getCardNumber(x1[i]));
+    const nextNum = parseInt(getCardNumber(x1[i + 1]));
+    const firstCardNum = parseInt(getCardNumber(a[0]));
+
+    if (currentNum + 1 === nextNum && currentNum >= firstCardNum) {
       dem1++;
       a1.push(x1[i]);
     } else {
       dem1 = 0;
       a1 = [];
     }
-    t = parseInt(x1[i].substring(4, 6));
 
-    t1 = x1[i].substring(6, 7);
-    t2 = parseInt(a[a.length - 1].substring(4, 6));
-    t3 = a[a.length - 1].substring(6, 7);
-    if (t3 == "a") {
-      t3 = 0.1;
-    } else if (t3 == "b") {
-      t3 = 0.2;
-    } else if (t3 == "c") {
-      t3 = 0.3;
-    } else if (t3 == "d") {
-      t3 = 0.4;
-    }
-    ///////////////////////
-    if (t1 == "a") {
-      t1 = 0.1;
-    } else if (t1 == "b") {
-      t1 = 0.2;
-    } else if (t1 == "c") {
-      t1 = 0.3;
-    } else if (t1 == "d") {
-      t1 = 0.4;
-    }
+    t = currentNum;
+    t2 = parseInt(getCardNumber(a[a.length - 1]));
 
-    if (dem == dem1 && t1 > t3) {
+    // Get suit values using helpers
+    const currentSuit = getSuitName(getSuitCode(x1[i]));
+    const lastSuit = getSuitName(getSuitCode(a[a.length - 1]));
+    t1 = SUIT_VALUES[currentSuit];
+    t3 = SUIT_VALUES[lastSuit];
+
+    if (dem === dem1 && t1 > t3) {
       break;
     }
   }
@@ -200,23 +221,23 @@ function AI_d_danh_d_2c(o, a) {
         var dt2 = doi[i + 1].substring(6, 7);
         var dt3 = a1[a1.length - 1].substring(6, 7);
         if (dt2 == "a") {
-          dt2 = 0.1;
+          dt2 = SUIT_VALUES.spades;
         } else if (dt2 == "b") {
-          dt2 = 0.2;
+          dt2 = SUIT_VALUES.hearts;
         } else if (dt2 == "c") {
-          dt2 = 0.3;
+          dt2 = SUIT_VALUES.clubs;
         } else if (dt2 == "d") {
-          dt2 = 0.4;
+          dt2 = SUIT_VALUES.diamonds;
         }
         ///////////////////////
         if (dt3 == "a") {
-          dt3 = 0.1;
+          dt3 = SUIT_VALUES.spades;
         } else if (dt3 == "b") {
-          dt3 = 0.2;
+          dt3 = SUIT_VALUES.hearts;
         } else if (dt3 == "c") {
-          dt3 = 0.3;
+          dt3 = SUIT_VALUES.clubs;
         } else if (dt3 == "d") {
-          dt3 = 0.4;
+          dt3 = SUIT_VALUES.diamonds;
         }
         if (dt2 > dt3) {
           danh = [];
@@ -240,25 +261,14 @@ function AI_c_danh_c_1c(a, b) {
       } else if (a[i].substring(4, 6) == b[0].substring(4, 6)) {
         var dt2 = a[i].substring(6, 7);
         var dt3 = b[0].substring(6, 7);
-        if (dt2 == "a") {
-          dt2 = 0.1;
-        } else if (dt2 == "b") {
-          dt2 = 0.2;
-        } else if (dt2 == "c") {
-          dt2 = 0.3;
-        } else if (dt2 == "d") {
-          dt2 = 0.4;
-        }
-        ///////////////////////
-        if (dt3 == "a") {
-          dt3 = 0.1;
-        } else if (dt3 == "b") {
-          dt3 = 0.2;
-        } else if (dt3 == "c") {
-          dt3 = 0.3;
-        } else if (dt3 == "d") {
-          dt3 = 0.4;
-        }
+
+        // Convert suit codes to suit names
+        dt2 = getSuitName(dt2);
+        dt3 = getSuitName(dt3);
+
+        // Use SUIT_VALUES to get numeric values
+        dt2 = SUIT_VALUES[dt2];
+        dt3 = SUIT_VALUES[dt3];
 
         if (dt2 > dt3) {
           danh.push(a[i]);
@@ -650,25 +660,14 @@ function AIktra_le_danh_le() {
     var t2 = a[0].substring(4, 6);
     var t3 = a[0].substring(6, 7);
 
-    if (t3 == "a") {
-      t3 = 0.1;
-    } else if (t3 == "b") {
-      t3 = 0.2;
-    } else if (t3 == "c") {
-      t3 = 0.3;
-    } else if (t3 == "d") {
-      t3 = 0.4;
-    }
-    ///////////////////////
-    if (t1 == "a") {
-      t1 = 0.1;
-    } else if (t1 == "b") {
-      t1 = 0.2;
-    } else if (t1 == "c") {
-      t1 = 0.3;
-    } else if (t1 == "d") {
-      t1 = 0.4;
-    }
+    // Convert suit codes to suit names
+    t1 = getSuitName(t1);
+    t3 = getSuitName(t3);
+
+    // Use SUIT_VALUES to get numeric values
+    t1 = SUIT_VALUES[t1];
+    t3 = SUIT_VALUES[t3];
+
     if (t0 > t2) {
       danh = danh[i];
       break;
@@ -729,43 +728,18 @@ function AIktra_sanh_danh_sanh_loc(a, b) {
         if (dem == b.length) {
           var t1 = danh[danh.length - 1].substring(6, 7);
           var t2 = b[b.length - 1].substring(6, 7);
-          //alert(t1+"-----"+t2);
-          if (t1 == "a") {
-            t3 = 0.1;
-          } else if (t1 == "b") {
-            t1 = 0.2;
-          } else if (t1 == "c") {
-            t1 = 0.3;
-          } else if (t1 == "d") {
-            t1 = 0.4;
-          }
-          ///////////////////////
-          if (t2 == "a") {
-            t2 = 0.1;
-          } else if (t2 == "b") {
-            t2 = 0.2;
-          } else if (t2 == "c") {
-            t2 = 0.3;
-          } else if (t2 == "d") {
-            t2 = 0.4;
-          }
-          var r1 = giaomang(a, danh);
-          var r2 = AIktra_sanh(r1);
-          var r3 = giaomang(r1, r2);
-          if (
-            danh[danh.length - 1].substring(4, 6) >
-              b[b.length - 1].substring(4, 6) &&
-            r3 == ""
-          ) {
+
+          // Convert suit codes to suit names
+          t1 = getSuitName(t1);
+          t2 = getSuitName(t2);
+
+          // Use SUIT_VALUES to get numeric values
+          t1 = SUIT_VALUES[t1];
+          t2 = SUIT_VALUES[t2];
+
+          if (t1 > t2) {
             break;
-          } else if (
-            danh[danh.length - 1].substring(4, 6) ==
-              b[b.length - 1].substring(4, 6) &&
-            t1 > t2 &&
-            r3 == ""
-          ) {
-            break;
-          } else {
+          } else if (t1 == t2) {
             j = z++;
             dem = 0;
             danh = [];
@@ -824,38 +798,18 @@ function AIktra_sanh_danh_sanh(a, b) {
           if (dem == b.length) {
             var t1 = danh[danh.length - 1].substring(6, 7);
             var t2 = b[b.length - 1].substring(6, 7);
-            //alert(t1+"-----"+t2);
-            if (t1 == "a") {
-              t3 = 0.1;
-            } else if (t1 == "b") {
-              t1 = 0.2;
-            } else if (t1 == "c") {
-              t1 = 0.3;
-            } else if (t1 == "d") {
-              t1 = 0.4;
-            }
-            ///////////////////////
-            if (t2 == "a") {
-              t2 = 0.1;
-            } else if (t2 == "b") {
-              t2 = 0.2;
-            } else if (t2 == "c") {
-              t2 = 0.3;
-            } else if (t2 == "d") {
-              t2 = 0.4;
-            }
-            if (
-              danh[danh.length - 1].substring(4, 6) >
-              b[b.length - 1].substring(4, 6)
-            ) {
+
+            // Convert suit codes to suit names
+            t1 = getSuitName(t1);
+            t2 = getSuitName(t2);
+
+            // Use SUIT_VALUES to get numeric values
+            t1 = SUIT_VALUES[t1];
+            t2 = SUIT_VALUES[t2];
+
+            if (t1 > t2) {
               break;
-            } else if (
-              danh[danh.length - 1].substring(4, 6) ==
-                b[b.length - 1].substring(4, 6) &&
-              t1 > t2
-            ) {
-              break;
-            } else {
+            } else if (t1 == t2) {
               j = z;
               dem = 0;
               danh = [];
@@ -1030,25 +984,15 @@ function AI(a, x1) {
           if (dt.substring(4, 6) == dt1.substring(4, 6)) {
             var dt2 = doi_thong[doi_thong.length - 1].substring(6, 7);
             var dt3 = a[a.length - 1].substring(6, 7);
-            if (dt2 == "a") {
-              dt2 = 0.1;
-            } else if (dt2 == "b") {
-              dt2 = 0.2;
-            } else if (dt2 == "c") {
-              dt2 = 0.3;
-            } else if (dt2 == "d") {
-              dt2 = 0.4;
-            }
-            ///////////////////////
-            if (dt3 == "a") {
-              dt3 = 0.1;
-            } else if (dt3 == "b") {
-              dt3 = 0.2;
-            } else if (dt3 == "c") {
-              dt3 = 0.3;
-            } else if (dt3 == "d") {
-              dt3 = 0.4;
-            }
+
+            // Convert suit codes to suit names
+            dt2 = getSuitName(dt2);
+            dt3 = getSuitName(dt3);
+
+            // Use SUIT_VALUES to get numeric values
+            dt2 = SUIT_VALUES[dt2];
+            dt3 = SUIT_VALUES[dt3];
+
             if (dt2 > dt3) {
               _danh_f = doi_thong;
             }
@@ -1070,25 +1014,14 @@ function AI(a, x1) {
             var dt2 = doi_thong[doi_thong.length - 1].substring(6, 7);
             var dt3 = a[a.length - 1].substring(6, 7);
 
-            if (dt2 == "a") {
-              dt2 = 0.1;
-            } else if (dt2 == "b") {
-              dt2 = 0.2;
-            } else if (dt2 == "c") {
-              dt2 = 0.3;
-            } else if (dt2 == "d") {
-              dt2 = 0.4;
-            }
-            ///////////////////////
-            if (dt3 == "a") {
-              dt3 = 0.1;
-            } else if (dt3 == "b") {
-              dt3 = 0.2;
-            } else if (dt3 == "c") {
-              dt3 = 0.3;
-            } else if (dt3 == "d") {
-              dt3 = 0.4;
-            }
+            // Convert suit codes to suit names
+            dt2 = getSuitName(dt2);
+            dt3 = getSuitName(dt3);
+
+            // Use SUIT_VALUES to get numeric values
+            dt2 = SUIT_VALUES[dt2];
+            dt3 = SUIT_VALUES[dt3];
+
             if (dt2 > dt3) {
               _danh_f = doi_thong;
             }

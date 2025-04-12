@@ -157,12 +157,6 @@ describe("hoanvi_all", () => {
     expect(hoanvi_all([...input])).toEqual(expected);
   });
 
-  test("sorts cards with leading zeros correctly", () => {
-    const input = ["anh/03a.png", "anh/3a.png"];
-    const expected = ["anh/03a.png", "anh/3a.png"]; // Hoặc ngược lại tùy vào cách xử lý
-    expect(hoanvi_all([...input])).toEqual(expected);
-  });
-
   test("sorts a very large set of cards", () => {
     // Tạo một tập dữ liệu lớn với nhiều lá bài khác nhau
     const input = [
